@@ -16,43 +16,13 @@
   .wrap{max-width:1050px;margin:auto;padding:24px 20px 60px}
   .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:14px}
-  .logo{
-    width:48px;height:48px;border-radius:14px;
-    background:linear-gradient(135deg,#55d6a6,#5b9dff);
-    color:#06130e;font-weight:900;font-size:20px;
-    display:grid;place-items:center;
-    box-shadow:0 0 22px rgba(85,214,166,.45),0 0 40px rgba(91,157,255,.25);
-    position:relative;overflow:hidden;
-  }
-  .logo::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
-    animation:shine 3.2s ease-in-out infinite;
-  }
-  @keyframes shine{
-    0%{transform:translateX(-120%)}
-    60%{transform:translateX(120%)}
-    100%{transform:translateX(120%)}
-  }
-  .brand h1{
-    margin:0;font-size:22px;font-weight:900;letter-spacing:1.5px;
-    background:linear-gradient(90deg,#55d6a6 0%,#7dd3fc 45%,#5b9dff 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:0 0 24px rgba(85,214,166,.25);
-  }
+  .logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#55d6a6,#5b9dff);color:#06130e;font-weight:900;font-size:20px;display:grid;place-items:center;box-shadow:0 0 22px rgba(85,214,166,.45),0 0 40px rgba(91,157,255,.25);position:relative;overflow:hidden}
+  .logo::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);animation:shine 3.2s ease-in-out infinite}
+  @keyframes shine{0%{transform:translateX(-120%)}60%{transform:translateX(120%)}100%{transform:translateX(120%)}}
+  .brand h1{margin:0;font-size:22px;font-weight:900;letter-spacing:1.5px;background:linear-gradient(90deg,#55d6a6 0%,#7dd3fc 45%,#5b9dff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
   .brand p{margin:3px 0 0;font-size:11.5px;color:var(--m);letter-spacing:1.2px;text-transform:uppercase}
-  .badge{
-    font-size:11px;font-weight:700;letter-spacing:.8px;
-    padding:7px 13px;border-radius:999px;
-    color:var(--a);background:var(--a-soft);
-    border:1px solid rgba(85,214,166,.35);
-    box-shadow:0 0 14px rgba(85,214,166,.18);
-    animation:pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{box-shadow:0 0 14px rgba(85,214,166,.18)}
-    50%{box-shadow:0 0 22px rgba(85,214,166,.38)}
-  }
+  .badge{font-size:11px;font-weight:700;letter-spacing:.8px;padding:7px 13px;border-radius:999px;color:var(--a);background:var(--a-soft);border:1px solid rgba(85,214,166,.35);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 14px rgba(85,214,166,.18)}50%{box-shadow:0 0 22px rgba(85,214,166,.38)}}
 
   .card{background:var(--p);border:1px solid var(--l);border-radius:14px;padding:20px;margin-bottom:14px}
   .card h2{margin:0 0 4px;font-size:14.5px}
@@ -62,6 +32,8 @@
   @media(max-width:760px){.grid{grid-template-columns:1fr}}
   textarea{width:100%;min-height:160px;background:#0b1016;color:var(--t);border:1px solid var(--l);border-radius:10px;padding:12px;font:12px/1.55 Consolas,monospace;resize:vertical}
   textarea:focus{outline:0;border-color:var(--a)}
+  input[type=text]{width:100%;background:#0b1016;color:var(--t);border:1px solid var(--l);border-radius:10px;padding:11px 13px;font:14px/1.4 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-weight:700;letter-spacing:.8px}
+  input[type=text]:focus{outline:0;border-color:var(--a);box-shadow:0 0 0 3px rgba(85,214,166,.12)}
   .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
   button{border:0;border-radius:10px;cursor:pointer;padding:11px 18px;font-weight:700;font-size:13px;background:var(--a);color:#06130e}
   button:hover{filter:brightness(1.08)}
@@ -77,6 +49,16 @@
   @media(max-width:600px){.stat{grid-template-columns:1fr 1fr}}
   .err{background:rgba(248,113,113,.10);border:1px solid rgba(248,113,113,.35);color:#fca5a5;padding:10px 12px;border-radius:9px;margin-top:12px;font-size:12.5px;display:none}
   .err.show{display:block}
+
+  /* TABEL TOTAL */
+  .tbl{width:100%;border-collapse:collapse;background:#090d12;border:1px solid var(--l);border-radius:10px;overflow:hidden;font:12.5px/1.6 Consolas,monospace}
+  .tbl td{padding:11px 14px;border-bottom:1px solid var(--l);vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl td:first-child{color:var(--m);width:60%}
+  .tbl td:last-child{text-align:right;font-weight:700;color:var(--t)}
+  .tbl tr.hi td{background:rgba(85,214,166,.06)}
+  .tbl tr.hi td:last-child{color:var(--a);font-size:14px}
+  .tbl tr.big td:last-child{color:var(--a2);font-size:14px}
 </style>
 </head>
 <body>
@@ -91,6 +73,13 @@
       </div>
     </div>
     <span class="badge">● READY</span>
+  </div>
+
+  <!-- INPUT NAMA LAPORAN -->
+  <div class="card">
+    <h2>Nama Laporan</h2>
+    <div class="sub">Ketik nama yang mau muncul di judul laporan HASIL.</div>
+    <input type="text" id="reportName" value="JALUR LANGIT" placeholder="Contoh: BOLAPELANGI2" maxlength="40">
   </div>
 
   <div class="card">
@@ -132,8 +121,10 @@
       <button class="tab" data-t="D">SCB D</button>
       <button class="tab" data-t="E">SCB E</button>
       <button class="tab" data-t="WD">WD</button>
+      <button class="tab" data-t="TOTAL">TOTAL DP+BONUS</button>
     </div>
     <pre id="out">Belum ada hasil.</pre>
+    <div id="tblOut" style="display:none"></div>
     <div class="actions"><button class="ghost" id="copy">COPY TAB INI</button></div>
   </div>
 
@@ -213,6 +204,7 @@ function categoryTotal(rows,cat){return rows.filter(x=>x.category===cat).reduce(
 /* ===== STATE ===== */
 let DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]},cur="hasil";
 let COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
+let TOTAL={};
 
 /* ===== PROCESS ===== */
 function processData(){
@@ -244,7 +236,10 @@ function processData(){
   const net=totalDP-totalWD-bonus;
   const status=net>0?"WIN":net<0?"LOSE":"BALANCE";
 
-  DATA.hasil=`JALUR LANGIT
+  // Judul laporan: dari input
+  const title=($("reportName").value||"LAPORAN").trim().toUpperCase();
+
+  DATA.hasil=`${title}
 
 USER ID : ${user}
 WD : ${displayed(latestWD.wdRaw)}
@@ -288,6 +283,34 @@ MEMBER REGISTER :`;
   COPY.E=E.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.WD=w.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.wdRaw*1000));
 
+  /* ===== TOTAL DP+BONUS ===== */
+  const pad=n=>String(n).padStart(2,"0");
+  TOTAL={
+    totalDPDate,
+    lastDate:`${pad(day)}/${pad(m+1)}/${y}`,
+    totalDP,
+    A:categoryTotal(d,"A"),
+    B:categoryTotal(d,"B"),
+    C:categoryTotal(d,"C"),
+    D:categoryTotal(d,"D"),
+    E:categoryTotal(d,"E"),
+    bonus,
+    grand:totalDP+bonus
+  };
+  // Text version untuk COPY di tab TOTAL
+  DATA.TOTAL=[
+    `TOTAL DP TANGGAL TERAKHIR: ${fmt(TOTAL.totalDPDate)}`,
+    `Tanggal terakhir: ${TOTAL.lastDate}`,
+    `DP biasa total: ${fmt(TOTAL.totalDP)}`,
+    `SCB A: ${fmt(TOTAL.A)}`,
+    `SCB B: ${fmt(TOTAL.B)}`,
+    `SCB C: ${fmt(TOTAL.C)}`,
+    `SCB D: ${fmt(TOTAL.D)}`,
+    `SCB E: ${fmt(TOTAL.E)}`,
+    `TOTAL BONUS: ${fmt(TOTAL.bonus)}`,
+    `DP + BONUS seluruh periode: ${fmt(TOTAL.grand)}`
+  ];
+
   $("stats").innerHTML=`
     <div><span>DP BIASA</span><b>${ordinary.length}</b></div>
     <div><span>SCB</span><b>${A.length+B.length+C.length+D.length+E.length}</b></div>
@@ -300,6 +323,30 @@ MEMBER REGISTER :`;
 function show(t){
   cur=t;
   document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.t===t));
+
+  if(t==="TOTAL"){
+    // Sembunyikan <pre>, tampilkan tabel
+    $("out").style.display="none";
+    $("tblOut").style.display="block";
+    $("tblOut").innerHTML=`
+      <table class="tbl">
+        <tr><td>TOTAL DP TANGGAL TERAKHIR</td><td>${fmt(TOTAL.totalDPDate||0)}</td></tr>
+        <tr><td>Tanggal terakhir</td><td>${TOTAL.lastDate||"—"}</td></tr>
+        <tr><td>DP biasa total</td><td>${fmt(TOTAL.totalDP||0)}</td></tr>
+        <tr><td>SCB A</td><td>${fmt(TOTAL.A||0)}</td></tr>
+        <tr><td>SCB B</td><td>${fmt(TOTAL.B||0)}</td></tr>
+        <tr><td>SCB C</td><td>${fmt(TOTAL.C||0)}</td></tr>
+        <tr><td>SCB D</td><td>${fmt(TOTAL.D||0)}</td></tr>
+        <tr><td>SCB E</td><td>${fmt(TOTAL.E||0)}</td></tr>
+        <tr class="hi"><td>TOTAL BONUS</td><td>${fmt(TOTAL.bonus||0)}</td></tr>
+        <tr class="big"><td><b>DP + BONUS seluruh periode</b></td><td><b>${fmt(TOTAL.grand||0)}</b></td></tr>
+      </table>`;
+    return;
+  }
+
+  // Tab biasa → pakai <pre>
+  $("out").style.display="block";
+  $("tblOut").style.display="none";
   $("out").textContent=t==="hasil"?DATA.hasil:(DATA[t]||[]).join("\n")||"Tidak ada data.";
 }
 
@@ -311,11 +358,17 @@ $("clear").onclick=()=>{
   $("error").classList.remove("show");
   DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
   COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
+  TOTAL={};
+  $("tblOut").style.display="none";
+  $("out").style.display="block";
   $("stats").innerHTML=`<div><span>DP BIASA</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>WD</span><b>—</b></div><div><span>STATUS</span><b>—</b></div>`;
 };
 
 $("copy").onclick=()=>{
-  const t = cur==="hasil" ? DATA.hasil : (COPY[cur]||[]).join("\n");
+  let t;
+  if(cur==="hasil") t=DATA.hasil;
+  else if(cur==="TOTAL") t=(DATA.TOTAL||[]).join("\n");
+  else t=(COPY[cur]||[]).join("\n");
   navigator.clipboard.writeText(t).then(()=>{
     const b=$("copy");
     b.textContent="TERCOPY!";
@@ -324,6 +377,17 @@ $("copy").onclick=()=>{
 };
 
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>show(b.dataset.t));
+
+// Re-render HASIL kalau nama laporan diubah (tanpa proses ulang)
+$("reportName").addEventListener("input",()=>{
+  if(!DATA.hasil)return;
+  const newTitle=($("reportName").value||"LAPORAN").trim().toUpperCase();
+  // Ganti baris pertama (judul lama)
+  const lines=DATA.hasil.split("\n");
+  lines[0]=newTitle;
+  DATA.hasil=lines.join("\n");
+  if(cur==="hasil")$("out").textContent=DATA.hasil;
+});
 </script>
 </body>
 </html>

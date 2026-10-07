@@ -3,23 +3,57 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BOLAPELANGI2 TOOLS</title>
+<title>JALUR LANGIT</title>
 <style>
   :root{
     --bg:#0b0f14;--bg2:#0e141c;--p:#121821;--p2:#171f2a;
     --l:#273242;--l2:#314054;--t:#eef2f7;--m:#93a0b2;--m2:#5c6a7d;
-    --a:#55d6a6;--a-soft:rgba(85,214,166,.10);--amber:#fbbf24;
+    --a:#55d6a6;--a2:#5b9dff;--a-soft:rgba(85,214,166,.10);
+    --amber:#fbbf24;
   }
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--t);font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
   .wrap{max-width:1050px;margin:auto;padding:24px 20px 60px}
   .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#55d6a6,#3fb98a);color:#06130e;font-weight:900;font-size:17px;display:grid;place-items:center}
-  .brand h1{margin:0;font-size:19px;font-weight:800}
-  .brand h1 span{color:var(--a)}
-  .brand p{margin:2px 0 0;font-size:11.5px;color:var(--m)}
-  .badge{font-size:11px;font-weight:700;padding:6px 11px;border-radius:999px;color:var(--a);background:var(--a-soft);border:1px solid rgba(85,214,166,.30)}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{
+    width:48px;height:48px;border-radius:14px;
+    background:linear-gradient(135deg,#55d6a6,#5b9dff);
+    color:#06130e;font-weight:900;font-size:20px;
+    display:grid;place-items:center;
+    box-shadow:0 0 22px rgba(85,214,166,.45),0 0 40px rgba(91,157,255,.25);
+    position:relative;overflow:hidden;
+  }
+  .logo::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
+    animation:shine 3.2s ease-in-out infinite;
+  }
+  @keyframes shine{
+    0%{transform:translateX(-120%)}
+    60%{transform:translateX(120%)}
+    100%{transform:translateX(120%)}
+  }
+  .brand h1{
+    margin:0;font-size:22px;font-weight:900;letter-spacing:1.5px;
+    background:linear-gradient(90deg,#55d6a6 0%,#7dd3fc 45%,#5b9dff 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 24px rgba(85,214,166,.25);
+  }
+  .brand p{margin:3px 0 0;font-size:11.5px;color:var(--m);letter-spacing:1.2px;text-transform:uppercase}
+  .badge{
+    font-size:11px;font-weight:700;letter-spacing:.8px;
+    padding:7px 13px;border-radius:999px;
+    color:var(--a);background:var(--a-soft);
+    border:1px solid rgba(85,214,166,.35);
+    box-shadow:0 0 14px rgba(85,214,166,.18);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 14px rgba(85,214,166,.18)}
+    50%{box-shadow:0 0 22px rgba(85,214,166,.38)}
+  }
+
   .card{background:var(--p);border:1px solid var(--l);border-radius:14px;padding:20px;margin-bottom:14px}
   .card h2{margin:0 0 4px;font-size:14.5px}
   .card .sub{font-size:11.5px;color:var(--m);margin-bottom:16px}
@@ -50,9 +84,9 @@
 
   <div class="top">
     <div class="brand">
-      <div class="logo">BP</div>
+      <div class="logo">JL</div>
       <div>
-        <h1><span>BOLAPELANGI2</span> TOOLS</h1>
+        <h1>JALUR LANGIT</h1>
         <p>Data Checker · Final v7</p>
       </div>
     </div>
@@ -106,7 +140,7 @@
 </main>
 
 <script>
-/* ===== PARSER (sama persis dengan sidepanel.js) ===== */
+/* ===== PARSER ===== */
 const $=id=>document.getElementById(id);
 function clean(s){return String(s??"").replace(/\u00a0/g," ").replace(/\\@/g,"@").replace(/\*\*/g,"").replace(/<br\s*\/?>/gi," ").trim();}
 function cells(line){if(!line.includes("|"))return[];let c=line.split("|").map(clean);while(c[0]==="")c.shift();while(c.at(-1)==="")c.pop();return c;}
@@ -178,7 +212,7 @@ function categoryTotal(rows,cat){return rows.filter(x=>x.category===cat).reduce(
 
 /* ===== STATE ===== */
 let DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]},cur="hasil";
-let COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};  // <-- nominal only
+let COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
 
 /* ===== PROCESS ===== */
 function processData(){
@@ -210,7 +244,7 @@ function processData(){
   const net=totalDP-totalWD-bonus;
   const status=net>0?"WIN":net<0?"LOSE":"BALANCE";
 
-  DATA.hasil=`BOLAPELANGI2
+  DATA.hasil=`JALUR LANGIT
 
 USER ID : ${user}
 WD : ${displayed(latestWD.wdRaw)}
@@ -245,7 +279,7 @@ MEMBER REGISTER :`;
   DATA.E=pack(E,"SCB E");
   DATA.WD=w.slice().sort((a,b)=>a.date-b.date).map((x,i)=>`${i+1}. WD ${displayed(x.wdRaw)} → ${fmt(x.wdRaw*1000)}`);
 
-  // ===== COPY: NOMINAL ONLY =====
+  /* ===== COPY: NOMINAL ONLY ===== */
   COPY.DP=ordinary.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.A=A.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.B=B.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
@@ -280,7 +314,6 @@ $("clear").onclick=()=>{
   $("stats").innerHTML=`<div><span>DP BIASA</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>WD</span><b>—</b></div><div><span>STATUS</span><b>—</b></div>`;
 };
 
-// COPY: HASIL = full text, tab lain = nominal only
 $("copy").onclick=()=>{
   const t = cur==="hasil" ? DATA.hasil : (COPY[cur]||[]).join("\n");
   navigator.clipboard.writeText(t).then(()=>{

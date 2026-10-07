@@ -6,193 +6,217 @@
 <title>BOLAPELANGI2 TOOLS</title>
 <style>
   :root{
-    --bg:#0b0e13;
-    --bg-soft:#0f131a;
-    --card:#141821;
-    --card-hi:#1a1f2b;
-    --border:#232a37;
-    --border-hi:#2f3a4d;
-    --text:#e6eaf2;
-    --muted:#8b96a8;
-    --muted-2:#5e6879;
-    --accent:#5b9dff;
-    --accent-2:#7dd3fc;
-    --green:#34d399;
+    --bg:#0b0f14; --bg2:#0e141c; --p:#121821; --p2:#171f2a;
+    --l:#273242; --l2:#314054;
+    --t:#eef2f7; --m:#93a0b2; --m2:#5c6a7d;
+    --a:#55d6a6; --a-soft:rgba(85,214,166,.10);
     --amber:#fbbf24;
-    --shadow:0 10px 30px rgba(0,0,0,.45);
-    --radius:14px;
+    --shadow:0 8px 24px rgba(0,0,0,.4);
+    --r:14px;
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
     margin:0;min-height:100vh;
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(91,157,255,.10), transparent 60%),
-      radial-gradient(900px 500px at 110% 10%, rgba(125,211,252,.06), transparent 55%),
-      var(--bg);
-    color:var(--text);
-    font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    background:linear-gradient(180deg,var(--bg),var(--bg2));
+    color:var(--t);
+    font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:980px;margin:0 auto;padding:36px 22px 70px}
+  .wrap{max-width:960px;margin:auto;padding:26px 20px 60px}
 
   /* HEADER */
-  header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#5b9dff,#7dd3fc);display:grid;place-items:center;font-weight:900;font-size:19px;color:#0b0e13;box-shadow:0 6px 20px rgba(91,157,255,.35)}
-  .brand h1{margin:0;font-size:20px;letter-spacing:.5px;background:linear-gradient(90deg,#e6eaf2,#9fc2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .brand p{margin:2px 0 0;font-size:11.5px;color:var(--muted);letter-spacing:.4px}
-  .badge{font-size:11px;font-weight:700;letter-spacing:.6px;padding:6px 11px;border-radius:999px;color:var(--accent-2);background:rgba(125,211,252,.08);border:1px solid rgba(125,211,252,.25)}
-
-  /* SECTION LABEL */
-  .sec-label{font-size:11px;letter-spacing:1.5px;color:var(--muted-2);font-weight:700;margin:28px 0 12px;text-transform:uppercase}
-  .sec-label:first-of-type{margin-top:8px}
-
-  /* GRID of MODULE CARDS */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-
-  .mod{
-    background:linear-gradient(180deg,var(--card),var(--bg-soft));
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:18px 18px 16px;
-    position:relative;overflow:hidden;
-    transition:transform .15s, border-color .15s, box-shadow .15s;
+  .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{
+    width:44px;height:44px;border-radius:12px;
+    background:linear-gradient(135deg,#55d6a6,#3fb98a);
+    color:#06130e;font-weight:900;font-size:17px;
+    display:grid;place-items:center;
+    box-shadow:0 6px 18px rgba(85,214,166,.30);
   }
-  .mod.active{cursor:pointer}
-  .mod.active:hover{transform:translateY(-3px);border-color:var(--border-hi);box-shadow:var(--shadow)}
-  .mod.disabled{opacity:.55;cursor:not-allowed}
-  .mod::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(91,157,255,.5),transparent);opacity:0;transition:opacity .2s}
-  .mod.active:hover::before{opacity:1}
+  .brand h1{margin:0;font-size:19px;font-weight:800;letter-spacing:.3px}
+  .brand h1 span{color:var(--a)}
+  .brand p{margin:2px 0 0;font-size:11.5px;color:var(--m)}
+  .badge{
+    font-size:11px;font-weight:700;letter-spacing:.5px;
+    padding:6px 11px;border-radius:999px;
+    color:var(--a);background:var(--a-soft);
+    border:1px solid rgba(85,214,166,.30);
+  }
 
-  .mod-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px}
-  .mod-title{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14.5px;color:var(--text)}
-  .mod-icon{width:32px;height:32px;border-radius:9px;background:rgba(91,157,255,.10);border:1px solid rgba(91,157,255,.25);display:grid;place-items:center;font-size:15px;flex:0 0 auto}
-  .mod.disabled .mod-icon{background:rgba(139,150,168,.08);border-color:rgba(139,150,168,.2)}
-  .mod-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px;min-height:34px}
+  /* CARD */
+  .card{
+    background:var(--p);border:1px solid var(--l);
+    border-radius:var(--r);padding:20px;margin-bottom:14px;
+  }
+  .card h2{margin:0 0 4px;font-size:14.5px;letter-spacing:.4px}
+  .card .sub{font-size:11.5px;color:var(--m);margin-bottom:16px}
 
-  .tag{font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:6px;white-space:nowrap}
-  .tag.on{color:var(--green);background:rgba(52,211,153,.10);border:1px solid rgba(52,211,153,.30)}
-  .tag.soon{color:var(--amber);background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.28)}
+  /* LAUNCH BUTTONS */
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  button{
+    border:0;border-radius:10px;cursor:pointer;
+    padding:11px 18px;font-weight:700;font-size:13px;letter-spacing:.3px;
+    background:var(--a);color:#06130e;
+    transition:transform .12s,box-shadow .12s,filter .12s;
+    box-shadow:0 6px 16px rgba(85,214,166,.22);
+  }
+  button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  button:active{transform:translateY(0)}
+  button.ghost{
+    background:transparent;color:var(--t);
+    border:1px solid var(--l2);box-shadow:none;
+  }
+  button.ghost:hover{border-color:var(--a);color:var(--a);background:var(--a-soft)}
 
-  .mod-foot{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted-2);border-top:1px solid var(--border);padding-top:10px;margin-top:2px}
-  .mod-foot .arrow{color:var(--accent);font-weight:700;opacity:0;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
-  .mod.active:hover .mod-foot .arrow{opacity:1;transform:translateX(0)}
+  /* MODULE LIST */
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.mods{grid-template-columns:1fr}}
+  .mod{
+    background:var(--p2);border:1px solid var(--l);
+    border-radius:12px;padding:14px 15px;
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .mod .ic{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--a-soft);border:1px solid rgba(85,214,166,.28);
+    display:grid;place-items:center;font-size:16px;flex:0 0 auto;
+  }
+  .mod.soon .ic{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25)}
+  .mod b{font-size:13px;display:block;margin-bottom:2px}
+  .mod small{font-size:11.5px;color:var(--m);line-height:1.45;display:block}
+  .mod .tag{
+    font-size:10px;font-weight:700;letter-spacing:.4px;
+    padding:2px 7px;border-radius:5px;margin-left:6px;
+  }
+  .tag.on{color:var(--a);background:var(--a-soft)}
+  .tag.soon{color:var(--amber);background:rgba(251,191,36,.10)}
 
-  /* TREE (kept, but nicer) */
+  /* TREE */
   .tree{
     font:12.5px/1.85 'JetBrains Mono',Consolas,'Courier New',monospace;
-    background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;
-    padding:16px 18px;color:#c8d3e6;overflow:auto;
+    background:#0a0e13;border:1px solid var(--l);border-radius:11px;
+    padding:15px 17px;color:#c8d3e6;overflow:auto;
   }
-  .tree .root{color:var(--accent-2);font-weight:700}
-  .tree .branch{color:var(--muted-2)}
-  .tree .leaf{color:var(--muted)}
-  .tree .leaf::after{content:"  ·";color:var(--muted-2)}
+  .tree .r{color:var(--a);font-weight:700}
+  .tree .b{color:var(--m2)}
+  .tree .leaf{color:var(--m)}
+  .tree .on{color:var(--a)}
+  .tree .soon{color:var(--amber)}
 
-  /* FOOTER */
-  footer{margin-top:36px;text-align:center;color:var(--muted-2);font-size:11px;letter-spacing:.5px}
-  footer a{color:var(--accent);text-decoration:none}
+  footer{margin-top:30px;text-align:center;color:var(--m2);font-size:11px}
+  footer a{color:var(--a);text-decoration:none}
   footer a:hover{text-decoration:underline}
-
-  @media (max-width:520px){.wrap{padding:24px 14px 50px}.brand h1{font-size:17px}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap">
 
-  <header class="top">
+  <div class="top">
     <div class="brand">
       <div class="logo">BP</div>
       <div>
-        <h1>BOLAPELANGI2 TOOLS</h1>
-        <p>Modular starter · v7</p>
+        <h1><span>BOLAPELANGI2</span> TOOLS</h1>
+        <p>Ringan · cepat · siap dikembangkan</p>
       </div>
     </div>
     <span class="badge">● READY</span>
-  </header>
-
-  <!-- ============ MODULES ============ -->
-  <div class="sec-label">Modul Aktif</div>
-  <div class="grid">
-
-    <div class="mod active" data-open="checker">
-      <div class="mod-head">
-        <div class="mod-title"><span class="mod-icon">📊</span> Data Checker</div>
-        <span class="tag on">ACTIVE</span>
-      </div>
-      <div class="mod-desc">DP · SCB A–E · WD · Last DP · Total DP tanggal terakhir · Status WIN/LOSE.</div>
-      <div class="mod-foot"><span>Side Panel</span><span class="arrow">OPEN →</span></div>
-    </div>
-
-    <div class="mod disabled">
-      <div class="mod-head">
-        <div class="mod-title"><span class="mod-icon">🧮</span> Bonus Calculator</div>
-        <span class="tag soon">SOON</span>
-      </div>
-      <div class="mod-desc">Slot untuk modul kalkulasi bonus otomatis dari SCB A–E.</div>
-      <div class="mod-foot"><span>—</span><span></span></div>
-    </div>
-
-    <div class="mod disabled">
-      <div class="mod-head">
-        <div class="mod-title"><span class="mod-icon">📈</span> Report Harian</div>
-        <span class="tag soon">SOON</span>
-      </div>
-      <div class="mod-desc">Slot untuk rekap harian & export ke clipboard.</div>
-      <div class="mod-foot"><span>—</span><span></span></div>
-    </div>
-
-    <div class="mod disabled">
-      <div class="mod-head">
-        <div class="mod-title"><span class="mod-icon">🧾</span> Member Lookup</div>
-        <span class="tag soon">SOON</span>
-      </div>
-      <div class="mod-desc">Slot untuk pencarian riwayat member berdasarkan USER ID.</div>
-      <div class="mod-foot"><span>—</span><span></span></div>
-    </div>
-
   </div>
 
-  <!-- ============ STRUKTUR ============ -->
-  <div class="sec-label">Struktur Modul</div>
-  <div class="tree">
-    <div class="root">BOLAPELANGI2 TOOLS</div>
-    <div><span class="branch">├─</span> <span class="root">Data Checker</span> <span style="color:#34d399">● aktif</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">HASIL</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">DP</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">SCB A</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">SCB B</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">SCB C</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">SCB D</span></div>
-    <div><span class="branch">│  ├─</span> <span class="leaf">SCB E</span></div>
-    <div><span class="branch">│  └─</span> <span class="leaf">WD</span></div>
-    <div><span class="branch">├─</span> <span class="leaf">Bonus Calculator</span> <span style="color:#fbbf24">○ soon</span></div>
-    <div><span class="branch">├─</span> <span class="leaf">Report Harian</span> <span style="color:#fbbf24">○ soon</span></div>
-    <div><span class="branch">└─</span> <span class="leaf">Member Lookup</span> <span style="color:#fbbf24">○ soon</span></div>
+  <!-- LAUNCHER -->
+  <div class="card">
+    <h2>Data Checker</h2>
+    <div class="sub">Parser DP · SCB A–E · WD · Last DP · Total DP tanggal terakhir · Status WIN/LOSE.</div>
+    <div class="actions">
+      <button id="openPanel">BUKA SIDE PANEL</button>
+      <button class="ghost" id="openTab">BUKA DI TAB BARU</button>
+    </div>
+  </div>
+
+  <!-- MODULE GRID -->
+  <div class="card">
+    <h2>Modul</h2>
+    <div class="sub">Slot siap diisi buat pengembangan berikutnya.</div>
+    <div class="mods">
+      <div class="mod">
+        <div class="ic">📊</div>
+        <div>
+          <b>Data Checker <span class="tag on">ACTIVE</span></b>
+          <small>Parser DP, SCB A–E, WD, status member.</small>
+        </div>
+      </div>
+      <div class="mod soon">
+        <div class="ic">🧮</div>
+        <div>
+          <b>Bonus Calculator <span class="tag soon">SOON</span></b>
+          <small>Kalkulasi bonus otomatis dari SCB.</small>
+        </div>
+      </div>
+      <div class="mod soon">
+        <div class="ic">📈</div>
+        <div>
+          <b>Report Harian <span class="tag soon">SOON</span></b>
+          <small>Rekap & export harian.</small>
+        </div>
+      </div>
+      <div class="mod soon">
+        <div class="ic">🧾</div>
+        <div>
+          <b>Member Lookup <span class="tag soon">SOON</span></b>
+          <small>Riwayat member by USER ID.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TREE -->
+  <div class="card">
+    <h2>Struktur</h2>
+    <div class="sub">Modular — tambah modul tanpa mengacak Data Checker.</div>
+    <div class="tree">
+      <div class="r">BOLAPELANGI2 TOOLS</div>
+      <div><span class="b">├─</span> <span class="r">Data Checker</span> <span class="on">● aktif</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">HASIL</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">DP</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">SCB A</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">SCB B</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">SCB C</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">SCB D</span></div>
+      <div><span class="b">│  ├─</span> <span class="leaf">SCB E</span></div>
+      <div><span class="b">│  └─</span> <span class="leaf">WD</span></div>
+      <div><span class="b">├─</span> <span class="leaf">Bonus Calculator</span> <span class="soon">○ soon</span></div>
+      <div><span class="b">├─</span> <span class="leaf">Report Harian</span> <span class="soon">○ soon</span></div>
+      <div><span class="b">└─</span> <span class="leaf">Member Lookup</span> <span class="soon">○ soon</span></div>
+    </div>
   </div>
 
   <footer>
     BOLAPELANGI2 Data Checker · v7.0.0 ·
-    <a href="sidepanel.html" target="_blank">buka sidepanel.html</a>
+    <a href="sidepanel.html">sidepanel.html</a>
   </footer>
-</div>
+</main>
 
 <script>
-  async function openChecker() {
-    try {
-      if (chrome?.sidePanel?.open) {
+  const isExt = typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id;
+
+  async function openSidePanel(){
+    if (isExt && chrome.sidePanel?.open){
+      try {
         const win = await chrome.windows.getCurrent();
         await chrome.sidePanel.open({ windowId: win.id });
-      } else {
-        window.open(chrome.runtime.getURL("sidepanel.html"), "_blank");
-      }
-    } catch (e) {
-      window.open(chrome.runtime.getURL("sidepanel.html"), "_blank");
+        return;
+      } catch(e){ /* fallback */ }
     }
+    // Fallback: buka sidepanel.html di tab baru (web mode / API tidak tersedia)
+    const url = isExt ? chrome.runtime.getURL("sidepanel.html") : "sidepanel.html";
+    window.open(url, "_blank");
   }
 
-  document.querySelectorAll(".mod.active").forEach(el => {
-    el.addEventListener("click", openChecker);
+  document.getElementById("openPanel").addEventListener("click", openSidePanel);
+  document.getElementById("openTab").addEventListener("click", () => {
+    const url = isExt ? chrome.runtime.getURL("sidepanel.html") : "sidepanel.html";
+    window.open(url, "_blank");
   });
 </script>
 </body>

@@ -18,131 +18,83 @@
     --accent:#5b9dff;
     --accent-2:#7dd3fc;
     --green:#34d399;
+    --amber:#fbbf24;
     --shadow:0 10px 30px rgba(0,0,0,.45);
     --radius:14px;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
   body{
-    margin:0;
+    margin:0;min-height:100vh;
     background:
       radial-gradient(1200px 600px at 15% -10%, rgba(91,157,255,.10), transparent 60%),
       radial-gradient(900px 500px at 110% 10%, rgba(125,211,252,.06), transparent 55%),
       var(--bg);
     color:var(--text);
-    font:14px/1.55 'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     -webkit-font-smoothing:antialiased;
-    min-height:100vh;
   }
+  .wrap{max-width:980px;margin:0 auto;padding:36px 22px 70px}
 
-  .wrap{max-width:960px;margin:0 auto;padding:40px 22px 80px}
-
-  /* ---------- HEADER ---------- */
-  header.top{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:16px;margin-bottom:34px;flex-wrap:wrap;
-  }
+  /* HEADER */
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:14px}
-  .logo{
-    width:46px;height:46px;border-radius:12px;
-    background:linear-gradient(135deg,#5b9dff,#7dd3fc);
-    display:grid;place-items:center;
-    font-weight:900;font-size:18px;color:#0b0e13;
-    box-shadow:0 6px 20px rgba(91,157,255,.35);
-  }
-  .brand h1{
-    margin:0;font-size:20px;letter-spacing:.5px;
-    background:linear-gradient(90deg,#e6eaf2,#9fc2ff);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
+  .logo{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#5b9dff,#7dd3fc);display:grid;place-items:center;font-weight:900;font-size:19px;color:#0b0e13;box-shadow:0 6px 20px rgba(91,157,255,.35)}
+  .brand h1{margin:0;font-size:20px;letter-spacing:.5px;background:linear-gradient(90deg,#e6eaf2,#9fc2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
   .brand p{margin:2px 0 0;font-size:11.5px;color:var(--muted);letter-spacing:.4px}
-  .badge{
-    font-size:11px;font-weight:700;letter-spacing:.6px;
-    padding:6px 11px;border-radius:999px;
-    color:var(--accent-2);
-    background:rgba(125,211,252,.08);
-    border:1px solid rgba(125,211,252,.25);
-  }
+  .badge{font-size:11px;font-weight:700;letter-spacing:.6px;padding:6px 11px;border-radius:999px;color:var(--accent-2);background:rgba(125,211,252,.08);border:1px solid rgba(125,211,252,.25)}
 
-  /* ---------- CARD ---------- */
-  .card{
+  /* SECTION LABEL */
+  .sec-label{font-size:11px;letter-spacing:1.5px;color:var(--muted-2);font-weight:700;margin:28px 0 12px;text-transform:uppercase}
+  .sec-label:first-of-type{margin-top:8px}
+
+  /* GRID of MODULE CARDS */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+
+  .mod{
     background:linear-gradient(180deg,var(--card),var(--bg-soft));
     border:1px solid var(--border);
     border-radius:var(--radius);
-    padding:26px 26px 22px;
-    box-shadow:var(--shadow);
+    padding:18px 18px 16px;
     position:relative;overflow:hidden;
+    transition:transform .15s, border-color .15s, box-shadow .15s;
   }
-  .card::before{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(91,157,255,.06),transparent 40%);
-    pointer-events:none;
-  }
-  .card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-  .card-head h2{margin:0;font-size:15px;letter-spacing:.6px;color:var(--text)}
-  .card-head .sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .mod.active{cursor:pointer}
+  .mod.active:hover{transform:translateY(-3px);border-color:var(--border-hi);box-shadow:var(--shadow)}
+  .mod.disabled{opacity:.55;cursor:not-allowed}
+  .mod::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(91,157,255,.5),transparent);opacity:0;transition:opacity .2s}
+  .mod.active:hover::before{opacity:1}
 
-  /* ---------- TREE ---------- */
+  .mod-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px}
+  .mod-title{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14.5px;color:var(--text)}
+  .mod-icon{width:32px;height:32px;border-radius:9px;background:rgba(91,157,255,.10);border:1px solid rgba(91,157,255,.25);display:grid;place-items:center;font-size:15px;flex:0 0 auto}
+  .mod.disabled .mod-icon{background:rgba(139,150,168,.08);border-color:rgba(139,150,168,.2)}
+  .mod-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px;min-height:34px}
+
+  .tag{font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:6px;white-space:nowrap}
+  .tag.on{color:var(--green);background:rgba(52,211,153,.10);border:1px solid rgba(52,211,153,.30)}
+  .tag.soon{color:var(--amber);background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.28)}
+
+  .mod-foot{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted-2);border-top:1px solid var(--border);padding-top:10px;margin-top:2px}
+  .mod-foot .arrow{color:var(--accent);font-weight:700;opacity:0;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
+  .mod.active:hover .mod-foot .arrow{opacity:1;transform:translateX(0)}
+
+  /* TREE (kept, but nicer) */
   .tree{
-    font:13px/1.9 'JetBrains Mono',Consolas,'Courier New',monospace;
-    background:var(--bg-soft);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:18px 20px;
-    color:#c8d3e6;
-    overflow:auto;
+    font:12.5px/1.85 'JetBrains Mono',Consolas,'Courier New',monospace;
+    background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;
+    padding:16px 18px;color:#c8d3e6;overflow:auto;
   }
   .tree .root{color:var(--accent-2);font-weight:700}
   .tree .branch{color:var(--muted-2)}
-  .tree .item{color:#c8d3e6}
-  .tree .item.leaf{color:var(--muted)}
-  .tree .item.leaf::after{content:"  ·";color:var(--muted-2)}
-  .tree .item.clickable{cursor:pointer;transition:color .15s}
-  .tree .item.clickable:hover{color:var(--accent)}
+  .tree .leaf{color:var(--muted)}
+  .tree .leaf::after{content:"  ·";color:var(--muted-2)}
 
-  /* ---------- BUTTONS ---------- */
-  .actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
-  .btn{
-    border:0;cursor:pointer;font-weight:700;font-size:13px;letter-spacing:.4px;
-    padding:11px 18px;border-radius:10px;
-    background:linear-gradient(135deg,#5b9dff,#3f7fe0);
-    color:#0b0e13;
-    box-shadow:0 6px 18px rgba(91,157,255,.28);
-    transition:transform .12s,box-shadow .12s,filter .12s;
-  }
-  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 10px 22px rgba(91,157,255,.35)}
-  .btn:active{transform:translateY(0)}
-  .btn.ghost{
-    background:transparent;color:var(--text);
-    border:1px solid var(--border-hi);box-shadow:none;
-  }
-  .btn.ghost:hover{border-color:var(--accent);color:var(--accent);background:rgba(91,157,255,.06)}
-
-  /* ---------- INFO ---------- */
-  .info{margin-top:26px;display:grid;gap:12px}
-  .info .item{
-    background:var(--card);border:1px solid var(--border);border-radius:12px;
-    padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
-  }
-  .info .dot{
-    width:8px;height:8px;border-radius:50%;background:var(--green);
-    margin-top:7px;flex:0 0 auto;box-shadow:0 0 10px rgba(52,211,153,.7);
-  }
-  .info b{color:var(--text);font-size:12.5px;letter-spacing:.3px}
-  .info p{margin:3px 0 0;color:var(--muted);font-size:12px}
-
-  footer{
-    margin-top:34px;text-align:center;color:var(--muted-2);
-    font-size:11px;letter-spacing:.5px;
-  }
+  /* FOOTER */
+  footer{margin-top:36px;text-align:center;color:var(--muted-2);font-size:11px;letter-spacing:.5px}
   footer a{color:var(--accent);text-decoration:none}
   footer a:hover{text-decoration:underline}
 
-  @media (max-width:520px){
-    .wrap{padding:26px 16px 60px}
-    .brand h1{font-size:17px}
-    .card{padding:20px 16px}
-  }
+  @media (max-width:520px){.wrap{padding:24px 14px 50px}.brand h1{font-size:17px}}
 </style>
 </head>
 <body>
@@ -153,93 +105,94 @@
       <div class="logo">BP</div>
       <div>
         <h1>BOLAPELANGI2 TOOLS</h1>
-        <p>Data Checker · Final v7</p>
+        <p>Modular starter · v7</p>
       </div>
     </div>
     <span class="badge">● READY</span>
   </header>
 
-  <main class="card">
-    <div class="card-head">
-      <div>
-        <h2>MODUL AKTIF</h2>
-        <div class="sub">Klik untuk membuka panel Data Checker</div>
+  <!-- ============ MODULES ============ -->
+  <div class="sec-label">Modul Aktif</div>
+  <div class="grid">
+
+    <div class="mod active" data-open="checker">
+      <div class="mod-head">
+        <div class="mod-title"><span class="mod-icon">📊</span> Data Checker</div>
+        <span class="tag on">ACTIVE</span>
       </div>
+      <div class="mod-desc">DP · SCB A–E · WD · Last DP · Total DP tanggal terakhir · Status WIN/LOSE.</div>
+      <div class="mod-foot"><span>Side Panel</span><span class="arrow">OPEN →</span></div>
     </div>
 
-    <div class="tree" id="tree">
-      <div class="root">BOLAPELANGI2 TOOLS</div>
-      <div><span class="branch">└─</span> <span class="root">Data Checker</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="hasil">HASIL</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="dpTab">DP</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="a">SCB A</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="b">SCB B</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="c">SCB C</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="d">SCB D</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">├─</span> <span class="item clickable" data-tab="e">SCB E</span></div>
-      <div>&nbsp;&nbsp;&nbsp;<span class="branch">└─</span> <span class="item clickable" data-tab="wdTab">WD</span></div>
+    <div class="mod disabled">
+      <div class="mod-head">
+        <div class="mod-title"><span class="mod-icon">🧮</span> Bonus Calculator</div>
+        <span class="tag soon">SOON</span>
+      </div>
+      <div class="mod-desc">Slot untuk modul kalkulasi bonus otomatis dari SCB A–E.</div>
+      <div class="mod-foot"><span>—</span><span></span></div>
     </div>
 
-    <div class="actions">
-      <button class="btn" id="openChecker">BUKA DATA CHECKER</button>
-      <button class="btn ghost" id="openFull">BUKA DI TAB BARU</button>
+    <div class="mod disabled">
+      <div class="mod-head">
+        <div class="mod-title"><span class="mod-icon">📈</span> Report Harian</div>
+        <span class="tag soon">SOON</span>
+      </div>
+      <div class="mod-desc">Slot untuk rekap harian & export ke clipboard.</div>
+      <div class="mod-foot"><span>—</span><span></span></div>
     </div>
-  </main>
 
-  <section class="info">
-    <div class="item">
-      <span class="dot"></span>
-      <div>
-        <b>Side Panel</b>
-        <p>Klik ikon ekstensi di toolbar Chrome untuk membuka Data Checker langsung di samping halaman.</p>
+    <div class="mod disabled">
+      <div class="mod-head">
+        <div class="mod-title"><span class="mod-icon">🧾</span> Member Lookup</div>
+        <span class="tag soon">SOON</span>
       </div>
+      <div class="mod-desc">Slot untuk pencarian riwayat member berdasarkan USER ID.</div>
+      <div class="mod-foot"><span>—</span><span></span></div>
     </div>
-    <div class="item">
-      <span class="dot"></span>
-      <div>
-        <b>Copy Cepat</b>
-        <p>Setiap tab (DP, SCB A–E, WD) punya tombol <i>Copy</i> yang menyalin nominal per baris.</p>
-      </div>
-    </div>
-    <div class="item">
-      <span class="dot"></span>
-      <div>
-        <b>Logika Paten v7</b>
-        <p>DP biasa, SCB bonus, LAST DP, TOTAL DP tanggal terakhir, WD ×1000, dan status WIN/LOSE/BALANCE.</p>
-      </div>
-    </div>
-  </section>
+
+  </div>
+
+  <!-- ============ STRUKTUR ============ -->
+  <div class="sec-label">Struktur Modul</div>
+  <div class="tree">
+    <div class="root">BOLAPELANGI2 TOOLS</div>
+    <div><span class="branch">├─</span> <span class="root">Data Checker</span> <span style="color:#34d399">● aktif</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">HASIL</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">DP</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">SCB A</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">SCB B</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">SCB C</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">SCB D</span></div>
+    <div><span class="branch">│  ├─</span> <span class="leaf">SCB E</span></div>
+    <div><span class="branch">│  └─</span> <span class="leaf">WD</span></div>
+    <div><span class="branch">├─</span> <span class="leaf">Bonus Calculator</span> <span style="color:#fbbf24">○ soon</span></div>
+    <div><span class="branch">├─</span> <span class="leaf">Report Harian</span> <span style="color:#fbbf24">○ soon</span></div>
+    <div><span class="branch">└─</span> <span class="leaf">Member Lookup</span> <span style="color:#fbbf24">○ soon</span></div>
+  </div>
 
   <footer>
-    BOLAPELANGI2 Data Checker · v7.0.0 · <a href="sidepanel.html" target="_blank">buka sidepanel.html</a>
+    BOLAPELANGI2 Data Checker · v7.0.0 ·
+    <a href="sidepanel.html" target="_blank">buka sidepanel.html</a>
   </footer>
 </div>
 
 <script>
-  // Buka side panel (butuh gesture user — sudah dari klik button)
-  async function openSidePanel() {
+  async function openChecker() {
     try {
       if (chrome?.sidePanel?.open) {
         const win = await chrome.windows.getCurrent();
         await chrome.sidePanel.open({ windowId: win.id });
       } else {
-        // fallback kalau API tidak tersedia
         window.open(chrome.runtime.getURL("sidepanel.html"), "_blank");
       }
     } catch (e) {
-      // fallback terakhir
       window.open(chrome.runtime.getURL("sidepanel.html"), "_blank");
     }
   }
 
-  document.getElementById("openChecker").addEventListener("click", openSidePanel);
-  document.getElementById("openFull").addEventListener("click", () => {
-    window.open(chrome.runtime.getURL("sidepanel.html"), "_blank");
-  });
-
-  // Klik item tree → buka side panel juga (simple)
-  document.querySelectorAll(".tree .clickable").forEach(el => {
-    el.addEventListener("click", openSidePanel);
+  document.querySelectorAll(".mod.active").forEach(el => {
+    el.addEventListener("click", openChecker);
   });
 </script>
 </body>

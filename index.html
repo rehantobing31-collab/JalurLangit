@@ -6,108 +6,76 @@
 <title>BOLAPELANGI2 TOOLS</title>
 <style>
   :root{
-    --bg:#0b0f14; --bg2:#0e141c; --p:#121821; --p2:#171f2a;
-    --l:#273242; --l2:#314054;
-    --t:#eef2f7; --m:#93a0b2; --m2:#5c6a7d;
-    --a:#55d6a6; --a-soft:rgba(85,214,166,.10);
-    --amber:#fbbf24;
-    --shadow:0 8px 24px rgba(0,0,0,.4);
-    --r:14px;
+    --bg:#0b0f14;--bg2:#0e141c;--p:#121821;--p2:#171f2a;
+    --l:#273242;--l2:#314054;--t:#eef2f7;--m:#93a0b2;--m2:#5c6a7d;
+    --a:#55d6a6;--a-soft:rgba(85,214,166,.10);--amber:#fbbf24;
+    --red:#f87171;--shadow:0 8px 24px rgba(0,0,0,.4);--r:14px;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;min-height:100vh;
-    background:linear-gradient(180deg,var(--bg),var(--bg2));
-    color:var(--t);
-    font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:960px;margin:auto;padding:26px 20px 60px}
+  body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--t);font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1050px;margin:auto;padding:24px 20px 60px}
 
   /* HEADER */
-  .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+  .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:12px}
-  .logo{
-    width:44px;height:44px;border-radius:12px;
-    background:linear-gradient(135deg,#55d6a6,#3fb98a);
-    color:#06130e;font-weight:900;font-size:17px;
-    display:grid;place-items:center;
-    box-shadow:0 6px 18px rgba(85,214,166,.30);
-  }
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#55d6a6,#3fb98a);color:#06130e;font-weight:900;font-size:17px;display:grid;place-items:center;box-shadow:0 6px 18px rgba(85,214,166,.30)}
   .brand h1{margin:0;font-size:19px;font-weight:800;letter-spacing:.3px}
   .brand h1 span{color:var(--a)}
   .brand p{margin:2px 0 0;font-size:11.5px;color:var(--m)}
-  .badge{
-    font-size:11px;font-weight:700;letter-spacing:.5px;
-    padding:6px 11px;border-radius:999px;
-    color:var(--a);background:var(--a-soft);
-    border:1px solid rgba(85,214,166,.30);
-  }
+  .badge{font-size:11px;font-weight:700;letter-spacing:.5px;padding:6px 11px;border-radius:999px;color:var(--a);background:var(--a-soft);border:1px solid rgba(85,214,166,.30)}
 
   /* CARD */
-  .card{
-    background:var(--p);border:1px solid var(--l);
-    border-radius:var(--r);padding:20px;margin-bottom:14px;
-  }
+  .card{background:var(--p);border:1px solid var(--l);border-radius:var(--r);padding:20px;margin-bottom:14px}
   .card h2{margin:0 0 4px;font-size:14.5px;letter-spacing:.4px}
   .card .sub{font-size:11.5px;color:var(--m);margin-bottom:16px}
+  .muted{color:var(--m);font-size:12px}
 
-  /* LAUNCH BUTTONS */
-  .actions{display:flex;gap:10px;flex-wrap:wrap}
-  button{
-    border:0;border-radius:10px;cursor:pointer;
-    padding:11px 18px;font-weight:700;font-size:13px;letter-spacing:.3px;
-    background:var(--a);color:#06130e;
-    transition:transform .12s,box-shadow .12s,filter .12s;
-    box-shadow:0 6px 16px rgba(85,214,166,.22);
-  }
+  /* FORM */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  textarea{width:100%;min-height:150px;background:#0b1016;color:var(--t);border:1px solid var(--l);border-radius:10px;padding:12px;font:12px/1.55 Consolas,monospace;resize:vertical}
+  textarea:focus{outline:0;border-color:var(--a)}
+
+  /* BUTTONS */
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{border:0;border-radius:10px;cursor:pointer;padding:11px 18px;font-weight:700;font-size:13px;letter-spacing:.3px;background:var(--a);color:#06130e;transition:transform .12s,filter .12s;box-shadow:0 6px 16px rgba(85,214,166,.22)}
   button:hover{filter:brightness(1.08);transform:translateY(-1px)}
   button:active{transform:translateY(0)}
-  button.ghost{
-    background:transparent;color:var(--t);
-    border:1px solid var(--l2);box-shadow:none;
-  }
+  button.ghost{background:transparent;color:var(--t);border:1px solid var(--l2);box-shadow:none}
   button.ghost:hover{border-color:var(--a);color:var(--a);background:var(--a-soft)}
+  button.tab{background:#283342;color:#c8d3e6;padding:8px 12px;font-size:11.5px;box-shadow:none}
+  button.tab.active{background:var(--a);color:#06130e}
 
-  /* MODULE LIST */
+  /* TABS */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+
+  /* OUTPUT */
+  pre{white-space:pre-wrap;background:#090d12;border:1px solid var(--l);border-radius:10px;padding:14px;min-height:160px;font:12px/1.6 Consolas,monospace;margin:0}
+
+  /* STATS */
+  .stat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .stat div{background:var(--p2);border:1px solid var(--l);border-radius:10px;padding:10px}
+  .stat span{font-size:11px;color:var(--m);letter-spacing:.4px}
+  .stat b{display:block;font-size:16px;margin-top:4px;color:var(--a)}
+  @media(max-width:600px){.stat{grid-template-columns:1fr 1fr}}
+
+  /* ERROR */
+  .err{background:rgba(248,113,113,.10);border:1px solid rgba(248,113,113,.35);color:#fca5a5;padding:10px 12px;border-radius:9px;margin-top:12px;font-size:12.5px;display:none}
+  .err.show{display:block}
+
+  /* INFO MODULES */
   .mods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media(max-width:640px){.mods{grid-template-columns:1fr}}
-  .mod{
-    background:var(--p2);border:1px solid var(--l);
-    border-radius:12px;padding:14px 15px;
-    display:flex;gap:12px;align-items:flex-start;
-  }
-  .mod .ic{
-    width:34px;height:34px;border-radius:9px;
-    background:var(--a-soft);border:1px solid rgba(85,214,166,.28);
-    display:grid;place-items:center;font-size:16px;flex:0 0 auto;
-  }
+  .mod{background:var(--p2);border:1px solid var(--l);border-radius:12px;padding:13px 14px;display:flex;gap:12px;align-items:flex-start}
+  .mod .ic{width:34px;height:34px;border-radius:9px;background:var(--a-soft);border:1px solid rgba(85,214,166,.28);display:grid;place-items:center;font-size:16px;flex:0 0 auto}
   .mod.soon .ic{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25)}
   .mod b{font-size:13px;display:block;margin-bottom:2px}
   .mod small{font-size:11.5px;color:var(--m);line-height:1.45;display:block}
-  .mod .tag{
-    font-size:10px;font-weight:700;letter-spacing:.4px;
-    padding:2px 7px;border-radius:5px;margin-left:6px;
-  }
+  .tag{font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:5px;margin-left:6px}
   .tag.on{color:var(--a);background:var(--a-soft)}
   .tag.soon{color:var(--amber);background:rgba(251,191,36,.10)}
 
-  /* TREE */
-  .tree{
-    font:12.5px/1.85 'JetBrains Mono',Consolas,'Courier New',monospace;
-    background:#0a0e13;border:1px solid var(--l);border-radius:11px;
-    padding:15px 17px;color:#c8d3e6;overflow:auto;
-  }
-  .tree .r{color:var(--a);font-weight:700}
-  .tree .b{color:var(--m2)}
-  .tree .leaf{color:var(--m)}
-  .tree .on{color:var(--a)}
-  .tree .soon{color:var(--amber)}
-
   footer{margin-top:30px;text-align:center;color:var(--m2);font-size:11px}
-  footer a{color:var(--a);text-decoration:none}
-  footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -118,106 +86,278 @@
       <div class="logo">BP</div>
       <div>
         <h1><span>BOLAPELANGI2</span> TOOLS</h1>
-        <p>Ringan · cepat · siap dikembangkan</p>
+        <p>Data Checker · Final v7</p>
       </div>
     </div>
     <span class="badge">● READY</span>
   </div>
 
-  <!-- LAUNCHER -->
+  <!-- PARSER (UTAMA) -->
   <div class="card">
     <h2>Data Checker</h2>
-    <div class="sub">Parser DP · SCB A–E · WD · Last DP · Total DP tanggal terakhir · Status WIN/LOSE.</div>
+    <div class="sub">Paste Deposit History &amp; Withdraw History, lalu klik PROSES DATA.</div>
+
+    <div class="grid">
+      <div>
+        <div class="muted">DATA DP / Deposit History</div>
+        <textarea id="dp" placeholder="Paste seluruh tabel Deposit History di sini..."></textarea>
+      </div>
+      <div>
+        <div class="muted">DATA WD / Withdraw History</div>
+        <textarea id="wd" placeholder="Paste seluruh tabel Withdraw History di sini..."></textarea>
+      </div>
+    </div>
+
     <div class="actions">
-      <button id="openPanel">BUKA SIDE PANEL</button>
-      <button class="ghost" id="openTab">BUKA DI TAB BARU</button>
+      <button id="process">PROSES DATA</button>
+      <button class="ghost" id="clear">BERSIHKAN</button>
+    </div>
+    <div id="error" class="err"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="card">
+    <div class="stat" id="stats">
+      <div><span>DP</span><b>—</b></div>
+      <div><span>SCB</span><b>—</b></div>
+      <div><span>WD</span><b>—</b></div>
+      <div><span>STATUS</span><b>—</b></div>
     </div>
   </div>
 
-  <!-- MODULE GRID -->
+  <!-- OUTPUT -->
   <div class="card">
-    <h2>Modul</h2>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-t="hasil">HASIL</button>
+      <button class="tab" data-t="DP">DP</button>
+      <button class="tab" data-t="A">SCB A</button>
+      <button class="tab" data-t="B">SCB B</button>
+      <button class="tab" data-t="C">SCB C</button>
+      <button class="tab" data-t="D">SCB D</button>
+      <button class="tab" data-t="E">SCB E</button>
+      <button class="tab" data-t="WD">WD</button>
+    </div>
+    <pre id="out">Belum ada hasil.</pre>
+    <div class="actions"><button class="ghost" id="copy">COPY TAB INI</button></div>
+  </div>
+
+  <!-- MODUL LAIN -->
+  <div class="card">
+    <h2>Modul Lain</h2>
     <div class="sub">Slot siap diisi buat pengembangan berikutnya.</div>
     <div class="mods">
-      <div class="mod">
-        <div class="ic">📊</div>
-        <div>
-          <b>Data Checker <span class="tag on">ACTIVE</span></b>
-          <small>Parser DP, SCB A–E, WD, status member.</small>
-        </div>
-      </div>
       <div class="mod soon">
         <div class="ic">🧮</div>
-        <div>
-          <b>Bonus Calculator <span class="tag soon">SOON</span></b>
-          <small>Kalkulasi bonus otomatis dari SCB.</small>
-        </div>
+        <div><b>Bonus Calculator <span class="tag soon">SOON</span></b><small>Kalkulasi bonus otomatis dari SCB.</small></div>
       </div>
       <div class="mod soon">
         <div class="ic">📈</div>
-        <div>
-          <b>Report Harian <span class="tag soon">SOON</span></b>
-          <small>Rekap & export harian.</small>
-        </div>
+        <div><b>Report Harian <span class="tag soon">SOON</span></b><small>Rekap &amp; export harian.</small></div>
       </div>
       <div class="mod soon">
         <div class="ic">🧾</div>
-        <div>
-          <b>Member Lookup <span class="tag soon">SOON</span></b>
-          <small>Riwayat member by USER ID.</small>
-        </div>
+        <div><b>Member Lookup <span class="tag soon">SOON</span></b><small>Riwayat member by USER ID.</small></div>
+      </div>
+      <div class="mod soon">
+        <div class="ic">⚙️</div>
+        <div><b>Settings <span class="tag soon">SOON</span></b><small>Konfigurasi &amp; preferensi.</small></div>
       </div>
     </div>
   </div>
 
-  <!-- TREE -->
-  <div class="card">
-    <h2>Struktur</h2>
-    <div class="sub">Modular — tambah modul tanpa mengacak Data Checker.</div>
-    <div class="tree">
-      <div class="r">BOLAPELANGI2 TOOLS</div>
-      <div><span class="b">├─</span> <span class="r">Data Checker</span> <span class="on">● aktif</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">HASIL</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">DP</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">SCB A</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">SCB B</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">SCB C</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">SCB D</span></div>
-      <div><span class="b">│  ├─</span> <span class="leaf">SCB E</span></div>
-      <div><span class="b">│  └─</span> <span class="leaf">WD</span></div>
-      <div><span class="b">├─</span> <span class="leaf">Bonus Calculator</span> <span class="soon">○ soon</span></div>
-      <div><span class="b">├─</span> <span class="leaf">Report Harian</span> <span class="soon">○ soon</span></div>
-      <div><span class="b">└─</span> <span class="leaf">Member Lookup</span> <span class="soon">○ soon</span></div>
-    </div>
-  </div>
-
-  <footer>
-    BOLAPELANGI2 Data Checker · v7.0.0 ·
-    <a href="sidepanel.html">sidepanel.html</a>
-  </footer>
+  <footer>BOLAPELANGI2 Data Checker · v7.0.0</footer>
 </main>
 
 <script>
-  const isExt = typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id;
+/* ============================================================
+   PARSER — SAMA PERSIS dengan sidepanel.js
+   ============================================================ */
+const $=id=>document.getElementById(id);
 
-  async function openSidePanel(){
-    if (isExt && chrome.sidePanel?.open){
-      try {
-        const win = await chrome.windows.getCurrent();
-        await chrome.sidePanel.open({ windowId: win.id });
-        return;
-      } catch(e){ /* fallback */ }
-    }
-    // Fallback: buka sidepanel.html di tab baru (web mode / API tidak tersedia)
-    const url = isExt ? chrome.runtime.getURL("sidepanel.html") : "sidepanel.html";
-    window.open(url, "_blank");
+function clean(s){return String(s??"").replace(/\u00a0/g," ").replace(/\\@/g,"@").replace(/\*\*/g,"").replace(/<br\s*\/?>/gi," ").trim();}
+function cells(line){
+  if(!line.includes("|")) return [];
+  let c=line.split("|").map(clean);
+  while(c[0]==="")c.shift(); while(c.at(-1)==="")c.pop(); return c;
+}
+function dt(s){
+  const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?/i);
+  if(!m)return null;
+  let h=+m[4], ap=(m[7]||"").toUpperCase();
+  if(ap==="PM"&&h<12)h+=12;if(ap==="AM"&&h===12)h=0;
+  return new Date(+m[3],+m[2]-1,+m[1],h,+m[5],+(m[6]||0));
+}
+function fmt(n){return Math.round(n).toLocaleString("en-US")}
+function displayed(n){return Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function num(s){return /^[-+]?\d[\d.,]*$/.test(clean(s));}
+function depAmt(s){
+  let x=clean(s).replace(/[^\d-]/g,"");
+  if(!x || x === "-") return 0;
+  return Number(x) || 0;
+}
+function wdAmt(s){return Number(clean(s).replace(/,/g,""))||0;}
+
+function parseDP(text){
+  const out=[];
+  const lines=text.split(/\r?\n/);
+  for(const raw of lines){
+    const c=cells(raw); if(c.length<6)continue;
+    const ui=c.findIndex(x=>/^BFJ@/i.test(x)); if(ui<0)continue;
+    const di=c.findIndex((x,i)=>i>ui&&!!dt(x)); if(di<0)continue;
+    const ai=di-1; if(ai<0||!num(c[ai]))continue;
+    const toBank=c[ai-1]||"";
+    const amount=depAmt(c[ai]); const date=dt(c[di]); if(!amount||!date)continue;
+    const scb=(toBank.match(/\bSCB\s*([A-E])\b/i)||[])[1]||null;
+    out.push({user:c[ui],toBank,amount,date,dateText:c[di],category:scb||"DP",raw});
   }
+  if(out.length)return dedupeDP(out);
 
-  document.getElementById("openPanel").addEventListener("click", openSidePanel);
-  document.getElementById("openTab").addEventListener("click", () => {
-    const url = isExt ? chrome.runtime.getURL("sidepanel.html") : "sidepanel.html";
-    window.open(url, "_blank");
-  });
+  const re=/BFJ@[\w.-]+/gi, ms=[...text.matchAll(re)];
+  for(let i=0;i<ms.length;i++){
+    const block=text.slice(ms[i].index,ms[i+1]?.index??text.length);
+    const user=ms[i][0];
+    const dates=[...block.matchAll(/(\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?)/gi)];
+    if(!dates.length)continue;
+    const dm=dates[0], date=dt(dm[1]); if(!date)continue;
+    const before=block.slice(0,dm.index);
+    const mm=[...before.matchAll(/(-?\d{1,3}(?:[.,]\d{3})+|-?\d+(?:\.\d+)?)\s*$/g)];
+    if(!mm.length)continue;
+    const amount=depAmt(mm.at(-1)[1]); if(!amount)continue;
+    const ctx=block.slice(0,dm.index+dm[0].length+100);
+    const sm=ctx.match(/\bSCB\s*([A-E])\b/i);
+    out.push({user,toBank:sm?sm[0]:"",amount,date,dateText:dm[1],category:sm?sm[1]:"DP",raw:block});
+  }
+  return dedupeDP(out);
+}
+function dedupeDP(a){
+  const seen=new Set();return a.filter(x=>{const k=x.user+"|"+x.amount+"|"+x.date.getTime()+"|"+x.category;if(seen.has(k))return false;seen.add(k);return true;});
+}
+
+function parseWD(text){
+  const out=[];
+  for(const raw of text.split(/\r?\n/)){
+    const c=cells(raw); if(c.length<9)continue;
+    const ui=c.findIndex(x=>/^BFJ@/i.test(x));if(ui<0)continue;
+    const di=c.findIndex((x,i)=>i>ui&&!!dt(x));if(di<0)continue;
+    const wi=di+1;if(wi+2>=c.length||!num(c[wi])||!num(c[wi+1])||!num(c[wi+2]))continue;
+    const date=dt(c[di]), w=wdAmt(c[wi]), old=wdAmt(c[wi+1]), bal=wdAmt(c[wi+2]);if(!date||!w)continue;
+    out.push({user:c[ui],wdRaw:w,oldRaw:old,newRaw:bal,date,dateText:c[di],raw});
+  }
+  if(out.length)return dedupeWD(out);
+
+  const re=/BFJ@[\w.-]+/gi, ms=[...text.matchAll(re)];
+  for(let i=0;i<ms.length;i++){
+    const block=text.slice(ms[i].index,ms[i+1]?.index??text.length);
+    if(!/(?:Agent|Member)\s+Withdraw/i.test(block))continue;
+    const dm=block.match(/(\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?)/i);
+    if(!dm)continue; const date=dt(dm[1]); if(!date)continue;
+    const after=block.slice((dm.index??0)+dm[0].length);
+    const ns=[...after.matchAll(/(?:^|\s)(-?\d{1,3}(?:,\d{3})*(?:\.\d+)?|-?\d+(?:\.\d+)?)(?=\s|$)/g)].map(m=>m[1]);
+    if(ns.length<3)continue;
+    out.push({user:ms[i][0],wdRaw:wdAmt(ns[0]),oldRaw:wdAmt(ns[1]),newRaw:wdAmt(ns[2]),date,dateText:dm[1],raw:block});
+  }
+  return dedupeWD(out);
+}
+function dedupeWD(a){
+  const seen=new Set();return a.filter(x=>{const k=x.user+"|"+x.wdRaw+"|"+x.date.getTime();if(seen.has(k))return false;seen.add(k);return true;});
+}
+function categoryTotal(rows,cat){return rows.filter(x=>x.category===cat).reduce((s,x)=>s+x.amount,0);}
+
+/* ============================================================
+   PROCESS
+   ============================================================ */
+let DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]},cur="hasil";
+
+function processData(){
+  $("error").classList.remove("show");
+  const dp=parseDP($("dp").value), wd=parseWD($("wd").value);
+  if(!dp.length)throw Error("DP belum terbaca. Paste seluruh Deposit History.");
+  if(!wd.length)throw Error("WD belum terbaca. Paste seluruh Withdraw History.");
+
+  const user=dp[0].user;
+  const d=dp.filter(x=>x.user===user), w=wd.filter(x=>x.user===user);
+  if(!w.length)throw Error("WD untuk USER ID "+user+" belum terbaca.");
+
+  const ordinary=d.filter(x=>x.category==="DP");
+  const A=d.filter(x=>x.category==="A"),B=d.filter(x=>x.category==="B"),C=d.filter(x=>x.category==="C"),D=d.filter(x=>x.category==="D"),E=d.filter(x=>x.category==="E");
+
+  const totalDP=ordinary.reduce((s,x)=>s+x.amount,0);
+  const bonus=categoryTotal(d,"A")+categoryTotal(d,"B")+categoryTotal(d,"C")+categoryTotal(d,"D")+categoryTotal(d,"E");
+
+  const lastDP=ordinary.slice().sort((a,b)=>b.date-a.date)[0];
+  if(!lastDP)throw Error("Tidak ditemukan DP biasa.");
+
+  const y=lastDP.date.getFullYear(),m=lastDP.date.getMonth(),day=lastDP.date.getDate();
+  const sameLastDay=d.filter(x=>x.date.getFullYear()===y&&x.date.getMonth()===m&&x.date.getDate()===day);
+  const totalDPDate=sameLastDay.reduce((s,x)=>s+x.amount,0);
+
+  const latestWD=w.slice().sort((a,b)=>b.date-a.date)[0];
+  const totalWD=w.reduce((s,x)=>s+x.wdRaw*1000,0);
+
+  const net=totalDP-totalWD-bonus;
+  const status=net>0?"WIN":net<0?"LOSE":"BALANCE";
+
+  // Siapkan output
+  DATA.hasil=`BOLAPELANGI2
+
+USER ID : ${user}
+WD : ${displayed(latestWD.wdRaw)}
+SISA DANA AKUN : ${displayed(latestWD.newRaw)}
+
+LAST DP : ${fmt(lastDP.amount)}
+${lastDP.dateText}
+TOTAL DP : ${fmt(totalDPDate)}
+
+STATUS MEMBER
+DP : ${fmt(totalDP)}
+WD : ${fmt(totalWD)}
+BONUS : ${fmt(bonus)}
+DP-WD-BNS : ${fmt(net)}
+STATUS KITA : ${status}
+
+GAMES :
+MEMBER REGISTER :`;
+
+  const pack=(rows,label)=>{
+    if(!rows.length)return "Tidak ada data "+label+".";
+    const sorted=rows.slice().sort((a,b)=>a.date-b.date);
+    let s=`TOTAL ${label}: ${fmt(sorted.reduce((a,x)=>a+x.amount,0))}\n`;
+    sorted.forEach((x,i)=>s+=`${i+1}. ${fmt(x.amount)} — ${x.dateText}\n`);
+    return s.trim();
+  };
+  DATA.DP=pack(ordinary,"DP").split("\n");
+  DATA.A=pack(A,"SCB A").split("\n");
+  DATA.B=pack(B,"SCB B").split("\n");
+  DATA.C=pack(C,"SCB C").split("\n");
+  DATA.D=pack(D,"SCB D").split("\n");
+  DATA.E=pack(E,"SCB E").split("\n");
+  DATA.WD=w.slice().sort((a,b)=>a.date-b.date).map((x,i)=>`${i+1}. WD ${displayed(x.wdRaw)} → ${fmt(x.wdRaw*1000)}`);
+
+  // Stats
+  $("stats").innerHTML=`
+    <div><span>DP BIASA</span><b>${ordinary.length}</b></div>
+    <div><span>SCB</span><b>${A.length+B.length+C.length+D.length+E.length}</b></div>
+    <div><span>WD</span><b>${w.length}</b></div>
+    <div><span>STATUS</span><b>${status}</b></div>`;
+
+  show("hasil");
+}
+
+function show(t){
+  cur=t;
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.t===t));
+  $("out").textContent=t==="hasil"?DATA.hasil:(DATA[t]||[]).join("\n")||"Tidak ada data.";
+}
+
+/* ============================================================
+   EVENT BINDING
+   ============================================================ */
+$("process").onclick=()=>{try{processData()}catch(e){$("error").textContent=e.message;$("error").classList.add("show")}};
+$("clear").onclick=()=>{$("dp").value="";$("wd").value="";$("out").textContent="Belum ada hasil.";$("error").classList.remove("show");
+  DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
+  $("stats").innerHTML=`<div><span>DP</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>WD</span><b>—</b></div><div><span>STATUS</span><b>—</b></div>`;};
+$("copy").onclick=()=>{const t=cur==="hasil"?DATA.hasil:(DATA[cur]||[]).join("\n");navigator.clipboard.writeText(t).then(()=>{const b=$("copy");b.textContent="TERCOPY!";setTimeout(()=>b.textContent="COPY TAB INI",900)})};
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>show(b.dataset.t));
 </script>
 </body>
 </html>

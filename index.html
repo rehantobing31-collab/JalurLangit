@@ -235,15 +235,7 @@
       <div class="sub">Paste data odds (Add All / Add favourite) lalu klik SORTIR SEKARANG. Jam otomatis dimundurkan 1 jam, label peringkat dibersihkan, duplikat digabung.</div>
 
       <label>1. TEMPEL DATA ODDS DI SINI</label>
-      <textarea id="sortirInput" placeholder="Tempelkan data odds (Add All / Add favourite) di sini...
-
-Contoh:
-Add AllUEFA NATIONS LEAGUE A
-Add favourite
-Hide    03/10 23:59     
-Croatia 
-England 
-3/4 : 0 -1.19   1.04    ..."></textarea>
+      <textarea id="sortirInput" placeholder="Tempelkan data odds (Add All / Add favourite) di sini..."></textarea>
 
       <div class="actions">
         <button id="sortirProcess">SORTIR SEKARANG</button>
@@ -496,8 +488,6 @@ function show(t){
 /* ============================================================
    NDP — PARSER v3 (handle multi-line record)
    ============================================================ */
-
-// Flatten newline di dalam tanda kutip (format markdown lama)
 function fixMultilineQuotes(text){
   let out="",inQ=false;
   for(let i=0;i<text.length;i++){
@@ -508,15 +498,11 @@ function fixMultilineQuotes(text){
   }
   return out;
 }
-
-// Deteksi awal record baru: nomor + BFJ@ (boleh ada teks/tanggal di tengah)
 function isRecordStart(line){
   if(/^\s*[\d.,]+\s+.*BFJ@[\w.@\-]+/i.test(line)) return true;
   if(/^\s*BFJ@[\w.@\-]+/i.test(line)) return true;
   return false;
 }
-
-// Group baris-baris jadi record (1 record bisa multi-line)
 function groupIntoRecords(text){
   const cleaned=fixMultilineQuotes(text);
   const lines=cleaned.split(/\r?\n/);
@@ -534,26 +520,20 @@ function groupIntoRecords(text){
   if(current!==null)records.push(current);
   return records;
 }
-
-// Parse 1 record → cari tanggal dulu, lalu cari amount SEBELUM tanggal
 function parseNDPRecord(record){
   const um=record.match(/BFJ@[\w.@\-]+/i);
   if(!um)return null;
   const user=um[0];
-
   const scb=record.match(/\bSCB\s*([A-E])\b/i);
   const category=scb?scb[1].toUpperCase():"DP";
-
   const dm=record.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*(?:AM|PM)?)/i);
   let date=null,dateText="";
   let beforeDate=record;
   if(dm){
     dateText=dm[1].trim();
     date=dt(dateText)||dtOnly(dateText);
-    beforeDate=record.slice(0,dm.index); // potong semua setelah tanggal
+    beforeDate=record.slice(0,dm.index);
   }
-
-  // Scan angka di beforeDate dari BELAKANG, skip yang >9 digit (rekening/ID)
   let amount=0;
   const matches=[...beforeDate.matchAll(/\d[\d.,]*/g)];
   for(let i=matches.length-1;i>=0;i--){
@@ -564,15 +544,11 @@ function parseNDPRecord(record){
     const n=Number(digits);
     if(n>=1000&&n<100000000){amount=n;break;}
   }
-
   return {user,amount,date,dateText,category};
 }
-
 function parseNDPRecords(text){
   return groupIntoRecords(text).map(parseNDPRecord).filter(Boolean);
 }
-
-// NEWMEMBER: unique per user, ambil paling baru
 function parseNDPNewMembers(text){
   const list=parseNDPRecords(text);
   const map=new Map();
@@ -583,12 +559,9 @@ function parseNDPNewMembers(text){
   }
   return [...map.values()];
 }
-
-// DP: filter yang category=DP dan ada amount
 function parseNDPDP(text){
   return parseNDPRecords(text).filter(r=>r.category==="DP"&&r.amount>0);
 }
-
 function processNDP(){
   $("ndpError").classList.remove("show");
   $("ndpInfo").style.display="none";
@@ -609,14 +582,12 @@ function processNDP(){
     const tanpaDP=sorted.length-punyaDP;
     const totalDP=sorted.reduce((s,m)=>s+(dpMap.get(m.user)||0),0);
 
-    // ===== HEADER SUMMARY =====
     const header=
       `═══════════════════════════════════\n`+
       `  TOTAL MEMBER BARU : ${sorted.length}\n`+
       `  TOTAL DEPOSIT     : ${fmt(totalDP)}\n`+
       `═══════════════════════════════════\n\n`;
 
-    // ===== LIST =====
     const lines=sorted.map((m,i)=>{
       const total=dpMap.get(m.user)||0;
       return `${i+1}\t${m.dateText||"—"}\t${m.user}\t${fmt(total)}`;
@@ -641,10 +612,8 @@ function processNDP(){
 }
 
 /* ============================================================
-   SORTIR JADWAL & PREDIKSI — LOGIC
+   SORTIR JADWAL & PREDIKSI
    ============================================================ */
-
-/* ---------- UTIL SORTIR ---------- */
 const pad2=n=>String(n).padStart(2,'0');
 const DT_REGEX=/(\d{2}[\/\-]\d{2})\s+(\d{1,2}:\d{2})/;
 
@@ -668,12 +637,7 @@ function findEarliestDate(text){
 }
 
 function cleanTeam(name){
-  let s=name
-    .replace(/\[\s*\d+\s*\]/g,'')       // buang [14] [7] [1]
-    .replace(/\s{2,}/g,' ')
-    .trim();
-  // sisakan [n] dan [w] kalau ada
-  return s;
+  return name.replace(/\[\s*\d+\s*\]/g,'').replace(/\s{2,}/g,' ').trim();
 }
 
 function isHdpToken(s){
@@ -684,14 +648,18 @@ function cleanHdp(s){
   return s.replace(/\s+/g,' ').trim();
 }
 
+// FIX: handle mixed number "1 3/4" → 1.75, "2 1/2" → 2.5
 function toGoals(s){
-  const t=String(s).replace(',','.').trim();
+  let t=String(s).replace(',','.').trim();
   if(!t)return 0;
+  const mixed=t.match(/^(\d+)\s+(\d+)\/(\d+)$/);
+  if(mixed) return +mixed[1] + (+mixed[2])/(+mixed[3]);
+  const frac=t.match(/^(\d+)\/(\d+)$/);
+  if(frac) return (+frac[1])/(+frac[2]);
   const n=parseFloat(t);
   return isNaN(n)?0:n;
 }
 
-/* ---------- PARSER ---------- */
 function parseSortirMatches(text){
   const earliestDate=findEarliestDate(text);
   const lines=text.split(/\r?\n/);
@@ -707,7 +675,6 @@ function parseSortirMatches(text){
     const line=raw.trim();
     if(!line)continue;
 
-    // Nama Liga
     const mAll=line.match(/^Add\s+All\s*(.+)$/i);
     if(mAll){
       league=mAll[1].trim();
@@ -716,7 +683,6 @@ function parseSortirMatches(text){
     }
     if(/^Add\s+favou?rite/i.test(line))continue;
 
-    // LIVE detection
     const tokens=line.split(/[\s\t]+/);
     const hasLive=tokens.some(t=>t.toUpperCase()==='LIVE');
     if(hasLive){
@@ -740,7 +706,6 @@ function parseSortirMatches(text){
       expectingLiveTime=false;
     }
 
-    // Tanggal & Jam
     const dtm=line.match(DT_REGEX);
     if(dtm){
       pendingDT=shiftBackOneHour(dtm[1].replace(/-/g,'/'),dtm[2]);
@@ -750,7 +715,6 @@ function parseSortirMatches(text){
 
     if(/^1X2$/i.test(line))continue;
 
-    // Baris odds (tab)
     if(line.includes('\t')){
       if(awaitingOdds&&cur&&!cur.hdp){
         const first=line.split('\t')[0].trim();
@@ -760,7 +724,6 @@ function parseSortirMatches(text){
       continue;
     }
 
-    // Nama Tim
     if(awaitingOdds)continue;
     teams.push(cleanTeam(line));
     if(teams.length===2){
@@ -783,7 +746,7 @@ function dedupeSortir(matches){
   });
 }
 
-/* ---------- PREDIKSI SKOR ---------- */
+// FIX: logika dibalik — left > right = HOME favorit
 function predictScore(hdp){
   if(!hdp)return '1-1';
   const parts=hdp.split(':');
@@ -791,15 +754,15 @@ function predictScore(hdp){
   const left=toGoals(parts[0]);
   const right=toGoals(parts[1]);
 
-  if(right>left){                 // HOME favorit
-    const h=right-left;
+  if(left>right){                 // HOME favorit
+    const h=left-right;
     if(h<=0.75)return '2-1';
     if(h<=1)   return '2-0';
     if(h<=1.5) return '3-1';
     return '3-0';
   }
-  if(left>right){                 // AWAY favorit
-    const h=left-right;
+  if(right>left){                 // AWAY favorit
+    const h=right-left;
     if(h<=0.75)return '1-2';
     if(h<=1)   return '0-2';
     if(h<=1.5) return '1-3';
@@ -808,7 +771,6 @@ function predictScore(hdp){
   return '1-1';
 }
 
-/* ---------- GROUP & OUTPUT ---------- */
 function timeKeySortir(dt){
   const m=String(dt).match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
   if(!m)return 0;
@@ -840,7 +802,6 @@ function buildOutputSortir(map,withPrediction){
   return blocks.join('\n\n');
 }
 
-/* ---------- MAIN SORTIR ---------- */
 function runSortir(){
   const text=$("sortirInput").value;
   const matches=dedupeSortir(parseSortirMatches(text));
@@ -855,8 +816,8 @@ function runSortir(){
     const p=m.hdp.split(':');
     if(p.length!==2)return;
     const l=toGoals(p[0]),r=toGoals(p[1]);
-    if(r>l)homeFav++;
-    else if(l>r)awayFav++;
+    if(l>r)homeFav++;
+    else if(r>l)awayFav++;
     else even++;
   });
 
@@ -864,9 +825,8 @@ function runSortir(){
     <div><span>TOTAL LIGA</span><b>${map.size}</b></div>
     <div><span>TOTAL PERTANDINGAN</span><b>${matches.length}</b></div>
     <div><span>FAVORIT HOME</span><b>${homeFav}</b></div>
-    <div><span>FAVORIT AWAY</span><b>${awayFav}</b></div>`;
-  $("sortirStats").insertAdjacentHTML('beforeend',
-    `<div><span>PASARAN SEIMBANG</span><b>${even}</b></div>`);
+    <div><span>FAVORIT AWAY</span><b>${awayFav}</b></div>
+    <div><span>PASARAN SEIMBANG</span><b>${even}</b></div>`;
 
   if(!matches.length)alert("Belum ada data yang bisa disortir pren!");
 }
@@ -883,7 +843,6 @@ function resetSortir(){
     <div><span>PASARAN SEIMBANG</span><b>—</b></div>`;
 }
 
-/* ---------- TAB SORTIR ---------- */
 document.querySelectorAll("[data-sortir]").forEach(b=>{
   b.onclick=()=>{
     document.querySelectorAll("[data-sortir]").forEach(x=>x.classList.remove("active"));
@@ -894,7 +853,6 @@ document.querySelectorAll("[data-sortir]").forEach(b=>{
   };
 });
 
-/* ---------- COPY SORTIR ---------- */
 $("sortirCopyMurni").onclick=()=>{
   navigator.clipboard.writeText($("sortirOutMurni").textContent).then(()=>{
     const b=$("sortirCopyMurni");b.textContent="TERCOPY!";
@@ -908,7 +866,6 @@ $("sortirCopyPrediksi").onclick=()=>{
   });
 };
 
-/* ---------- EVENTS SORTIR ---------- */
 $("sortirProcess").onclick=runSortir;
 $("sortirReset").onclick=resetSortir;
 
@@ -942,7 +899,6 @@ $("reportName").addEventListener("input",()=>{
   if(cur==="hasil")$("out").textContent=DATA.hasil;
 });
 
-/* ===== NDP events ===== */
 $("ndpProcess").onclick=processNDP;
 
 $("ndpClear").onclick=()=>{

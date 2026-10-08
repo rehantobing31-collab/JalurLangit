@@ -456,9 +456,11 @@ function fixMultilineQuotes(text){
   return out;
 }
 
-// Deteksi awal record baru: nomor + whitespace + BFJ@xxx
+// Deteksi awal record baru: nomor + BFJ@ (boleh ada teks/tanggal di tengah)
 function isRecordStart(line){
-  return /^\s*[\d.,]+\s+BFJ@/i.test(line) || /^\s*BFJ@/i.test(line);
+  if(/^\s*[\d.,]+\s+.*BFJ@[\w.@\-]+/i.test(line)) return true;
+  if(/^\s*BFJ@[\w.@\-]+/i.test(line)) return true;
+  return false;
 }
 
 // Group baris-baris jadi record (1 record bisa multi-line)
@@ -480,34 +482,32 @@ function groupIntoRecords(text){
   return records;
 }
 
-// Parse 1 record → {user, amount, date, dateText, category}
+// Parse 1 record → cari tanggal dulu, lalu cari amount SEBELUM tanggal
 function parseNDPRecord(record){
   const um=record.match(/BFJ@[\w.@\-]+/i);
   if(!um)return null;
   const user=um[0];
-  const userIdx=um.index;
 
-  // Category: cek SCB A-E
   const scb=record.match(/\bSCB\s*([A-E])\b/i);
   const category=scb?scb[1].toUpperCase():"DP";
 
-  // Tanggal
   const dm=record.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*(?:AM|PM)?)/i);
   let date=null,dateText="";
+  let beforeDate=record;
   if(dm){
     dateText=dm[1].trim();
     date=dt(dateText)||dtOnly(dateText);
+    beforeDate=record.slice(0,dm.index); // potong semua setelah tanggal
   }
 
-  // Amount: cari angka ≥ 1000 setelah user, digit ≤ 9, bukan bagian tanggal
-  const re=/\d[\d.,]*/g;
-  let amount=0,m;
-  while((m=re.exec(record))!==null){
-    if(m.index<=userIdx)continue;
-    const nextCh=record[m.index+m[0].length];
-    if(nextCh==="/"||nextCh===":")continue;
-    const digits=m[0].replace(/[^\d]/g,"");
-    if(!digits||digits.length>9)continue;
+  // Scan angka di beforeDate dari BELAKANG, skip yang >9 digit (rekening/ID)
+  let amount=0;
+  const matches=[...beforeDate.matchAll(/\d[\d.,]*/g)];
+  for(let i=matches.length-1;i>=0;i--){
+    const s=matches[i][0];
+    const digits=s.replace(/[^\d]/g,"");
+    if(!digits)continue;
+    if(digits.length>9)continue;
     const n=Number(digits);
     if(n>=1000&&n<100000000){amount=n;break;}
   }
@@ -515,7 +515,6 @@ function parseNDPRecord(record){
   return {user,amount,date,dateText,category};
 }
 
-// Parse semua records
 function parseNDPRecords(text){
   return groupIntoRecords(text).map(parseNDPRecord).filter(Boolean);
 }
@@ -526,11 +525,8 @@ function parseNDPNewMembers(text){
   const map=new Map();
   for(const r of list){
     const ex=map.get(r.user);
-    if(!ex){
-      map.set(r.user,r);
-    } else if(r.date&&(!ex.date||r.date>ex.date)){
-      map.set(r.user,r);
-    }
+    if(!ex) map.set(r.user,r);
+    else if(r.date&&(!ex.date||r.date>ex.date)) map.set(r.user,r);
   }
   return [...map.values()];
 }
@@ -549,13 +545,11 @@ function processNDP(){
     if(!newMembers.length)throw Error("NEWMEMBER belum terbaca. Paste data member baru dulu.");
     if(!dpRows.length)throw Error("DP belum terbaca. Paste data Deposit History dulu.");
 
-    // Agregat DP per user
     const dpMap=new Map();
     for(const d of dpRows){
       dpMap.set(d.user,(dpMap.get(d.user)||0)+d.amount);
     }
 
-    // Sort: terbaru di atas
     const sorted=newMembers.slice().sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
 
     const lines=sorted.map((m,i)=>{

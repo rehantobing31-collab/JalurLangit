@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JALUR LANGIT</title>
+<link rel="icon" type="image/png" href="logo.png">
 <style>
   :root{--bg:#0b0f14;--bg2:#0e141c;--p:#121821;--p2:#171f2a;--l:#273242;--l2:#314054;--t:#eef2f7;--m:#93a0b2;--m2:#5c6a7d;--a:#55d6a6;--a2:#5b9dff;--a-soft:rgba(85,214,166,.10);--amber:#fbbf24;--red:#f87171;--purple:#a78bfa}
   *{box-sizing:border-box}
@@ -11,9 +12,9 @@
   .wrap{max-width:1050px;margin:auto;padding:24px 20px 60px}
   .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#55d6a6,#5b9dff);color:#06130e;font-weight:900;font-size:20px;display:grid;place-items:center;box-shadow:0 0 22px rgba(85,214,166,.45);position:relative;overflow:hidden}
-  .logo::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);animation:shine 3.2s ease-in-out infinite}
-  @keyframes shine{0%{transform:translateX(-120%)}60%{transform:translateX(120%)}100%{transform:translateX(120%)}}
+  .logo{width:48px;height:48px;display:grid;place-items:center;filter:drop-shadow(0 0 14px rgba(85,214,166,.35));transition:filter .2s}
+  .logo:hover{filter:drop-shadow(0 0 18px rgba(85,214,166,.55))}
+  .logo img{width:100%;height:100%;display:block;border-radius:14px}
   .brand h1{margin:0;font-size:22px;font-weight:900;letter-spacing:1.5px;background:linear-gradient(90deg,#55d6a6,#7dd3fc,#5b9dff);-webkit-background-clip:text;background-clip:text;color:transparent}
   .brand p{margin:3px 0 0;font-size:11.5px;color:var(--m);letter-spacing:1.2px;text-transform:uppercase}
   .badge{font-size:11px;font-weight:700;letter-spacing:.8px;padding:7px 13px;border-radius:999px;color:var(--a);background:var(--a-soft);border:1px solid rgba(85,214,166,.35);animation:pulse 2.4s ease-in-out infinite}
@@ -84,7 +85,6 @@
   .back-btn{background:transparent;color:var(--a);border:1px solid rgba(85,214,166,.35);padding:9px 15px;font-size:12px;border-radius:9px;box-shadow:none;letter-spacing:.6px}
   .back-btn:hover{background:var(--a-soft);transform:none}
   .back-btn::before{content:"← ";font-weight:900}
-  /* section header di output */
   .out-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
   .out-head h3{margin:0;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--a);font-weight:800}
   .out-head .pill{font-size:10px;letter-spacing:1px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--a-soft);color:var(--a);border:1px solid rgba(85,214,166,.3)}
@@ -96,7 +96,7 @@
 
   <div class="top">
     <div class="brand">
-      <div class="logo">JL</div>
+      <div class="logo"><img src="logo.png" alt="JL"></div>
       <div><h1>JALUR LANGIT</h1><p>Data Checker · Final v7</p></div>
     </div>
     <span class="badge">● READY</span>
@@ -657,7 +657,6 @@ function cleanHdp(s){
   return s.replace(/\s+/g,' ').trim();
 }
 
-// Mixed number: "1 3/4" → 1.75, "2 1/2" → 2.5, "3/4" → 0.75
 function toGoals(s){
   let t=String(s).replace(',','.').trim();
   if(!t)return 0;
@@ -755,8 +754,6 @@ function dedupeSortir(matches){
   });
 }
 
-// left = HOME handicap, right = AWAY handicap
-// left > right = HOME favorit
 function predictScore(hdp){
   if(!hdp)return '1-1';
   const parts=hdp.split(':');
@@ -798,7 +795,6 @@ function groupByLeagueSortir(matches){
   return map;
 }
 
-// MURNI: "07/10 01:45 Croatia VS Spain 1 3/4 : 0"
 function buildMurni(map){
   const blocks=[];
   for(const [league,arr] of map.entries()){
@@ -812,7 +808,6 @@ function buildMurni(map){
   return blocks.join('\n\n');
 }
 
-// PREDIKSI: "07/10 01:45 Croatia VS Spain 3-0"
 function buildPrediksi(map){
   const blocks=[];
   for(const [league,arr] of map.entries()){

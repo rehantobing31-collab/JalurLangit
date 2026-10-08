@@ -9,7 +9,6 @@
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--t);font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
   .wrap{max-width:1050px;margin:auto;padding:24px 20px 60px}
-
   .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:14px}
   .logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#55d6a6,#5b9dff);color:#06130e;font-weight:900;font-size:20px;display:grid;place-items:center;box-shadow:0 0 22px rgba(85,214,166,.45);position:relative;overflow:hidden}
@@ -19,7 +18,6 @@
   .brand p{margin:3px 0 0;font-size:11.5px;color:var(--m);letter-spacing:1.2px;text-transform:uppercase}
   .badge{font-size:11px;font-weight:700;letter-spacing:.8px;padding:7px 13px;border-radius:999px;color:var(--a);background:var(--a-soft);border:1px solid rgba(85,214,166,.35);animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 14px rgba(85,214,166,.18)}50%{box-shadow:0 0 22px rgba(85,214,166,.38)}}
-
   .card{background:var(--p);border:1px solid var(--l);border-radius:14px;padding:20px;margin-bottom:14px}
   .card h2{margin:0 0 4px;font-size:14.5px}
   .card .sub{font-size:11.5px;color:var(--m);margin-bottom:16px}
@@ -45,6 +43,7 @@
   @media(max-width:600px){.stat{grid-template-columns:1fr 1fr}}
   .err{background:rgba(248,113,113,.10);border:1px solid rgba(248,113,113,.35);color:#fca5a5;padding:10px 12px;border-radius:9px;margin-top:12px;font-size:12.5px;display:none}
   .err.show{display:block}
+  .info{background:rgba(91,157,255,.08);border:1px solid rgba(91,157,255,.28);color:#9fc2ff;padding:9px 12px;border-radius:9px;margin-top:10px;font-size:11.5px;font-family:Consolas,monospace}
   .tbl{width:100%;border-collapse:collapse;background:#090d12;border:1px solid var(--l);border-radius:10px;overflow:hidden;font:12.5px/1.6 Consolas,monospace}
   .tbl td{padding:11px 14px;border-bottom:1px solid var(--l)}
   .tbl tr:last-child td{border-bottom:0}
@@ -53,20 +52,16 @@
   .tbl tr.hi td{background:rgba(85,214,166,.06)}
   .tbl tr.hi td:last-child{color:var(--a);font-size:14px}
   .tbl tr.big td:last-child{color:var(--a2);font-size:14px}
-
   .screen{display:none}
   .screen.active{display:block}
-
   .hero{text-align:center;padding:44px 20px 36px;position:relative;overflow:hidden;border-radius:18px;background:radial-gradient(800px 400px at 50% -20%,rgba(85,214,166,.12),transparent 60%),radial-gradient(600px 400px at 80% 20%,rgba(91,157,255,.08),transparent 55%),linear-gradient(180deg,var(--p),var(--bg2));border:1px solid var(--l);margin-bottom:22px}
   .hero .emoji{font-size:52px;margin-bottom:14px;display:inline-block;filter:drop-shadow(0 0 20px rgba(85,214,166,.5))}
   .hero h1{margin:0 0 10px;font-size:32px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#55d6a6,#7dd3fc,#5b9dff);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p{margin:0;font-size:13.5px;color:var(--m);letter-spacing:.5px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7}
   .hero .tagline{display:inline-block;margin-top:16px;font-size:11px;letter-spacing:2.5px;color:var(--a);text-transform:uppercase;font-weight:800;padding:6px 14px;border-radius:999px;background:var(--a-soft);border:1px solid rgba(85,214,166,.3)}
   @media(max-width:520px){.hero h1{font-size:24px}.hero .emoji{font-size:40px}}
-
   .sec-title{display:flex;align-items:center;gap:10px;margin:22px 0 14px;font-size:11.5px;letter-spacing:1.8px;color:var(--m);text-transform:uppercase;font-weight:800}
   .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--l),transparent)}
-
   .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   @media(max-width:640px){.tools{grid-template-columns:1fr}}
   .tool{background:linear-gradient(180deg,var(--p2),var(--p));border:1px solid var(--l);border-radius:14px;padding:22px 20px 18px;cursor:pointer;position:relative;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s}
@@ -86,7 +81,6 @@
   .tool.disabled .go{color:var(--m2)}
   .tool .go::after{content:"→";transition:transform .2s}
   .tool:hover .go::after{transform:translateX(4px)}
-
   .back-btn{background:transparent;color:var(--a);border:1px solid rgba(85,214,166,.35);padding:9px 15px;font-size:12px;border-radius:9px;box-shadow:none;letter-spacing:.6px}
   .back-btn:hover{background:var(--a-soft);transform:none}
   .back-btn::before{content:"← ";font-weight:900}
@@ -103,67 +97,53 @@
     <span class="badge">● READY</span>
   </div>
 
-  <!-- ================================================= -->
-  <!-- HOME                                              -->
-  <!-- ================================================= -->
+  <!-- HOME -->
   <section id="screenHome" class="screen active">
-
     <div class="hero">
       <div class="emoji">🌌</div>
       <h1>SELAMAT DATANG</h1>
       <p>Selamat datang di <b style="color:#55d6a6">Jalur Langit</b>. Pilih tools di bawah untuk mulai bekerja. Semua perhitungan berjalan lokal di browser kamu — cepat, ringan, tanpa kirim data ke server.</p>
       <span class="tagline">Data Checker · Final v7</span>
     </div>
-
     <div class="sec-title">Tools</div>
     <div class="tools">
-
       <div class="tool" data-open="checker">
         <div class="ic">📊</div>
         <b>Statistik Member</b>
         <small>Analisa DP, SCB A–E, WD, Last DP, Total DP tanggal terakhir &amp; status member (WIN/LOSE/BALANCE).</small>
         <div class="go">Buka Tool</div>
       </div>
-
       <div class="tool alt" data-open="ndp">
         <div class="ic">💰</div>
         <b>NDP</b>
         <small>New Deposit Player — cek DP member baru berdasarkan data NEWMEMBER &amp; Deposit History.</small>
         <div class="go">Buka Tool</div>
       </div>
-
       <div class="tool empty disabled">
         <div class="ic">➕</div>
         <b>Slot Fitur</b>
         <small>Placeholder — siap diisi tool baru.</small>
         <div class="go">Coming Soon</div>
       </div>
-
       <div class="tool empty disabled">
         <div class="ic">➕</div>
         <b>Slot Fitur</b>
         <small>Placeholder — siap diisi tool baru.</small>
         <div class="go">Coming Soon</div>
       </div>
-
     </div>
   </section>
 
-  <!-- ================================================= -->
-  <!-- SCREEN: DATA CHECKER                              -->
-  <!-- ================================================= -->
+  <!-- DATA CHECKER -->
   <section id="screenChecker" class="screen">
-
     <div class="actions" style="margin-top:0;margin-bottom:14px">
       <button class="back-btn" data-back>Kembali ke Home</button>
     </div>
-
     <div class="card">
       <h2>Nama Laporan</h2>
       <div class="sub">Ketik nama yang mau muncul di judul laporan HASIL.</div>
       <input type="text" id="reportName" value="JALUR LANGIT" placeholder="Contoh: BOLAPELANGI2" maxlength="40">
     </div>
-
     <div class="card">
       <h2>Data Checker</h2>
       <div class="sub">Paste Deposit History &amp; Withdraw History, lalu klik PROSES DATA.</div>
@@ -177,7 +157,6 @@
       </div>
       <div id="error" class="err"></div>
     </div>
-
     <div class="card">
       <div class="stat" id="stats">
         <div><span>DP BIASA</span><b>—</b></div>
@@ -186,7 +165,6 @@
         <div><span>STATUS</span><b>—</b></div>
       </div>
     </div>
-
     <div class="card">
       <div class="tabs" id="tabs">
         <button class="tab active" data-t="hasil">HASIL</button>
@@ -203,18 +181,13 @@
       <div id="tblOut" style="display:none"></div>
       <div class="actions"><button class="ghost" id="copy">COPY TAB INI</button></div>
     </div>
-
   </section>
 
-  <!-- ================================================= -->
-  <!-- SCREEN: NDP                                       -->
-  <!-- ================================================= -->
+  <!-- NDP -->
   <section id="screenNDP" class="screen">
-
     <div class="actions" style="margin-top:0;margin-bottom:14px">
       <button class="back-btn" data-back>Kembali ke Home</button>
     </div>
-
     <div class="card">
       <h2>NDP — New Deposit Player</h2>
       <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP.</div>
@@ -233,8 +206,8 @@
         <button class="ghost" id="ndpClear">BERSIHKAN</button>
       </div>
       <div id="ndpError" class="err"></div>
+      <div id="ndpInfo" class="info" style="display:none"></div>
     </div>
-
     <div class="card">
       <div class="stat" id="ndpStats">
         <div><span>NEW MEMBER</span><b>—</b></div>
@@ -243,14 +216,12 @@
         <div><span>TOTAL DP</span><b>—</b></div>
       </div>
     </div>
-
     <div class="card">
       <h2>Hasil NDP</h2>
       <div class="sub">No · Tanggal · User · Total DP</div>
       <pre id="ndpOut">Belum ada hasil.</pre>
       <div class="actions"><button class="ghost" id="ndpCopy">COPY HASIL NDP</button></div>
     </div>
-
   </section>
 
 </main>
@@ -260,15 +231,14 @@
 const $=id=>document.getElementById(id);
 function clean(s){return String(s??"").replace(/\u00a0/g," ").replace(/\\@/g,"@").replace(/\*\*/g,"").replace(/<br\s*\/?>/gi," ").trim();}
 function dt(s){const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return null;let h=+m[4],ap=(m[7]||"").toUpperCase();if(ap==="PM"&&h<12)h+=12;if(ap==="AM"&&h===12)h=0;return new Date(+m[3],+m[2]-1,+m[1],h,+m[5],+(m[6]||0));}
+function dtOnly(s){const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(!m)return null;return new Date(+m[3],+m[2]-1,+m[1]);}
 function fmt(n){return Math.round(n).toLocaleString("en-US")}
 function displayed(n){return Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
 function num(s){return /^[-+]?\d[\d.,]*$/.test(clean(s));}
 function depAmt(s){let x=clean(s).replace(/[^\d-]/g,"");if(!x||x==="-")return 0;return Number(x)||0;}
 function wdAmt(s){return Number(clean(s).replace(/,/g,""))||0;}
 
-/* ============================================================
-   SCREEN ROUTER
-   ============================================================ */
+/* ===== SCREEN ROUTER ===== */
 function goScreen(name){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen"+name).classList.add("active");
@@ -285,9 +255,7 @@ document.querySelectorAll("[data-back]").forEach(el=>{
   el.addEventListener("click",()=>goScreen("Home"));
 });
 
-/* ============================================================
-   PARSER — DATA CHECKER
-   ============================================================ */
+/* ===== PARSER — DATA CHECKER ===== */
 function cells(line){if(!line.includes("|"))return[];let c=line.split("|").map(clean);while(c[0]==="")c.shift();while(c.at(-1)==="")c.pop();return c;}
 
 function parseDP(text){
@@ -349,16 +317,12 @@ function parseWD(text){
 function dedupeWD(a){const s=new Set();return a.filter(x=>{const k=x.user+"|"+x.wdRaw+"|"+x.date.getTime();if(s.has(k))return false;s.add(k);return true;});}
 function categoryTotal(rows,cat){return rows.filter(x=>x.category===cat).reduce((s,x)=>s+x.amount,0);}
 
-/* ============================================================
-   STATE — DATA CHECKER
-   ============================================================ */
+/* ===== STATE ===== */
 let DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[],TOTAL:[]},cur="hasil";
 let COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
 let TOTAL={};
 
-/* ============================================================
-   PROCESS — DATA CHECKER
-   ============================================================ */
+/* ===== PROCESS — DATA CHECKER ===== */
 function processData(){
   $("error").classList.remove("show");
   const dp=parseDP($("dp").value),wd=parseWD($("wd").value);
@@ -477,9 +441,10 @@ function show(t){
 }
 
 /* ============================================================
-   NDP — PARSER
+   NDP — PARSER (V2, SUPER FLEKSIBEL)
    ============================================================ */
-// Ubah newline yang ada di dalam tanda kutip (multi-line field) jadi spasi
+
+// Flatten newline di dalam tanda kutip
 function fixMultilineQuotes(text){
   let out="",inQ=false;
   for(let i=0;i<text.length;i++){
@@ -491,74 +456,138 @@ function fixMultilineQuotes(text){
   return out;
 }
 
-// NEWMEMBER: tab-separated. Format: no \t date \t user \t ...
-function parseNDPNewMembers(text){
-  const out=[];
-  const clean_text=fixMultilineQuotes(text);
-  for(const line of clean_text.split(/\r?\n/)){
-    if(!line.trim())continue;
-    const c=line.split("\t").map(x=>x.trim());
-    if(c.length<3)continue;
-    if(!/^\d+$/.test(c[0]))continue;
-    const ui=c.findIndex(x=>/^BFJ@/i.test(x));
-    if(ui<0)continue;
-    const user=c[ui];
-    // tanggal ada sebelum user
-    let dateStr="",date=null;
-    for(let i=1;i<ui;i++){
-      const d=dt(c[i]);
-      if(d){dateStr=c[i];date=d;break;}
-    }
-    if(!date)continue;
-    out.push({user,date,dateText:dateStr,raw:line});
-  }
-  return out;
+function extractUser(line){
+  const m=line.match(/BFJ@[\w.@\-]+/i);
+  return m?m[0]:null;
 }
 
-// DP: tab-separated. Cari user (BFJ@) & nominal pertama sesudahnya.
+function extractDate(line){
+  const m=line.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?(?:\s*(?:AM|PM))?)/i);
+  if(!m)return null;
+  let d=dt(m[1]);
+  if(!d) d=dtOnly(m[1]);
+  return d?{date:d,text:m[1]}:null;
+}
+
+// Ambil digit dari cell apapun → integer
+function cellToNumber(cell){
+  if(!cell)return null;
+  const s=String(cell).replace(/^["']+|["']+$/g,"").trim();
+  if(!s)return null;
+  if(!/^[\d.,\s]+$/.test(s))return null;
+  const digits=s.replace(/[^\d]/g,"");
+  if(!digits)return null;
+  const n=Number(digits);
+  if(!isFinite(n)||n<=0)return null;
+  return n;
+}
+
+/* ---------- NEWMEMBER ---------- */
+function parseNDPNewMembers(text){
+  const out=[];
+  const cleaned=fixMultilineQuotes(text);
+  for(const raw of cleaned.split(/\r?\n/)){
+    const line=raw.trim();
+    if(!line)continue;
+    const user=extractUser(line);
+    if(!user)continue;
+    const d=extractDate(line);
+    if(!d)continue;
+    out.push({user,date:d.date,dateText:d.text,raw:line});
+  }
+  // dedupe by user (keep paling baru)
+  const map=new Map();
+  for(const m of out){
+    const ex=map.get(m.user);
+    if(!ex || m.date>ex.date) map.set(m.user,m);
+  }
+  return [...map.values()];
+}
+
+/* ---------- DP (V2) ---------- */
 function parseNDPDP(text){
   const out=[];
-  const clean_text=fixMultilineQuotes(text);
-  for(const line of clean_text.split(/\r?\n/)){
-    if(!line.trim())continue;
-    const c=line.split("\t").map(x=>x.trim());
-    if(c.length<3)continue;
-    if(!/^\d+$/.test(c[0]))continue;
-    const ui=c.findIndex(x=>/^BFJ@/i.test(x));
-    if(ui<0)continue;
-    const user=c[ui];
+  const cleaned=fixMultilineQuotes(text);
+
+  for(const raw of cleaned.split(/\r?\n/)){
+    const line=raw.trim();
+    if(!line)continue;
+    const user=extractUser(line);
+    if(!user)continue;
+
+    const d=extractDate(line);
     let amount=0;
-    for(let i=ui+1;i<c.length;i++){
-      const raw=c[i];
-      if(!raw)continue;
-      if(/^[\d.,\s]+$/.test(raw)&&/\d/.test(raw)&&raw.length<20){
-        const n=Number(raw.replace(/[^\d]/g,""));
-        if(n>0){amount=n;break;}
+    let strategy="none";
+
+    // === A) TAB-SEPARATED: pakai anchor tanggal ===
+    if(line.includes("\t")){
+      const tabCells=line.split("\t").map(c=>c.trim());
+
+      // cari index tanggal
+      let dateIdx=-1;
+      if(d) dateIdx=tabCells.findIndex(c=>c===d.text||c.includes(d.text));
+
+      // dari tanggal, mundur cari cell angka yg masuk akal
+      if(dateIdx>0){
+        for(let i=dateIdx-1;i>=0;i--){
+          const n=cellToNumber(tabCells[i]);
+          if(n!==null && n>=1000 && n<=1e8){amount=n;strategy="tab-backward";break;}
+        }
+      }
+
+      // fallback: scan semua cell kiri-kanan
+      if(!amount){
+        for(let i=0;i<tabCells.length;i++){
+          if(i===dateIdx)continue;
+          const n=cellToNumber(tabCells[i]);
+          if(n!==null && n>=1000 && n<=1e8){amount=n;strategy="tab-scan";break;}
+        }
       }
     }
+
+    // === B) SPASI/PIPE: cari angka dgn separator setelah user ===
+    if(!amount){
+      const afterUser=line.slice(line.indexOf(user)+user.length);
+      const m=afterUser.match(/(\d{1,3}(?:[.,]\d{3})+|\d{1,3}(?:[.,]\d{2})+)/);
+      if(m){
+        const digits=m[1].replace(/[^\d]/g,"");
+        const n=Number(digits);
+        if(n>=1000 && n<=1e8){amount=n;strategy="sep-after";}
+      }
+    }
+
+    // === C) fallback: plain number 1000–1e8 setelah user ===
+    if(!amount){
+      const afterUser=line.slice(line.indexOf(user)+user.length);
+      const nums=[...afterUser.matchAll(/\b\d+\b/g)].map(x=>+x[0]).filter(n=>n>=1000&&n<=1e8);
+      if(nums.length){amount=nums[0];strategy="plain-after";}
+    }
+
     if(!amount)continue;
-    out.push({user,amount,raw:line});
+    out.push({user,amount,strategy,raw:line});
   }
   return out;
 }
 
 function processNDP(){
   $("ndpError").classList.remove("show");
+  $("ndpInfo").style.display="none";
   try{
     const newMembers=parseNDPNewMembers($("ndpNew").value);
     const dpRows=parseNDPDP($("ndpDp").value);
     if(!newMembers.length)throw Error("NEWMEMBER belum terbaca. Paste data member baru dulu.");
+    if(!dpRows.length)throw Error("DP belum terbaca. Paste data Deposit History dulu.");
 
-    // Agregat total DP per user
+    // Agregat DP per user
     const dpMap=new Map();
     for(const d of dpRows){
       dpMap.set(d.user,(dpMap.get(d.user)||0)+d.amount);
     }
 
-    // Sort: paling baru di atas
+    // Sort: terbaru di atas
     const sorted=newMembers.slice().sort((a,b)=>b.date-a.date);
 
-    // Baris output — tab-separated (mudah di-copy ke spreadsheet)
+    // Output tab-separated
     const lines=sorted.map((m,i)=>{
       const total=dpMap.get(m.user)||0;
       return `${i+1}\t${m.dateText}\t${m.user}\t${fmt(total)}`;
@@ -574,15 +603,21 @@ function processNDP(){
       <div><span>PUNYA DP</span><b>${punyaDP}</b></div>
       <div><span>NDP (0 DP)</span><b>${tanpaDP}</b></div>
       <div><span>TOTAL DP</span><b>${fmt(totalDP)}</b></div>`;
+
+    // Info debug
+    const uniqueUsers=[...new Set(dpRows.map(r=>r.user))].length;
+    $("ndpInfo").innerHTML=
+      `✓ NEWMEMBER: ${newMembers.length} user terbaca<br>`+
+      `✓ DP: ${dpRows.length} baris · ${uniqueUsers} user unik<br>`+
+      `✓ Strategy dipakai: ${[...new Set(dpRows.map(r=>r.strategy))].join(", ")}`;
+    $("ndpInfo").style.display="block";
   }catch(e){
     $("ndpError").textContent=e.message;
     $("ndpError").classList.add("show");
   }
 }
 
-/* ============================================================
-   EVENTS
-   ============================================================ */
+/* ===== EVENTS ===== */
 $("process").onclick=()=>{try{processData()}catch(e){$("error").textContent=e.message;$("error").classList.add("show")}};
 
 $("clear").onclick=()=>{
@@ -619,6 +654,7 @@ $("ndpClear").onclick=()=>{
   $("ndpNew").value="";$("ndpDp").value="";
   $("ndpOut").textContent="Belum ada hasil.";
   $("ndpError").classList.remove("show");
+  $("ndpInfo").style.display="none";
   $("ndpStats").innerHTML=`<div><span>NEW MEMBER</span><b>—</b></div><div><span>PUNYA DP</span><b>—</b></div><div><span>NDP (0 DP)</span><b>—</b></div><div><span>TOTAL DP</span><b>—</b></div>`;
 };
 

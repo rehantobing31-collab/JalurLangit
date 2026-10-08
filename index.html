@@ -441,7 +441,7 @@ function show(t){
 }
 
 /* ============================================================
-   NDP — PARSER (V2, SUPER FLEKSIBEL)
+   NDP — PARSER SIMPLE
    ============================================================ */
 
 // Flatten newline di dalam tanda kutip
@@ -456,30 +456,12 @@ function fixMultilineQuotes(text){
   return out;
 }
 
-function extractUser(line){
-  const m=line.match(/BFJ@[\w.@\-]+/i);
-  return m?m[0]:null;
-}
-
-function extractDate(line){
-  const m=line.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?(?:\s*(?:AM|PM))?)/i);
-  if(!m)return null;
-  let d=dt(m[1]);
-  if(!d) d=dtOnly(m[1]);
-  return d?{date:d,text:m[1]}:null;
-}
-
-// Ambil digit dari cell apapun → integer
-function cellToNumber(cell){
-  if(!cell)return null;
-  const s=String(cell).replace(/^["']+|["']+$/g,"").trim();
-  if(!s)return null;
-  if(!/^[\d.,\s]+$/.test(s))return null;
-  const digits=s.replace(/[^\d]/g,"");
-  if(!digits)return null;
+// Ambil semua digit → integer
+function toNum(s){
+  const digits=String(s).replace(/[^\d]/g,"");
+  if(!digits)return 0;
   const n=Number(digits);
-  if(!isFinite(n)||n<=0)return null;
-  return n;
+  return isFinite(n)?n:0;
 }
 
 /* ---------- NEWMEMBER ---------- */
@@ -489,13 +471,15 @@ function parseNDPNewMembers(text){
   for(const raw of cleaned.split(/\r?\n/)){
     const line=raw.trim();
     if(!line)continue;
-    const user=extractUser(line);
-    if(!user)continue;
-    const d=extractDate(line);
+    const um=line.match(/BFJ@[\w.@\-]+/i);
+    if(!um)continue;
+    const dm=line.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?(?:\s*(?:AM|PM))?)/i);
+    if(!dm)continue;
+    const d=dt(dm[1])||dtOnly(dm[1]);
     if(!d)continue;
-    out.push({user,date:d.date,dateText:d.text,raw:line});
+    out.push({user:um[0],date:d,dateText:dm[1],raw:line});
   }
-  // dedupe by user (keep paling baru)
+  // dedupe: kalau user sama, ambil yang paling baru
   const map=new Map();
   for(const m of out){
     const ex=map.get(m.user);
@@ -504,67 +488,39 @@ function parseNDPNewMembers(text){
   return [...map.values()];
 }
 
-/* ---------- DP (V2) ---------- */
+/* ---------- DP ---------- */
 function parseNDPDP(text){
   const out=[];
   const cleaned=fixMultilineQuotes(text);
-
   for(const raw of cleaned.split(/\r?\n/)){
-    const line=raw.trim();
+    let line=raw.trim();
     if(!line)continue;
-    const user=extractUser(line);
-    if(!user)continue;
 
-    const d=extractDate(line);
+    const um=line.match(/BFJ@[\w.@\-]+/i);
+    if(!um)continue;
+    const user=um[0];
+
+    // 1) Buang semua blok dalam tanda kutip
+    line=line.replace(/"[^"]*"/g," ");
+
+    // 2) Ambil teks setelah user
+    const uidx=line.indexOf(user);
+    if(uidx<0)continue;
+    const after=line.slice(uidx+user.length);
+
+    // 3) Cari angka pertama yang masuk akal setelah user
+    const tokens=after.split(/[\t|]+|\s+/).filter(Boolean);
     let amount=0;
-    let strategy="none";
-
-    // === A) TAB-SEPARATED: pakai anchor tanggal ===
-    if(line.includes("\t")){
-      const tabCells=line.split("\t").map(c=>c.trim());
-
-      // cari index tanggal
-      let dateIdx=-1;
-      if(d) dateIdx=tabCells.findIndex(c=>c===d.text||c.includes(d.text));
-
-      // dari tanggal, mundur cari cell angka yg masuk akal
-      if(dateIdx>0){
-        for(let i=dateIdx-1;i>=0;i--){
-          const n=cellToNumber(tabCells[i]);
-          if(n!==null && n>=1000 && n<=1e8){amount=n;strategy="tab-backward";break;}
-        }
-      }
-
-      // fallback: scan semua cell kiri-kanan
-      if(!amount){
-        for(let i=0;i<tabCells.length;i++){
-          if(i===dateIdx)continue;
-          const n=cellToNumber(tabCells[i]);
-          if(n!==null && n>=1000 && n<=1e8){amount=n;strategy="tab-scan";break;}
-        }
-      }
+    for(const t of tokens){
+      const s=t.trim();
+      if(!s)continue;
+      if(/\d{1,2}\/\d{1,2}\/\d{4}/.test(s))continue; // skip tanggal
+      if(!/^\d[\d.,]*$/.test(s))continue;           // harus angka
+      const n=toNum(s);
+      if(n>=1000 && n<=1e10){amount=n;break;}
     }
-
-    // === B) SPASI/PIPE: cari angka dgn separator setelah user ===
-    if(!amount){
-      const afterUser=line.slice(line.indexOf(user)+user.length);
-      const m=afterUser.match(/(\d{1,3}(?:[.,]\d{3})+|\d{1,3}(?:[.,]\d{2})+)/);
-      if(m){
-        const digits=m[1].replace(/[^\d]/g,"");
-        const n=Number(digits);
-        if(n>=1000 && n<=1e8){amount=n;strategy="sep-after";}
-      }
-    }
-
-    // === C) fallback: plain number 1000–1e8 setelah user ===
-    if(!amount){
-      const afterUser=line.slice(line.indexOf(user)+user.length);
-      const nums=[...afterUser.matchAll(/\b\d+\b/g)].map(x=>+x[0]).filter(n=>n>=1000&&n<=1e8);
-      if(nums.length){amount=nums[0];strategy="plain-after";}
-    }
-
     if(!amount)continue;
-    out.push({user,amount,strategy,raw:line});
+    out.push({user,amount,raw:line});
   }
   return out;
 }
@@ -604,12 +560,10 @@ function processNDP(){
       <div><span>NDP (0 DP)</span><b>${tanpaDP}</b></div>
       <div><span>TOTAL DP</span><b>${fmt(totalDP)}</b></div>`;
 
-    // Info debug
     const uniqueUsers=[...new Set(dpRows.map(r=>r.user))].length;
     $("ndpInfo").innerHTML=
       `✓ NEWMEMBER: ${newMembers.length} user terbaca<br>`+
-      `✓ DP: ${dpRows.length} baris · ${uniqueUsers} user unik<br>`+
-      `✓ Strategy dipakai: ${[...new Set(dpRows.map(r=>r.strategy))].join(", ")}`;
+      `✓ DP: ${dpRows.length} baris · ${uniqueUsers} user unik`;
     $("ndpInfo").style.display="block";
   }catch(e){
     $("ndpError").textContent=e.message;

@@ -78,12 +78,14 @@
   .tool .ic{width:48px;height:48px;border-radius:13px;background:var(--a-soft);border:1px solid rgba(85,214,166,.28);display:grid;place-items:center;font-size:22px;margin-bottom:14px}
   .tool.alt .ic{background:rgba(91,157,255,.10);border-color:rgba(91,157,255,.28)}
   .tool.warn .ic{background:rgba(248,113,113,.10);border-color:rgba(248,113,113,.30)}
+  .tool.calc .ic{background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.30)}
   .tool.empty .ic{background:rgba(139,150,168,.08);border-color:rgba(139,150,168,.2)}
   .tool b{font-size:15.5px;display:block;margin-bottom:6px;letter-spacing:.4px}
   .tool small{font-size:12px;color:var(--m);line-height:1.5;display:block;margin-bottom:16px;min-height:36px}
   .tool .go{font-size:11px;letter-spacing:1.8px;font-weight:900;color:var(--a);text-transform:uppercase;display:flex;align-items:center;gap:6px}
   .tool.alt .go{color:var(--a2)}
   .tool.warn .go{color:var(--red)}
+  .tool.calc .go{color:var(--purple)}
   .tool.disabled .go{color:var(--m2)}
   .tool .go::after{content:"→";transition:transform .2s}
   .tool:hover .go::after{transform:translateX(4px)}
@@ -134,6 +136,12 @@
         <b>Sortir Jadwal &amp; Prediksi</b>
         <small>Sortir otomatis data odds, jadwal + handicap, dan prediksi skor maksimal 3 goal.</small>
         <div class="go">Buka Tool</div>
+      </div>
+      <div class="tool calc" data-open="parlay" data-url="https://parlay-kalkulator.pages.dev/">
+        <div class="ic">🎰</div>
+        <b>Parlay Kalkulator</b>
+        <small>Hitung parlay otomatis. Klik untuk membuka kalkulator di tab baru.</small>
+        <div class="go">Buka Link</div>
       </div>
       <div class="tool warn" data-open="lapor" data-url="https://laporkan-phising.pages.dev/">
         <div class="ic">🚨</div>

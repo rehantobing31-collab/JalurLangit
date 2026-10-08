@@ -119,11 +119,11 @@
         <small>New Deposit Player — cek DP member baru berdasarkan data NEWMEMBER &amp; Deposit History.</small>
         <div class="go">Buka Tool</div>
       </div>
-      <div class="tool empty disabled">
-        <div class="ic">➕</div>
-        <b>Slot Fitur</b>
-        <small>Placeholder — siap diisi tool baru.</small>
-        <div class="go">Coming Soon</div>
+      <div class="tool" data-open="sortir">
+        <div class="ic">⚽</div>
+        <b>Sortir Jadwal &amp; Prediksi</b>
+        <small>Sortir otomatis data odds, jadwal + handicap, dan prediksi skor maksimal 3 goal.</small>
+        <div class="go">Buka Tool</div>
       </div>
       <div class="tool empty disabled">
         <div class="ic">➕</div>
@@ -224,6 +224,59 @@
     </div>
   </section>
 
+  <!-- SORTIR JADWAL & PREDIKSI -->
+  <section id="screenSortir" class="screen">
+    <div class="actions" style="margin-top:0;margin-bottom:14px">
+      <button class="back-btn" data-back>Kembali ke Home</button>
+    </div>
+
+    <div class="card">
+      <h2>Sortir Jadwal &amp; Prediksi</h2>
+      <div class="sub">Paste data odds (Add All / Add favourite) lalu klik SORTIR SEKARANG. Jam otomatis dimundurkan 1 jam, label peringkat dibersihkan, duplikat digabung.</div>
+
+      <label>1. TEMPEL DATA ODDS DI SINI</label>
+      <textarea id="sortirInput" placeholder="Tempelkan data odds (Add All / Add favourite) di sini...
+
+Contoh:
+Add AllUEFA NATIONS LEAGUE A
+Add favourite
+Hide    03/10 23:59     
+Croatia 
+England 
+3/4 : 0 -1.19   1.04    ..."></textarea>
+
+      <div class="actions">
+        <button id="sortirProcess">SORTIR SEKARANG</button>
+        <button class="ghost" id="sortirReset">RESET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="stat" id="sortirStats">
+        <div><span>TOTAL LIGA</span><b>—</b></div>
+        <div><span>TOTAL PERTANDINGAN</span><b>—</b></div>
+        <div><span>FAVORIT HOME</span><b>—</b></div>
+        <div><span>FAVORIT AWAY</span><b>—</b></div>
+      </div>
+      <div class="stat" style="margin-top:8px">
+        <div><span>PASARAN SEIMBANG</span><b>—</b></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <button class="tab active" data-sortir="murni">HASIL MURNI (JADWAL + HANDICAP)</button>
+        <button class="tab" data-sortir="prediksi">HASIL PREDIKSI (MAX 3 GOAL)</button>
+      </div>
+      <pre id="sortirOutMurni">Belum ada hasil.</pre>
+      <pre id="sortirOutPrediksi" style="display:none">Belum ada hasil.</pre>
+      <div class="actions">
+        <button class="ghost" id="sortirCopyMurni">COPY MURNI</button>
+        <button class="ghost" id="sortirCopyPrediksi">COPY PREDIKSI</button>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <script>
@@ -248,7 +301,7 @@ document.querySelectorAll("[data-open]").forEach(el=>{
   el.addEventListener("click",()=>{
     if(el.classList.contains("disabled"))return;
     const t=el.dataset.open;
-    goScreen(t==="checker"?"Checker":t==="ndp"?"NDP":"Home");
+    goScreen(t==="checker"?"Checker":t==="ndp"?"NDP":t==="sortir"?"Sortir":"Home");
   });
 });
 document.querySelectorAll("[data-back]").forEach(el=>{
@@ -552,16 +605,24 @@ function processNDP(){
 
     const sorted=newMembers.slice().sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
 
+    const punyaDP=sorted.filter(m=>dpMap.has(m.user)).length;
+    const tanpaDP=sorted.length-punyaDP;
+    const totalDP=sorted.reduce((s,m)=>s+(dpMap.get(m.user)||0),0);
+
+    // ===== HEADER SUMMARY =====
+    const header=
+      `═══════════════════════════════════\n`+
+      `  TOTAL MEMBER BARU : ${sorted.length}\n`+
+      `  TOTAL DEPOSIT     : ${fmt(totalDP)}\n`+
+      `═══════════════════════════════════\n\n`;
+
+    // ===== LIST =====
     const lines=sorted.map((m,i)=>{
       const total=dpMap.get(m.user)||0;
       return `${i+1}\t${m.dateText||"—"}\t${m.user}\t${fmt(total)}`;
     });
 
-    const punyaDP=sorted.filter(m=>dpMap.has(m.user)).length;
-    const tanpaDP=sorted.length-punyaDP;
-    const totalDP=sorted.reduce((s,m)=>s+(dpMap.get(m.user)||0),0);
-
-    $("ndpOut").textContent=lines.length?lines.join("\n"):"Tidak ada data.";
+    $("ndpOut").textContent=header+(lines.length?lines.join("\n"):"Tidak ada data.");
     $("ndpStats").innerHTML=`
       <div><span>NEW MEMBER</span><b>${sorted.length}</b></div>
       <div><span>PUNYA DP</span><b>${punyaDP}</b></div>
@@ -578,6 +639,278 @@ function processNDP(){
     $("ndpError").classList.add("show");
   }
 }
+
+/* ============================================================
+   SORTIR JADWAL & PREDIKSI — LOGIC
+   ============================================================ */
+
+/* ---------- UTIL SORTIR ---------- */
+const pad2=n=>String(n).padStart(2,'0');
+const DT_REGEX=/(\d{2}[\/\-]\d{2})\s+(\d{1,2}:\d{2})/;
+
+function shiftBackOneHour(ddmm,hhmm){
+  const [d,m]=ddmm.split('/').map(Number);
+  const [h,mi]=hhmm.split(':').map(Number);
+  const dt=new Date(2026,m-1,d,h,mi,0);
+  dt.setHours(dt.getHours()-1);
+  return `${pad2(dt.getDate())}/${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
+}
+
+function findEarliestDate(text){
+  const re=/(\d{2})[\/\-](\d{2})\s+\d{1,2}:\d{2}/g;
+  let minKey=null,minDate=null,m;
+  while((m=re.exec(text))!==null){
+    const dd=parseInt(m[1],10),mm=parseInt(m[2],10);
+    const key=mm*100+dd;
+    if(minKey===null||key<minKey){minKey=key;minDate=`${m[1]}/${m[2]}`;}
+  }
+  return minDate;
+}
+
+function cleanTeam(name){
+  let s=name
+    .replace(/\[\s*\d+\s*\]/g,'')       // buang [14] [7] [1]
+    .replace(/\s{2,}/g,' ')
+    .trim();
+  // sisakan [n] dan [w] kalau ada
+  return s;
+}
+
+function isHdpToken(s){
+  return /^\d+(\.\d+)?\s*[:\-]\s*\d+/.test(s) || /^[\d.]+[\s:]+/.test(s);
+}
+
+function cleanHdp(s){
+  return s.replace(/\s+/g,' ').trim();
+}
+
+function toGoals(s){
+  const t=String(s).replace(',','.').trim();
+  if(!t)return 0;
+  const n=parseFloat(t);
+  return isNaN(n)?0:n;
+}
+
+/* ---------- PARSER ---------- */
+function parseSortirMatches(text){
+  const earliestDate=findEarliestDate(text);
+  const lines=text.split(/\r?\n/);
+  const out=[];
+  let league='';
+  let pendingDT='';
+  let teams=[];
+  let awaitingOdds=false;
+  let cur=null;
+  let expectingLiveTime=false;
+
+  for(const raw of lines){
+    const line=raw.trim();
+    if(!line)continue;
+
+    // Nama Liga
+    const mAll=line.match(/^Add\s+All\s*(.+)$/i);
+    if(mAll){
+      league=mAll[1].trim();
+      pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;
+      continue;
+    }
+    if(/^Add\s+favou?rite/i.test(line))continue;
+
+    // LIVE detection
+    const tokens=line.split(/[\s\t]+/);
+    const hasLive=tokens.some(t=>t.toUpperCase()==='LIVE');
+    if(hasLive){
+      const tmLive=line.match(/LIVE\s+(\d{1,2}:\d{2})/i);
+      if(tmLive&&earliestDate){
+        pendingDT=shiftBackOneHour(earliestDate,tmLive[1]);
+        teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;
+        continue;
+      }
+      pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=true;
+      continue;
+    }
+
+    if(expectingLiveTime){
+      const tmOnly=line.match(/^(\d{1,2}:\d{2})/);
+      if(tmOnly&&earliestDate){
+        pendingDT=shiftBackOneHour(earliestDate,tmOnly[1]);
+        expectingLiveTime=false;
+        continue;
+      }
+      expectingLiveTime=false;
+    }
+
+    // Tanggal & Jam
+    const dtm=line.match(DT_REGEX);
+    if(dtm){
+      pendingDT=shiftBackOneHour(dtm[1].replace(/-/g,'/'),dtm[2]);
+      teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;
+      continue;
+    }
+
+    if(/^1X2$/i.test(line))continue;
+
+    // Baris odds (tab)
+    if(line.includes('\t')){
+      if(awaitingOdds&&cur&&!cur.hdp){
+        const first=line.split('\t')[0].trim();
+        if(isHdpToken(first))cur.hdp=cleanHdp(first);
+        awaitingOdds=false;
+      }
+      continue;
+    }
+
+    // Nama Tim
+    if(awaitingOdds)continue;
+    teams.push(cleanTeam(line));
+    if(teams.length===2){
+      cur={league,dt:pendingDT,home:teams[0],away:teams[1],hdp:''};
+      out.push(cur);
+      teams=[];
+      awaitingOdds=true;
+    }
+  }
+  return out;
+}
+
+function dedupeSortir(matches){
+  const seen=new Set();
+  return matches.filter(m=>{
+    const k=`${m.league}|${m.dt}|${m.home}|${m.away}`;
+    if(seen.has(k))return false;
+    seen.add(k);
+    return true;
+  });
+}
+
+/* ---------- PREDIKSI SKOR ---------- */
+function predictScore(hdp){
+  if(!hdp)return '1-1';
+  const parts=hdp.split(':');
+  if(parts.length!==2)return '1-1';
+  const left=toGoals(parts[0]);
+  const right=toGoals(parts[1]);
+
+  if(right>left){                 // HOME favorit
+    const h=right-left;
+    if(h<=0.75)return '2-1';
+    if(h<=1)   return '2-0';
+    if(h<=1.5) return '3-1';
+    return '3-0';
+  }
+  if(left>right){                 // AWAY favorit
+    const h=left-right;
+    if(h<=0.75)return '1-2';
+    if(h<=1)   return '0-2';
+    if(h<=1.5) return '1-3';
+    return '0-3';
+  }
+  return '1-1';
+}
+
+/* ---------- GROUP & OUTPUT ---------- */
+function timeKeySortir(dt){
+  const m=String(dt).match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
+  if(!m)return 0;
+  return (+m[2])*100000000+(+m[1])*1000000+(+m[3])*10000+(+m[4]);
+}
+
+function groupByLeagueSortir(matches){
+  const map=new Map();
+  matches.forEach(m=>{
+    const key=m.league||'';
+    if(!map.has(key))map.set(key,[]);
+    map.get(key).push(m);
+  });
+  map.forEach(arr=>arr.sort((a,b)=>timeKeySortir(a.dt)-timeKeySortir(b.dt)));
+  return map;
+}
+
+function buildOutputSortir(map,withPrediction){
+  const blocks=[];
+  for(const [league,arr] of map.entries()){
+    const lines=[];
+    if(league)lines.push(league);
+    arr.forEach(m=>{
+      const tail=withPrediction?predictScore(m.hdp):m.hdp;
+      lines.push(`${m.dt} ${m.home} VS ${m.away}${tail?' '+tail:''}`);
+    });
+    blocks.push(lines.join('\n'));
+  }
+  return blocks.join('\n\n');
+}
+
+/* ---------- MAIN SORTIR ---------- */
+function runSortir(){
+  const text=$("sortirInput").value;
+  const matches=dedupeSortir(parseSortirMatches(text));
+  const map=groupByLeagueSortir(matches);
+
+  $("sortirOutMurni").textContent=buildOutputSortir(map,false)||"Belum ada data.";
+  $("sortirOutPrediksi").textContent=buildOutputSortir(map,true)||"Belum ada data.";
+
+  let homeFav=0,awayFav=0,even=0;
+  matches.forEach(m=>{
+    if(!m.hdp)return;
+    const p=m.hdp.split(':');
+    if(p.length!==2)return;
+    const l=toGoals(p[0]),r=toGoals(p[1]);
+    if(r>l)homeFav++;
+    else if(l>r)awayFav++;
+    else even++;
+  });
+
+  $("sortirStats").innerHTML=`
+    <div><span>TOTAL LIGA</span><b>${map.size}</b></div>
+    <div><span>TOTAL PERTANDINGAN</span><b>${matches.length}</b></div>
+    <div><span>FAVORIT HOME</span><b>${homeFav}</b></div>
+    <div><span>FAVORIT AWAY</span><b>${awayFav}</b></div>`;
+  $("sortirStats").insertAdjacentHTML('beforeend',
+    `<div><span>PASARAN SEIMBANG</span><b>${even}</b></div>`);
+
+  if(!matches.length)alert("Belum ada data yang bisa disortir pren!");
+}
+
+function resetSortir(){
+  $("sortirInput").value="";
+  $("sortirOutMurni").textContent="Belum ada hasil.";
+  $("sortirOutPrediksi").textContent="Belum ada hasil.";
+  $("sortirStats").innerHTML=`
+    <div><span>TOTAL LIGA</span><b>—</b></div>
+    <div><span>TOTAL PERTANDINGAN</span><b>—</b></div>
+    <div><span>FAVORIT HOME</span><b>—</b></div>
+    <div><span>FAVORIT AWAY</span><b>—</b></div>
+    <div><span>PASARAN SEIMBANG</span><b>—</b></div>`;
+}
+
+/* ---------- TAB SORTIR ---------- */
+document.querySelectorAll("[data-sortir]").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("[data-sortir]").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const t=b.dataset.sortir;
+    $("sortirOutMurni").style.display=t==="murni"?"block":"none";
+    $("sortirOutPrediksi").style.display=t==="prediksi"?"block":"none";
+  };
+});
+
+/* ---------- COPY SORTIR ---------- */
+$("sortirCopyMurni").onclick=()=>{
+  navigator.clipboard.writeText($("sortirOutMurni").textContent).then(()=>{
+    const b=$("sortirCopyMurni");b.textContent="TERCOPY!";
+    setTimeout(()=>b.textContent="COPY MURNI",900);
+  });
+};
+$("sortirCopyPrediksi").onclick=()=>{
+  navigator.clipboard.writeText($("sortirOutPrediksi").textContent).then(()=>{
+    const b=$("sortirCopyPrediksi");b.textContent="TERCOPY!";
+    setTimeout(()=>b.textContent="COPY PREDIKSI",900);
+  });
+};
+
+/* ---------- EVENTS SORTIR ---------- */
+$("sortirProcess").onclick=runSortir;
+$("sortirReset").onclick=resetSortir;
 
 /* ===== EVENTS ===== */
 $("process").onclick=()=>{try{processData()}catch(e){$("error").textContent=e.message;$("error").classList.add("show")}};

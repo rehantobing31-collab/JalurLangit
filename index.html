@@ -190,7 +190,7 @@
     </div>
     <div class="card">
       <h2>NDP — New Deposit Player</h2>
-      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP.</div>
+      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP. Format bebas: tab, spasi, multi-line, atau copy langsung dari sumber.</div>
       <div class="grid">
         <div>
           <div class="muted">DATA NEWMEMBER</div>
@@ -441,10 +441,10 @@ function show(t){
 }
 
 /* ============================================================
-   NDP — PARSER SIMPLE
+   NDP — PARSER v3 (handle multi-line record)
    ============================================================ */
 
-// Flatten newline di dalam tanda kutip
+// Flatten newline di dalam tanda kutip (format markdown lama)
 function fixMultilineQuotes(text){
   let out="",inQ=false;
   for(let i=0;i<text.length;i++){
@@ -456,73 +456,88 @@ function fixMultilineQuotes(text){
   return out;
 }
 
-// Ambil semua digit → integer
-function toNum(s){
-  const digits=String(s).replace(/[^\d]/g,"");
-  if(!digits)return 0;
-  const n=Number(digits);
-  return isFinite(n)?n:0;
+// Deteksi awal record baru: nomor + whitespace + BFJ@xxx
+function isRecordStart(line){
+  return /^\s*[\d.,]+\s+BFJ@/i.test(line) || /^\s*BFJ@/i.test(line);
 }
 
-/* ---------- NEWMEMBER ---------- */
-function parseNDPNewMembers(text){
-  const out=[];
+// Group baris-baris jadi record (1 record bisa multi-line)
+function groupIntoRecords(text){
   const cleaned=fixMultilineQuotes(text);
-  for(const raw of cleaned.split(/\r?\n/)){
-    const line=raw.trim();
-    if(!line)continue;
-    const um=line.match(/BFJ@[\w.@\-]+/i);
-    if(!um)continue;
-    const dm=line.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?(?:\s*(?:AM|PM))?)/i);
-    if(!dm)continue;
-    const d=dt(dm[1])||dtOnly(dm[1]);
-    if(!d)continue;
-    out.push({user:um[0],date:d,dateText:dm[1],raw:line});
+  const lines=cleaned.split(/\r?\n/);
+  const records=[];
+  let current=null;
+  for(const raw of lines){
+    if(!raw.trim())continue;
+    if(isRecordStart(raw)){
+      if(current!==null)records.push(current);
+      current=raw;
+    } else if(current!==null){
+      current+="\t"+raw.trim();
+    }
   }
-  // dedupe: kalau user sama, ambil yang paling baru
+  if(current!==null)records.push(current);
+  return records;
+}
+
+// Parse 1 record → {user, amount, date, dateText, category}
+function parseNDPRecord(record){
+  const um=record.match(/BFJ@[\w.@\-]+/i);
+  if(!um)return null;
+  const user=um[0];
+  const userIdx=um.index;
+
+  // Category: cek SCB A-E
+  const scb=record.match(/\bSCB\s*([A-E])\b/i);
+  const category=scb?scb[1].toUpperCase():"DP";
+
+  // Tanggal
+  const dm=record.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*(?:AM|PM)?)/i);
+  let date=null,dateText="";
+  if(dm){
+    dateText=dm[1].trim();
+    date=dt(dateText)||dtOnly(dateText);
+  }
+
+  // Amount: cari angka ≥ 1000 setelah user, digit ≤ 9, bukan bagian tanggal
+  const re=/\d[\d.,]*/g;
+  let amount=0,m;
+  while((m=re.exec(record))!==null){
+    if(m.index<=userIdx)continue;
+    const nextCh=record[m.index+m[0].length];
+    if(nextCh==="/"||nextCh===":")continue;
+    const digits=m[0].replace(/[^\d]/g,"");
+    if(!digits||digits.length>9)continue;
+    const n=Number(digits);
+    if(n>=1000&&n<100000000){amount=n;break;}
+  }
+
+  return {user,amount,date,dateText,category};
+}
+
+// Parse semua records
+function parseNDPRecords(text){
+  return groupIntoRecords(text).map(parseNDPRecord).filter(Boolean);
+}
+
+// NEWMEMBER: unique per user, ambil paling baru
+function parseNDPNewMembers(text){
+  const list=parseNDPRecords(text);
   const map=new Map();
-  for(const m of out){
-    const ex=map.get(m.user);
-    if(!ex || m.date>ex.date) map.set(m.user,m);
+  for(const r of list){
+    const ex=map.get(r.user);
+    if(!ex){
+      map.set(r.user,r);
+    } else if(r.date&&(!ex.date||r.date>ex.date)){
+      map.set(r.user,r);
+    }
   }
   return [...map.values()];
 }
 
-/* ---------- DP ---------- */
+// DP: filter yang category=DP dan ada amount
 function parseNDPDP(text){
-  const out=[];
-  const cleaned=fixMultilineQuotes(text);
-  for(const raw of cleaned.split(/\r?\n/)){
-    let line=raw.trim();
-    if(!line)continue;
-
-    const um=line.match(/BFJ@[\w.@\-]+/i);
-    if(!um)continue;
-    const user=um[0];
-
-    // 1) Buang semua blok dalam tanda kutip
-    line=line.replace(/"[^"]*"/g," ");
-
-    // 2) Ambil teks setelah user
-    const uidx=line.indexOf(user);
-    if(uidx<0)continue;
-    const after=line.slice(uidx+user.length);
-
-    // 3) Cari angka pertama yang masuk akal setelah user
-    const tokens=after.split(/[\t|]+|\s+/).filter(Boolean);
-    let amount=0;
-    for(const t of tokens){
-      const s=t.trim();
-      if(!s)continue;
-      if(/\d{1,2}\/\d{1,2}\/\d{4}/.test(s))continue; // skip tanggal
-      if(!/^\d[\d.,]*$/.test(s))continue;           // harus angka
-      const n=toNum(s);
-      if(n>=1000 && n<=1e10){amount=n;break;}
-    }
-    if(!amount)continue;
-    out.push({user,amount,raw:line});
-  }
-  return out;
+  return parseNDPRecords(text).filter(r=>r.category==="DP"&&r.amount>0);
 }
 
 function processNDP(){
@@ -541,12 +556,11 @@ function processNDP(){
     }
 
     // Sort: terbaru di atas
-    const sorted=newMembers.slice().sort((a,b)=>b.date-a.date);
+    const sorted=newMembers.slice().sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
 
-    // Output tab-separated
     const lines=sorted.map((m,i)=>{
       const total=dpMap.get(m.user)||0;
-      return `${i+1}\t${m.dateText}\t${m.user}\t${fmt(total)}`;
+      return `${i+1}\t${m.dateText||"—"}\t${m.user}\t${fmt(total)}`;
     });
 
     const punyaDP=sorted.filter(m=>dpMap.has(m.user)).length;

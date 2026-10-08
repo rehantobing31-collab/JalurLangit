@@ -84,6 +84,11 @@
   .back-btn{background:transparent;color:var(--a);border:1px solid rgba(85,214,166,.35);padding:9px 15px;font-size:12px;border-radius:9px;box-shadow:none;letter-spacing:.6px}
   .back-btn:hover{background:var(--a-soft);transform:none}
   .back-btn::before{content:"← ";font-weight:900}
+  /* section header di output */
+  .out-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .out-head h3{margin:0;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--a);font-weight:800}
+  .out-head .pill{font-size:10px;letter-spacing:1px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--a-soft);color:var(--a);border:1px solid rgba(85,214,166,.3)}
+  .out-head .pill.p2{color:var(--purple);background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.30)}
 </style>
 </head>
 <body>
@@ -190,7 +195,7 @@
     </div>
     <div class="card">
       <h2>NDP — New Deposit Player</h2>
-      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP. Format bebas: tab, spasi, multi-line, atau copy langsung dari sumber.</div>
+      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP.</div>
       <div class="grid">
         <div>
           <div class="muted">DATA NEWMEMBER</div>
@@ -232,11 +237,8 @@
 
     <div class="card">
       <h2>Sortir Jadwal &amp; Prediksi</h2>
-      <div class="sub">Paste data odds (Add All / Add favourite) lalu klik SORTIR SEKARANG. Jam otomatis dimundurkan 1 jam, label peringkat dibersihkan, duplikat digabung.</div>
-
-      <label>1. TEMPEL DATA ODDS DI SINI</label>
-      <textarea id="sortirInput" placeholder="Tempelkan data odds (Add All / Add favourite) di sini..."></textarea>
-
+      <div class="sub">Paste data odds (Add All / Add favourite) lalu klik SORTIR SEKARANG.</div>
+      <textarea id="sortirInput" placeholder="Tempelkan data odds di sini..."></textarea>
       <div class="actions">
         <button id="sortirProcess">SORTIR SEKARANG</button>
         <button class="ghost" id="sortirReset">RESET</button>
@@ -255,17 +257,24 @@
       </div>
     </div>
 
+    <!-- OUTPUT 1: HASIL MURNI -->
     <div class="card">
-      <div class="tabs">
-        <button class="tab active" data-sortir="murni">HASIL MURNI (JADWAL + HANDICAP)</button>
-        <button class="tab" data-sortir="prediksi">HASIL PREDIKSI (MAX 3 GOAL)</button>
+      <div class="out-head">
+        <h3>1. HASIL MURNI (JADWAL + HANDICAP)</h3>
+        <span class="pill">LENGKAP</span>
       </div>
       <pre id="sortirOutMurni">Belum ada hasil.</pre>
-      <pre id="sortirOutPrediksi" style="display:none">Belum ada hasil.</pre>
-      <div class="actions">
-        <button class="ghost" id="sortirCopyMurni">COPY MURNI</button>
-        <button class="ghost" id="sortirCopyPrediksi">COPY PREDIKSI</button>
+      <div class="actions"><button class="ghost" id="sortirCopyMurni">SALIN HASIL</button></div>
+    </div>
+
+    <!-- OUTPUT 2: HASIL PREDIKSI -->
+    <div class="card">
+      <div class="out-head">
+        <h3>2. HASIL PREDIKSI SKOR (MAX 3 GOAL)</h3>
+        <span class="pill p2">PREDIKSI</span>
       </div>
+      <pre id="sortirOutPrediksi">Belum ada hasil.</pre>
+      <div class="actions"><button class="ghost" id="sortirCopyPrediksi">SALIN HASIL</button></div>
     </div>
   </section>
 
@@ -486,7 +495,7 @@ function show(t){
 }
 
 /* ============================================================
-   NDP — PARSER v3 (handle multi-line record)
+   NDP
    ============================================================ */
 function fixMultilineQuotes(text){
   let out="",inQ=false;
@@ -648,7 +657,7 @@ function cleanHdp(s){
   return s.replace(/\s+/g,' ').trim();
 }
 
-// FIX: handle mixed number "1 3/4" → 1.75, "2 1/2" → 2.5
+// Mixed number: "1 3/4" → 1.75, "2 1/2" → 2.5, "3/4" → 0.75
 function toGoals(s){
   let t=String(s).replace(',','.').trim();
   if(!t)return 0;
@@ -746,7 +755,8 @@ function dedupeSortir(matches){
   });
 }
 
-// FIX: logika dibalik — left > right = HOME favorit
+// left = HOME handicap, right = AWAY handicap
+// left > right = HOME favorit
 function predictScore(hdp){
   if(!hdp)return '1-1';
   const parts=hdp.split(':');
@@ -754,14 +764,14 @@ function predictScore(hdp){
   const left=toGoals(parts[0]);
   const right=toGoals(parts[1]);
 
-  if(left>right){                 // HOME favorit
+  if(left>right){
     const h=left-right;
     if(h<=0.75)return '2-1';
     if(h<=1)   return '2-0';
     if(h<=1.5) return '3-1';
     return '3-0';
   }
-  if(right>left){                 // AWAY favorit
+  if(right>left){
     const h=right-left;
     if(h<=0.75)return '1-2';
     if(h<=1)   return '0-2';
@@ -788,14 +798,28 @@ function groupByLeagueSortir(matches){
   return map;
 }
 
-function buildOutputSortir(map,withPrediction){
+// MURNI: "07/10 01:45 Croatia VS Spain 1 3/4 : 0"
+function buildMurni(map){
   const blocks=[];
   for(const [league,arr] of map.entries()){
     const lines=[];
     if(league)lines.push(league);
     arr.forEach(m=>{
-      const tail=withPrediction?predictScore(m.hdp):m.hdp;
-      lines.push(`${m.dt} ${m.home} VS ${m.away}${tail?' '+tail:''}`);
+      lines.push(`${m.dt} ${m.home} VS ${m.away}${m.hdp?' '+m.hdp:''}`);
+    });
+    blocks.push(lines.join('\n'));
+  }
+  return blocks.join('\n\n');
+}
+
+// PREDIKSI: "07/10 01:45 Croatia VS Spain 3-0"
+function buildPrediksi(map){
+  const blocks=[];
+  for(const [league,arr] of map.entries()){
+    const lines=[];
+    if(league)lines.push(league);
+    arr.forEach(m=>{
+      lines.push(`${m.dt} ${m.home} VS ${m.away} ${predictScore(m.hdp)}`);
     });
     blocks.push(lines.join('\n'));
   }
@@ -807,8 +831,8 @@ function runSortir(){
   const matches=dedupeSortir(parseSortirMatches(text));
   const map=groupByLeagueSortir(matches);
 
-  $("sortirOutMurni").textContent=buildOutputSortir(map,false)||"Belum ada data.";
-  $("sortirOutPrediksi").textContent=buildOutputSortir(map,true)||"Belum ada data.";
+  $("sortirOutMurni").textContent=buildMurni(map)||"Belum ada data.";
+  $("sortirOutPrediksi").textContent=buildPrediksi(map)||"Belum ada data.";
 
   let homeFav=0,awayFav=0,even=0;
   matches.forEach(m=>{
@@ -843,26 +867,16 @@ function resetSortir(){
     <div><span>PASARAN SEIMBANG</span><b>—</b></div>`;
 }
 
-document.querySelectorAll("[data-sortir]").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll("[data-sortir]").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    const t=b.dataset.sortir;
-    $("sortirOutMurni").style.display=t==="murni"?"block":"none";
-    $("sortirOutPrediksi").style.display=t==="prediksi"?"block":"none";
-  };
-});
-
 $("sortirCopyMurni").onclick=()=>{
   navigator.clipboard.writeText($("sortirOutMurni").textContent).then(()=>{
     const b=$("sortirCopyMurni");b.textContent="TERCOPY!";
-    setTimeout(()=>b.textContent="COPY MURNI",900);
+    setTimeout(()=>b.textContent="SALIN HASIL",900);
   });
 };
 $("sortirCopyPrediksi").onclick=()=>{
   navigator.clipboard.writeText($("sortirOutPrediksi").textContent).then(()=>{
     const b=$("sortirCopyPrediksi");b.textContent="TERCOPY!";
-    setTimeout(()=>b.textContent="COPY PREDIKSI",900);
+    setTimeout(()=>b.textContent="SALIN HASIL",900);
   });
 };
 

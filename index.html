@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JALUR LANGIT</title>
-<link rel="shortcut icon" href="bb00a.png?v=2">
-<link rel="icon" type="image/png" sizes="32x32" href="bb00a.png?v=2">
-<link rel="icon" type="image/png" sizes="64x64" href="bb00a.png?v=2">
-<link rel="apple-touch-icon" sizes="180x180" href="bb00a.png?v=2">
+<link rel="shortcut icon" href="bb00a.png?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="bb00a.png?v=4">
+<link rel="icon" type="image/png" sizes="64x64" href="bb00a.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="bb00a.png?v=4">
 <style>
   :root{--bg:#0b0f14;--bg2:#0e141c;--p:#121821;--p2:#171f2a;--l:#273242;--l2:#314054;--t:#eef2f7;--m:#93a0b2;--m2:#5c6a7d;--a:#55d6a6;--a2:#5b9dff;--a-soft:rgba(85,214,166,.10);--amber:#fbbf24;--red:#f87171;--purple:#a78bfa}
   *{box-sizing:border-box}
@@ -96,6 +96,11 @@
   .out-head h3{margin:0;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--a);font-weight:800}
   .out-head .pill{font-size:10px;letter-spacing:1px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--a-soft);color:var(--a);border:1px solid rgba(85,214,166,.3)}
   .out-head .pill.p2{color:var(--purple);background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.30)}
+  .topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;padding:10px 14px;background:var(--p);border:1px solid var(--l);border-radius:12px}
+  .topnav .label{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--m);letter-spacing:.5px}
+  .topnav .label b{color:var(--t);font-weight:800;letter-spacing:.8px}
+  .topnav .dot{width:8px;height:8px;border-radius:50%;background:var(--a);box-shadow:0 0 8px var(--a);animation:pulse2 2s ease-in-out infinite}
+  @keyframes pulse2{0%,100%{opacity:1}50%{opacity:.4}}
 </style>
 </head>
 <body>
@@ -109,12 +114,46 @@
     <span class="badge">● READY</span>
   </div>
 
-  <!-- HOME -->
-  <section id="screenHome" class="screen active">
+  <section id="screenNDP" class="screen active">
+    <div class="topnav">
+      <div class="label"><span class="dot"></span> <b>NDP — NEW DEPOSIT PLAYER</b> — Cek DP member baru</div>
+      <button class="back-btn" data-back>Kembali ke Home</button>
+    </div>
+    <div class="card">
+      <h2>NDP — New Deposit Player</h2>
+      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP.</div>
+      <div class="grid">
+        <div><div class="muted">DATA NEWMEMBER</div><textarea id="ndpNew" placeholder="Paste list member baru di sini..."></textarea></div>
+        <div><div class="muted">DATA DP</div><textarea id="ndpDp" placeholder="Paste data Deposit History di sini..."></textarea></div>
+      </div>
+      <div class="actions">
+        <button id="ndpProcess">PROSES NDP</button>
+        <button class="ghost" id="ndpClear">BERSIHKAN</button>
+      </div>
+      <div id="ndpError" class="err"></div>
+      <div id="ndpInfo" class="info" style="display:none"></div>
+    </div>
+    <div class="card">
+      <div class="stat" id="ndpStats">
+        <div><span>NEW MEMBER</span><b>—</b></div>
+        <div><span>PUNYA DP</span><b>—</b></div>
+        <div><span>NDP (0 DP)</span><b>—</b></div>
+        <div><span>TOTAL DP</span><b>—</b></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Hasil NDP</h2>
+      <div class="sub">No · Tanggal · User · Total DP</div>
+      <pre id="ndpOut">Belum ada hasil.</pre>
+      <div class="actions"><button class="ghost" id="ndpCopy">COPY HASIL NDP</button></div>
+    </div>
+  </section>
+
+  <section id="screenHome" class="screen">
     <div class="hero">
       <div class="emoji"><img src="bb00a.png" alt="JL"></div>
-      <h1>SELAMAT DATANG</h1>
-      <p>Selamat datang di <b style="color:#55d6a6">Jalur Langit</b>. Pilih tools di bawah untuk mulai bekerja. Semua perhitungan berjalan lokal di browser kamu — cepat, ringan, tanpa kirim data ke server.</p>
+      <h1>JALUR LANGIT</h1>
+      <p>Pilih tools di bawah untuk mulai bekerja. Semua perhitungan berjalan lokal di browser kamu — cepat, ringan, tanpa kirim data ke server.</p>
       <span class="tagline">Data Checker · Final v7</span>
     </div>
     <div class="sec-title">Tools</div>
@@ -149,10 +188,15 @@
         <small>Buka halaman pelaporan phising. Link akan terbuka otomatis di tab baru.</small>
         <div class="go">Buka Link</div>
       </div>
+      <div class="tool empty disabled">
+        <div class="ic">➕</div>
+        <b>Slot Fitur</b>
+        <small>Placeholder — siap diisi tool baru.</small>
+        <div class="go">Coming Soon</div>
+      </div>
     </div>
   </section>
 
-  <!-- DATA CHECKER -->
   <section id="screenChecker" class="screen">
     <div class="actions" style="margin-top:0;margin-bottom:14px">
       <button class="back-btn" data-back>Kembali ke Home</button>
@@ -164,10 +208,10 @@
     </div>
     <div class="card">
       <h2>Data Checker</h2>
-      <div class="sub">Paste Deposit History &amp; Withdraw History, lalu klik PROSES DATA.</div>
+      <div class="sub">Paste Deposit History (wajib). <b style="color:#55d6a6">Withdraw History opsional</b> — kalau gak ada WD, boleh dikosongin.</div>
       <div class="grid">
-        <div><div class="muted">DATA DP / Deposit History</div><textarea id="dp" placeholder="Paste seluruh tabel Deposit History di sini..."></textarea></div>
-        <div><div class="muted">DATA WD / Withdraw History</div><textarea id="wd" placeholder="Paste seluruh tabel Withdraw History di sini..."></textarea></div>
+        <div><div class="muted">DATA DP / Deposit History <span style="color:#f87171">*wajib</span></div><textarea id="dp" placeholder="Paste seluruh tabel Deposit History di sini..."></textarea></div>
+        <div><div class="muted">DATA WD / Withdraw History <span style="color:#93a0b2">(opsional)</span></div><textarea id="wd" placeholder="Paste Withdraw History di sini (kosongin aja kalau gak ada)..."></textarea></div>
       </div>
       <div class="actions">
         <button id="process">PROSES DATA</button>
@@ -201,53 +245,10 @@
     </div>
   </section>
 
-  <!-- NDP -->
-  <section id="screenNDP" class="screen">
-    <div class="actions" style="margin-top:0;margin-bottom:14px">
-      <button class="back-btn" data-back>Kembali ke Home</button>
-    </div>
-    <div class="card">
-      <h2>NDP — New Deposit Player</h2>
-      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP.</div>
-      <div class="grid">
-        <div>
-          <div class="muted">DATA NEWMEMBER</div>
-          <textarea id="ndpNew" placeholder="Paste list member baru di sini..."></textarea>
-        </div>
-        <div>
-          <div class="muted">DATA DP</div>
-          <textarea id="ndpDp" placeholder="Paste data Deposit History di sini..."></textarea>
-        </div>
-      </div>
-      <div class="actions">
-        <button id="ndpProcess">PROSES NDP</button>
-        <button class="ghost" id="ndpClear">BERSIHKAN</button>
-      </div>
-      <div id="ndpError" class="err"></div>
-      <div id="ndpInfo" class="info" style="display:none"></div>
-    </div>
-    <div class="card">
-      <div class="stat" id="ndpStats">
-        <div><span>NEW MEMBER</span><b>—</b></div>
-        <div><span>PUNYA DP</span><b>—</b></div>
-        <div><span>NDP (0 DP)</span><b>—</b></div>
-        <div><span>TOTAL DP</span><b>—</b></div>
-      </div>
-    </div>
-    <div class="card">
-      <h2>Hasil NDP</h2>
-      <div class="sub">No · Tanggal · User · Total DP</div>
-      <pre id="ndpOut">Belum ada hasil.</pre>
-      <div class="actions"><button class="ghost" id="ndpCopy">COPY HASIL NDP</button></div>
-    </div>
-  </section>
-
-  <!-- SORTIR JADWAL & PREDIKSI -->
   <section id="screenSortir" class="screen">
     <div class="actions" style="margin-top:0;margin-bottom:14px">
       <button class="back-btn" data-back>Kembali ke Home</button>
     </div>
-
     <div class="card">
       <h2>Sortir Jadwal &amp; Prediksi</h2>
       <div class="sub">Paste data odds (Add All / Add favourite) lalu klik SORTIR SEKARANG.</div>
@@ -257,7 +258,6 @@
         <button class="ghost" id="sortirReset">RESET</button>
       </div>
     </div>
-
     <div class="card">
       <div class="stat" id="sortirStats">
         <div><span>TOTAL LIGA</span><b>—</b></div>
@@ -269,7 +269,6 @@
         <div><span>PASARAN SEIMBANG</span><b>—</b></div>
       </div>
     </div>
-
     <div class="card">
       <div class="out-head">
         <h3>1. HASIL MURNI (JADWAL + HANDICAP)</h3>
@@ -278,7 +277,6 @@
       <pre id="sortirOutMurni">Belum ada hasil.</pre>
       <div class="actions"><button class="ghost" id="sortirCopyMurni">SALIN HASIL</button></div>
     </div>
-
     <div class="card">
       <div class="out-head">
         <h3>2. HASIL PREDIKSI SKOR (MAX 3 GOAL)</h3>
@@ -292,7 +290,6 @@
 </main>
 
 <script>
-/* ===== UTIL ===== */
 const $=id=>document.getElementById(id);
 function clean(s){return String(s??"").replace(/\u00a0/g," ").replace(/\\@/g,"@").replace(/\*\*/g,"").replace(/<br\s*\/?>/gi," ").trim();}
 function dt(s){const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return null;let h=+m[4],ap=(m[7]||"").toUpperCase();if(ap==="PM"&&h<12)h+=12;if(ap==="AM"&&h===12)h=0;return new Date(+m[3],+m[2]-1,+m[1],h,+m[5],+(m[6]||0));}
@@ -303,7 +300,6 @@ function num(s){return /^[-+]?\d[\d.,]*$/.test(clean(s));}
 function depAmt(s){let x=clean(s).replace(/[^\d-]/g,"");if(!x||x==="-")return 0;return Number(x)||0;}
 function wdAmt(s){return Number(clean(s).replace(/,/g,""))||0;}
 
-/* ===== SCREEN ROUTER ===== */
 function goScreen(name){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen"+name).classList.add("active");
@@ -314,7 +310,6 @@ document.querySelectorAll("[data-open]").forEach(el=>{
     if(el.classList.contains("disabled"))return;
     const t=el.dataset.open;
     const url=el.dataset.url;
-    // Kalau ada data-url → buka di tab baru
     if(url){ window.open(url,"_blank","noopener"); return; }
     goScreen(t==="checker"?"Checker":t==="ndp"?"NDP":t==="sortir"?"Sortir":"Home");
   });
@@ -323,9 +318,7 @@ document.querySelectorAll("[data-back]").forEach(el=>{
   el.addEventListener("click",()=>goScreen("Home"));
 });
 
-/* ===== PARSER — DATA CHECKER ===== */
 function cells(line){if(!line.includes("|"))return[];let c=line.split("|").map(clean);while(c[0]==="")c.shift();while(c.at(-1)==="")c.pop();return c;}
-
 function parseDP(text){
   const out=[];const lines=text.split(/\r?\n/);
   for(const raw of lines){
@@ -357,7 +350,6 @@ function parseDP(text){
   return dedupeDP(out);
 }
 function dedupeDP(a){const s=new Set();return a.filter(x=>{const k=x.user+"|"+x.amount+"|"+x.date.getTime()+"|"+x.category;if(s.has(k))return false;s.add(k);return true;});}
-
 function parseWD(text){
   const out=[];
   for(const raw of text.split(/\r?\n/)){
@@ -385,47 +377,36 @@ function parseWD(text){
 function dedupeWD(a){const s=new Set();return a.filter(x=>{const k=x.user+"|"+x.wdRaw+"|"+x.date.getTime();if(s.has(k))return false;s.add(k);return true;});}
 function categoryTotal(rows,cat){return rows.filter(x=>x.category===cat).reduce((s,x)=>s+x.amount,0);}
 
-/* ===== STATE ===== */
 let DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[],TOTAL:[]},cur="hasil";
 let COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};
 let TOTAL={};
 
-/* ===== PROCESS — DATA CHECKER ===== */
 function processData(){
   $("error").classList.remove("show");
   const dp=parseDP($("dp").value),wd=parseWD($("wd").value);
   if(!dp.length)throw Error("DP belum terbaca. Paste seluruh Deposit History.");
-  if(!wd.length)throw Error("WD belum terbaca. Paste seluruh Withdraw History.");
-
   const user=dp[0].user;
-  const d=dp.filter(x=>x.user===user),w=wd.filter(x=>x.user===user);
-  if(!w.length)throw Error("WD untuk USER ID "+user+" belum terbaca.");
-
+  const d=dp.filter(x=>x.user===user);
+  const w=wd.length?wd.filter(x=>x.user===user):[];
   const ordinary=d.filter(x=>x.category==="DP");
   const A=d.filter(x=>x.category==="A"),B=d.filter(x=>x.category==="B"),C=d.filter(x=>x.category==="C"),D=d.filter(x=>x.category==="D"),E=d.filter(x=>x.category==="E");
-
   const totalDP=ordinary.reduce((s,x)=>s+x.amount,0);
   const bonus=categoryTotal(d,"A")+categoryTotal(d,"B")+categoryTotal(d,"C")+categoryTotal(d,"D")+categoryTotal(d,"E");
-
   const lastDP=ordinary.slice().sort((a,b)=>b.date-a.date)[0];
   if(!lastDP)throw Error("Tidak ditemukan DP biasa.");
-
   const y=lastDP.date.getFullYear(),m=lastDP.date.getMonth(),day=lastDP.date.getDate();
   const sameLastDay=d.filter(x=>x.date.getFullYear()===y&&x.date.getMonth()===m&&x.date.getDate()===day);
   const totalDPDate=sameLastDay.reduce((s,x)=>s+x.amount,0);
-
-  const latestWD=w.slice().sort((a,b)=>b.date-a.date)[0];
+  const latestWD=w.length?w.slice().sort((a,b)=>b.date-a.date)[0]:null;
   const totalWD=w.reduce((s,x)=>s+x.wdRaw*1000,0);
-
   const net=totalDP-totalWD-bonus;
   const status=net>0?"WIN":net<0?"LOSE":"BALANCE";
   const title=($("reportName").value||"LAPORAN").trim().toUpperCase();
-
   DATA.hasil=`${title}
 
 USER ID : ${user}
-WD : ${displayed(latestWD.wdRaw)}
-SISA DANA AKUN : ${displayed(latestWD.newRaw)}
+WD : ${latestWD?displayed(latestWD.wdRaw):"0.00"}
+SISA DANA AKUN : ${latestWD?displayed(latestWD.newRaw):"0.00"}
 
 LAST DP : ${fmt(lastDP.amount)}
 ${lastDP.dateText}
@@ -440,7 +421,6 @@ STATUS KITA : ${status}
 
 GAMES :
 MEMBER REGISTER :`;
-
   const pack=(rows,label)=>{
     if(!rows.length)return ["Tidak ada data "+label+"."];
     const sorted=rows.slice().sort((a,b)=>a.date-b.date);
@@ -450,8 +430,7 @@ MEMBER REGISTER :`;
   };
   DATA.DP=pack(ordinary,"DP");DATA.A=pack(A,"SCB A");DATA.B=pack(B,"SCB B");
   DATA.C=pack(C,"SCB C");DATA.D=pack(D,"SCB D");DATA.E=pack(E,"SCB E");
-  DATA.WD=w.slice().sort((a,b)=>a.date-b.date).map((x,i)=>`${i+1}. WD ${displayed(x.wdRaw)} → ${fmt(x.wdRaw*1000)}`);
-
+  DATA.WD=w.length?w.slice().sort((a,b)=>a.date-b.date).map((x,i)=>`${i+1}. WD ${displayed(x.wdRaw)} → ${fmt(x.wdRaw*1000)}`):["Tidak ada data WD."];
   COPY.DP=ordinary.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.A=A.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.B=B.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
@@ -459,7 +438,6 @@ MEMBER REGISTER :`;
   COPY.D=D.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.E=E.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
   COPY.WD=w.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.wdRaw*1000));
-
   TOTAL={totalDPDate,lastDate:`${String(day).padStart(2,"0")}/${String(m+1).padStart(2,"0")}/${y}`,
     totalDP,A:categoryTotal(d,"A"),B:categoryTotal(d,"B"),C:categoryTotal(d,"C"),
     D:categoryTotal(d,"D"),E:categoryTotal(d,"E"),bonus,grand:totalDP+bonus};
@@ -472,19 +450,16 @@ MEMBER REGISTER :`;
     `TOTAL BONUS: ${fmt(TOTAL.bonus)}`,
     `DP + BONUS seluruh periode: ${fmt(TOTAL.grand)}`
   ];
-
   $("stats").innerHTML=`
     <div><span>DP BIASA</span><b>${ordinary.length}</b></div>
     <div><span>SCB</span><b>${A.length+B.length+C.length+D.length+E.length}</b></div>
     <div><span>WD</span><b>${w.length}</b></div>
     <div><span>STATUS</span><b>${status}</b></div>`;
-
   show("hasil");
 }
-
 function show(t){
   cur=t;
-  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.t===t));
+  document.querySelectorAll("#tabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.t===t));
   if(t==="TOTAL"){
     $("out").style.display="none";
     $("tblOut").style.display="block";
@@ -508,9 +483,6 @@ function show(t){
   $("out").textContent=t==="hasil"?DATA.hasil:(DATA[t]||[]).join("\n")||"Tidak ada data.";
 }
 
-/* ============================================================
-   NDP
-   ============================================================ */
 function fixMultilineQuotes(text){
   let out="",inQ=false;
   for(let i=0;i<text.length;i++){
@@ -522,9 +494,9 @@ function fixMultilineQuotes(text){
   return out;
 }
 function isRecordStart(line){
-  if(/^\s*[\d.,]+\s+.*BFJ@[\w.@\-]+/i.test(line)) return true;
   if(/^\s*BFJ@[\w.@\-]+/i.test(line)) return true;
-  return false;
+  if(!/^\s*[\d.,]{1,6}[\s\t]/.test(line)) return false;
+  return /BFJ@[\w.@\-]+/i.test(line.slice(0, 120));
 }
 function groupIntoRecords(text){
   const cleaned=fixMultilineQuotes(text);
@@ -593,36 +565,29 @@ function processNDP(){
     const dpRows=parseNDPDP($("ndpDp").value);
     if(!newMembers.length)throw Error("NEWMEMBER belum terbaca. Paste data member baru dulu.");
     if(!dpRows.length)throw Error("DP belum terbaca. Paste data Deposit History dulu.");
-
     const dpMap=new Map();
     for(const d of dpRows){
       dpMap.set(d.user,(dpMap.get(d.user)||0)+d.amount);
     }
-
     const sorted=newMembers.slice().sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
-
     const punyaDP=sorted.filter(m=>dpMap.has(m.user)).length;
     const tanpaDP=sorted.length-punyaDP;
     const totalDP=sorted.reduce((s,m)=>s+(dpMap.get(m.user)||0),0);
-
     const header=
       `═══════════════════════════════════\n`+
       `  TOTAL MEMBER BARU : ${sorted.length}\n`+
       `  TOTAL DEPOSIT     : ${fmt(totalDP)}\n`+
       `═══════════════════════════════════\n\n`;
-
     const lines=sorted.map((m,i)=>{
       const total=dpMap.get(m.user)||0;
       return `${i+1}\t${m.dateText||"—"}\t${m.user}\t${fmt(total)}`;
     });
-
     $("ndpOut").textContent=header+(lines.length?lines.join("\n"):"Tidak ada data.");
     $("ndpStats").innerHTML=`
       <div><span>NEW MEMBER</span><b>${sorted.length}</b></div>
       <div><span>PUNYA DP</span><b>${punyaDP}</b></div>
       <div><span>NDP (0 DP)</span><b>${tanpaDP}</b></div>
       <div><span>TOTAL DP</span><b>${fmt(totalDP)}</b></div>`;
-
     const uniqueUsers=[...new Set(dpRows.map(r=>r.user))].length;
     $("ndpInfo").innerHTML=
       `✓ NEWMEMBER: ${newMembers.length} user terbaca<br>`+
@@ -634,12 +599,8 @@ function processNDP(){
   }
 }
 
-/* ============================================================
-   SORTIR JADWAL & PREDIKSI
-   ============================================================ */
 const pad2=n=>String(n).padStart(2,'0');
 const DT_REGEX=/(\d{2}[\/\-]\d{2})\s+(\d{1,2}:\d{2})/;
-
 function shiftBackOneHour(ddmm,hhmm){
   const [d,m]=ddmm.split('/').map(Number);
   const [h,mi]=hhmm.split(':').map(Number);
@@ -647,7 +608,6 @@ function shiftBackOneHour(ddmm,hhmm){
   dt.setHours(dt.getHours()-1);
   return `${pad2(dt.getDate())}/${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
 }
-
 function findEarliestDate(text){
   const re=/(\d{2})[\/\-](\d{2})\s+\d{1,2}:\d{2}/g;
   let minKey=null,minDate=null,m;
@@ -658,19 +618,9 @@ function findEarliestDate(text){
   }
   return minDate;
 }
-
-function cleanTeam(name){
-  return name.replace(/\[\s*\d+\s*\]/g,'').replace(/\s{2,}/g,' ').trim();
-}
-
-function isHdpToken(s){
-  return /^\d+(\.\d+)?\s*[:\-]\s*\d+/.test(s) || /^[\d.]+[\s:]+/.test(s);
-}
-
-function cleanHdp(s){
-  return s.replace(/\s+/g,' ').trim();
-}
-
+function cleanTeam(name){return name.replace(/\[\s*\d+\s*\]/g,'').replace(/\s{2,}/g,' ').trim();}
+function isHdpToken(s){return /^\d+(\.\d+)?\s*[:\-]\s*\d+/.test(s)||/^[\d.]+[\s:]+/.test(s);}
+function cleanHdp(s){return s.replace(/\s+/g,' ').trim();}
 function toGoals(s){
   let t=String(s).replace(',','.').trim();
   if(!t)return 0;
@@ -681,62 +631,32 @@ function toGoals(s){
   const n=parseFloat(t);
   return isNaN(n)?0:n;
 }
-
 function parseSortirMatches(text){
   const earliestDate=findEarliestDate(text);
   const lines=text.split(/\r?\n/);
   const out=[];
-  let league='';
-  let pendingDT='';
-  let teams=[];
-  let awaitingOdds=false;
-  let cur=null;
-  let expectingLiveTime=false;
-
+  let league='',pendingDT='',teams=[],awaitingOdds=false,cur=null,expectingLiveTime=false;
   for(const raw of lines){
     const line=raw.trim();
     if(!line)continue;
-
     const mAll=line.match(/^Add\s+All\s*(.+)$/i);
-    if(mAll){
-      league=mAll[1].trim();
-      pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;
-      continue;
-    }
+    if(mAll){league=mAll[1].trim();pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;continue;}
     if(/^Add\s+favou?rite/i.test(line))continue;
-
     const tokens=line.split(/[\s\t]+/);
     const hasLive=tokens.some(t=>t.toUpperCase()==='LIVE');
     if(hasLive){
       const tmLive=line.match(/LIVE\s+(\d{1,2}:\d{2})/i);
-      if(tmLive&&earliestDate){
-        pendingDT=shiftBackOneHour(earliestDate,tmLive[1]);
-        teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;
-        continue;
-      }
-      pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=true;
-      continue;
+      if(tmLive&&earliestDate){pendingDT=shiftBackOneHour(earliestDate,tmLive[1]);teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;continue;}
+      pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=true;continue;
     }
-
     if(expectingLiveTime){
       const tmOnly=line.match(/^(\d{1,2}:\d{2})/);
-      if(tmOnly&&earliestDate){
-        pendingDT=shiftBackOneHour(earliestDate,tmOnly[1]);
-        expectingLiveTime=false;
-        continue;
-      }
+      if(tmOnly&&earliestDate){pendingDT=shiftBackOneHour(earliestDate,tmOnly[1]);expectingLiveTime=false;continue;}
       expectingLiveTime=false;
     }
-
     const dtm=line.match(DT_REGEX);
-    if(dtm){
-      pendingDT=shiftBackOneHour(dtm[1].replace(/-/g,'/'),dtm[2]);
-      teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;
-      continue;
-    }
-
+    if(dtm){pendingDT=shiftBackOneHour(dtm[1].replace(/-/g,'/'),dtm[2]);teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;continue;}
     if(/^1X2$/i.test(line))continue;
-
     if(line.includes('\t')){
       if(awaitingOdds&&cur&&!cur.hdp){
         const first=line.split('\t')[0].trim();
@@ -745,7 +665,6 @@ function parseSortirMatches(text){
       }
       continue;
     }
-
     if(awaitingOdds)continue;
     teams.push(cleanTeam(line));
     if(teams.length===2){
@@ -757,7 +676,6 @@ function parseSortirMatches(text){
   }
   return out;
 }
-
 function dedupeSortir(matches){
   const seen=new Set();
   return matches.filter(m=>{
@@ -767,14 +685,12 @@ function dedupeSortir(matches){
     return true;
   });
 }
-
 function predictScore(hdp){
   if(!hdp)return '1-1';
   const parts=hdp.split(':');
   if(parts.length!==2)return '1-1';
   const left=toGoals(parts[0]);
   const right=toGoals(parts[1]);
-
   if(left>right){
     const h=left-right;
     if(h<=0.75)return '2-1';
@@ -791,13 +707,11 @@ function predictScore(hdp){
   }
   return '1-1';
 }
-
 function timeKeySortir(dt){
   const m=String(dt).match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
   if(!m)return 0;
   return (+m[2])*100000000+(+m[1])*1000000+(+m[3])*10000+(+m[4]);
 }
-
 function groupByLeagueSortir(matches){
   const map=new Map();
   matches.forEach(m=>{
@@ -808,41 +722,32 @@ function groupByLeagueSortir(matches){
   map.forEach(arr=>arr.sort((a,b)=>timeKeySortir(a.dt)-timeKeySortir(b.dt)));
   return map;
 }
-
 function buildMurni(map){
   const blocks=[];
   for(const [league,arr] of map.entries()){
     const lines=[];
     if(league)lines.push(league);
-    arr.forEach(m=>{
-      lines.push(`${m.dt} ${m.home} VS ${m.away}${m.hdp?' '+m.hdp:''}`);
-    });
+    arr.forEach(m=>{lines.push(`${m.dt} ${m.home} VS ${m.away}${m.hdp?' '+m.hdp:''}`);});
     blocks.push(lines.join('\n'));
   }
   return blocks.join('\n\n');
 }
-
 function buildPrediksi(map){
   const blocks=[];
   for(const [league,arr] of map.entries()){
     const lines=[];
     if(league)lines.push(league);
-    arr.forEach(m=>{
-      lines.push(`${m.dt} ${m.home} VS ${m.away} ${predictScore(m.hdp)}`);
-    });
+    arr.forEach(m=>{lines.push(`${m.dt} ${m.home} VS ${m.away} ${predictScore(m.hdp)}`);});
     blocks.push(lines.join('\n'));
   }
   return blocks.join('\n\n');
 }
-
 function runSortir(){
   const text=$("sortirInput").value;
   const matches=dedupeSortir(parseSortirMatches(text));
   const map=groupByLeagueSortir(matches);
-
   $("sortirOutMurni").textContent=buildMurni(map)||"Belum ada data.";
   $("sortirOutPrediksi").textContent=buildPrediksi(map)||"Belum ada data.";
-
   let homeFav=0,awayFav=0,even=0;
   matches.forEach(m=>{
     if(!m.hdp)return;
@@ -853,17 +758,14 @@ function runSortir(){
     else if(r>l)awayFav++;
     else even++;
   });
-
   $("sortirStats").innerHTML=`
     <div><span>TOTAL LIGA</span><b>${map.size}</b></div>
     <div><span>TOTAL PERTANDINGAN</span><b>${matches.length}</b></div>
     <div><span>FAVORIT HOME</span><b>${homeFav}</b></div>
     <div><span>FAVORIT AWAY</span><b>${awayFav}</b></div>
     <div><span>PASARAN SEIMBANG</span><b>${even}</b></div>`;
-
   if(!matches.length)alert("Belum ada data yang bisa disortir pren!");
 }
-
 function resetSortir(){
   $("sortirInput").value="";
   $("sortirOutMurni").textContent="Belum ada hasil.";
@@ -888,13 +790,10 @@ $("sortirCopyPrediksi").onclick=()=>{
     setTimeout(()=>b.textContent="SALIN HASIL",900);
   });
 };
-
 $("sortirProcess").onclick=runSortir;
 $("sortirReset").onclick=resetSortir;
 
-/* ===== EVENTS ===== */
 $("process").onclick=()=>{try{processData()}catch(e){$("error").textContent=e.message;$("error").classList.add("show")}};
-
 $("clear").onclick=()=>{
   $("dp").value="";$("wd").value="";$("out").textContent="Belum ada hasil.";
   $("error").classList.remove("show");
@@ -903,17 +802,14 @@ $("clear").onclick=()=>{
   $("tblOut").style.display="none";$("out").style.display="block";
   $("stats").innerHTML=`<div><span>DP BIASA</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>WD</span><b>—</b></div><div><span>STATUS</span><b>—</b></div>`;
 };
-
 $("copy").onclick=()=>{
-  const t = cur==="hasil" ? DATA.hasil : cur==="TOTAL" ? (DATA.TOTAL||[]).join("\n") : (COPY[cur]||[]).join("\n");
+  const t=cur==="hasil"?DATA.hasil:cur==="TOTAL"?(DATA.TOTAL||[]).join("\n"):(COPY[cur]||[]).join("\n");
   navigator.clipboard.writeText(t).then(()=>{
     const b=$("copy");b.textContent="TERCOPY!";
     setTimeout(()=>b.textContent="COPY TAB INI",900);
   });
 };
-
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>show(b.dataset.t));
-
+document.querySelectorAll("#tabs .tab").forEach(b=>b.onclick=()=>show(b.dataset.t));
 $("reportName").addEventListener("input",()=>{
   if(!DATA.hasil)return;
   const lines=DATA.hasil.split("\n");
@@ -921,9 +817,7 @@ $("reportName").addEventListener("input",()=>{
   DATA.hasil=lines.join("\n");
   if(cur==="hasil")$("out").textContent=DATA.hasil;
 });
-
 $("ndpProcess").onclick=processNDP;
-
 $("ndpClear").onclick=()=>{
   $("ndpNew").value="";$("ndpDp").value="";
   $("ndpOut").textContent="Belum ada hasil.";
@@ -931,7 +825,6 @@ $("ndpClear").onclick=()=>{
   $("ndpInfo").style.display="none";
   $("ndpStats").innerHTML=`<div><span>NEW MEMBER</span><b>—</b></div><div><span>PUNYA DP</span><b>—</b></div><div><span>NDP (0 DP)</span><b>—</b></div><div><span>TOTAL DP</span><b>—</b></div>`;
 };
-
 $("ndpCopy").onclick=()=>{
   navigator.clipboard.writeText($("ndpOut").textContent).then(()=>{
     const b=$("ndpCopy");b.textContent="TERCOPY!";

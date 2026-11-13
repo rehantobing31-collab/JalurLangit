@@ -4,555 +4,873 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JALUR LANGIT</title>
-<link rel="shortcut icon" href="bb00a.png?v=5">
-<link rel="icon" type="image/png" sizes="32x32" href="bb00a.png?v=5">
-<link rel="icon" type="image/png" sizes="64x64" href="bb00a.png?v=5">
-<link rel="apple-touch-icon" sizes="180x180" href="bb00a.png?v=5">
+<link rel="shortcut icon" href="https://i.ibb.co/LHn9CwT/bb00a.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/LHn9CwT/bb00a.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://i.ibb.co/LHn9CwT/bb00a.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/LHn9CwT/bb00a.png">
 <style>
   :root{
-    --bg:#0a0e14;
-    --bg2:#0d1219;
-    --card:#141a22;
-    --card-hi:#1a222c;
-    --border:#1f2834;
-    --border-hi:#2b3644;
-    --text:#e8edf3;
-    --muted:#8896a8;
-    --dim:#5a6675;
-    --green:#4ade80;
-    --blue:#60a5fa;
-    --soft-green:rgba(74,222,128,.08);
-    --soft-blue:rgba(96,165,250,.08);
-    --soft-amber:rgba(251,191,36,.08);
-    --soft-red:rgba(248,113,113,.08);
-    --soft-purple:rgba(167,139,250,.08);
-    --amber:#fbbf24;
+    --bg:#0b1120; 
+    --bg2:#0f172a;
+    --sidebar-bg:#0a0f1c;
+    --card:rgba(30, 41, 59, 0.6); 
+    --card-hover:rgba(30, 41, 59, 0.9);
+    --border:rgba(255, 255, 255, 0.08); 
+    --border-hover:rgba(56, 189, 248, 0.4);
+    
+    --text:#f1f5f9; 
+    --muted:#94a3b8; 
+    --dim:#64748b;
+    
+    --teal:#2dd4bf; 
+    --sky:#38bdf8; 
+    --purple:#c084fc; 
     --red:#f87171;
-    --purple:#a78bfa;
+    
+    --soft-teal:rgba(45, 212, 191, 0.1);
+    --soft-sky:rgba(56, 189, 248, 0.1);
+    --soft-red:rgba(248, 113, 113, 0.1);
+    --soft-purple:rgba(192, 132, 252, 0.1);
+    
+    --brand-grad: linear-gradient(90deg, var(--teal), var(--sky));
+    
+    --sidebar-w: 74px;
+    --sidebar-w-exp: 260px;
   }
   *{box-sizing:border-box}
   body{
     margin:0;min-height:100vh;
-    background:
-      radial-gradient(900px 500px at 20% -10%,rgba(74,222,128,.05),transparent 60%),
-      radial-gradient(700px 400px at 90% 5%,rgba(96,165,250,.05),transparent 55%),
-      linear-gradient(180deg,var(--bg),var(--bg2));
+    background: var(--bg2);
     color:var(--text);
-    font:14px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+    font:14px/1.55 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
     -webkit-font-smoothing:antialiased;
+    overflow: hidden;
   }
-  .wrap{max-width:1000px;margin:auto;padding:24px 20px 60px}
 
-  /* ===== HEADER ===== */
-  .top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:56px;height:56px;display:grid;place-items:center;flex:0 0 auto}
-  .logo img{width:100%;height:100%;display:block;border-radius:14px;box-shadow:0 0 20px rgba(74,222,128,.18)}
-  .brand h1{
-    margin:0;font-size:22px;font-weight:800;letter-spacing:1.2px;
-    background:linear-gradient(90deg,#4ade80,#7dd3fc 55%,#60a5fa);
+  /* LAYOUT UTAMA */
+  .app-container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ============ SIDEBAR KIRI (HOVER EXPAND) ============ */
+  .sidebar {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100vh;
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 100;
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  }
+  .sidebar:hover,
+  .sidebar:focus-within {
+    width: var(--sidebar-w-exp);
+    box-shadow: 15px 0 35px -5px rgba(0,0,0,0.6);
+  }
+
+  .sidebar-header {
+    height: 88px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .sidebar:hover .sidebar-header,
+  .sidebar:focus-within .sidebar-header {
+    justify-content: flex-start;
+  }
+  .sidebar-header img {
+    width: 40px; height: 40px; border-radius: 10px;
+    box-shadow: 0 0 15px rgba(56,189,248,0.2);
+    flex-shrink: 0;
+  }
+  .sidebar-header h1 {
+    margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 1px;
+    background: var(--brand-grad);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    white-space: nowrap;
+    display: none;
+  }
+  .sidebar:hover .sidebar-header h1,
+  .sidebar:focus-within .sidebar-header h1 {
+    display: block;
+  }
+
+  .sidebar-menu {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .sidebar-menu::-webkit-scrollbar { width: 4px; }
+  .sidebar-menu::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    text-align: left;
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .sidebar:hover .nav-item,
+  .sidebar:focus-within .nav-item {
+    justify-content: flex-start;
+  }
+  .nav-item svg {
+    width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; flex-shrink: 0;
+  }
+  .nav-item span {
+    margin-left: 12px;
+    display: none;
+  }
+  .sidebar:hover .nav-item span,
+  .sidebar:focus-within .nav-item span {
+    display: inline-block;
+  }
+  .nav-item:hover {
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+  }
+  .nav-item.active {
+    background: var(--soft-teal);
+    color: var(--teal);
+    border-color: rgba(45,212,191,0.2);
+  }
+  .nav-item.active svg { stroke: var(--teal); }
+
+  .sidebar-footer {
+    margin-top: auto;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10.5px;
+    color: var(--dim);
+    border-top: 1px solid var(--border);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .sidebar-footer span {
+    display: none;
+  }
+  .sidebar:hover .sidebar-footer span,
+  .sidebar:focus-within .sidebar-footer span {
+    display: inline;
+  }
+
+  /* ============ KONTEN TENGAH ============ */
+  .main-content {
+    height: 100vh;
+    margin-left: var(--sidebar-w);
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    background:
+      radial-gradient(1000px 500px at 10% -10%, rgba(45,212,191,0.03), transparent 50%),
+      radial-gradient(800px 400px at 90% 10%, rgba(56,189,248,0.03), transparent 50%),
+      var(--bg2);
+  }
+
+  .inner-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* HERO DASHBOARD */
+  .hero{
+    text-align:center;padding:44px 24px;position:relative;overflow:hidden;border-radius:20px;
+    background:linear-gradient(180deg, var(--card), rgba(15, 23, 42, 0.8));
+    border:1px solid var(--border);margin-bottom:24px;
+    backdrop-filter: blur(10px);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(600px 200px at 50% 0%, rgba(45,212,191,0.08), transparent 70%),
+      radial-gradient(500px 200px at 50% 100%, rgba(56,189,248,0.06), transparent 70%);
+    pointer-events:none;
+  }
+  .hero > *{position:relative}
+  .hero .emoji img{width:72px;height:72px;display:block;border-radius:16px;margin:0 auto 12px;box-shadow:0 0 25px rgba(56,189,248,0.25)}
+  .hero h1{
+    margin:0 0 8px;font-size:28px;font-weight:900;letter-spacing:1.5px;
+    background:var(--brand-grad);
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-  .badge{
-    font-size:10.5px;font-weight:700;letter-spacing:1px;
-    padding:6px 12px;border-radius:999px;
-    color:var(--green);background:var(--soft-green);
-    border:1px solid rgba(74,222,128,.25);
+  .hero-subtitle { margin: 0 0 12px; font-size: 18px; color: var(--text); font-weight: 800; }
+  .hero p { margin: 0; font-size: 13px; color: var(--muted); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+  .hero p b { color: var(--text); }
+  .tagline{
+    display:inline-block;margin-top:16px;font-size:10px;letter-spacing:2px;
+    color:var(--teal);text-transform:uppercase;font-weight:800;
+    padding:5px 12px;border-radius:999px;background:var(--soft-teal);
+    border:1px solid rgba(45,212,191,0.25);
   }
 
-  /* ===== CARD ===== */
-  .card{
-    background:linear-gradient(180deg,var(--card),rgba(20,26,34,.6));
-    border:1px solid var(--border);
-    border-radius:16px;padding:20px;margin-bottom:14px;
+  /* GUIDE / TUTORIAL */
+  .guide-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px;
   }
-  .card h2{margin:0 0 4px;font-size:14px;font-weight:800;letter-spacing:.3px}
+  .guide-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:16px;display:flex;gap:12px;align-items:flex-start;
+    transition:all .25s ease;
+  }
+  .guide-card:hover{
+    border-color:var(--border-hover);background:var(--card-hover);transform:translateY(-2px);
+  }
+  .guide-num{
+    width:30px;height:30px;border-radius:9px;background:var(--soft-teal);color:var(--teal);
+    display:grid;place-items:center;font-weight:900;font-size:13px;flex-shrink:0;
+    border:1px solid rgba(45,212,191,0.25);
+  }
+  .guide-body b{display:block;font-size:13px;color:var(--text);margin-bottom:4px;font-weight:800;}
+  .guide-body p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.55;}
+  .guide-body p b{color:var(--teal);font-weight:700;display:inline;}
+
+  /* QUOTE CARD */
+  .quote-card{
+    margin-top:20px;padding:26px 24px;text-align:center;
+    background:linear-gradient(135deg, var(--soft-teal), var(--soft-sky));
+    border:1px solid rgba(45,212,191,0.18);
+    border-radius:16px;position:relative;overflow:hidden;
+  }
+  .quote-card::before{
+    content:"“";position:absolute;top:-20px;left:16px;
+    font-size:100px;color:rgba(45,212,191,0.15);font-family:Georgia,serif;line-height:1;
+  }
+  .quote-card p{
+    margin:0;font-size:14px;font-weight:600;color:var(--text);
+    font-style:italic;line-height:1.65;position:relative;
+  }
+  .quote-card small{
+    display:block;margin-top:12px;font-size:10.5px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--teal);font-weight:800;
+  }
+
+  /* SECTION TITLE */
+  .sec-title{
+    display:flex;align-items:center;gap:10px;margin:24px 0 14px;
+    font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;font-weight:800;
+  }
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+
+  /* TOOLS GRID (Kartu di Home) */
+  .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .tool{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:20px; cursor:pointer; transition:all 0.25s ease; backdrop-filter: blur(8px);
+  }
+  .tool:hover{
+    background:var(--card-hover); border-color:var(--border-hover);
+    box-shadow:0 8px 20px rgba(0,0,0,0.3); transform:translateY(-2px);
+  }
+  .tool .ic{
+    width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);
+    border:1px solid var(--border); display:grid;place-items:center;margin-bottom:16px;color:var(--muted);
+  }
+  .tool:hover .ic{color:var(--teal); border-color:rgba(45,212,191,0.3); background:var(--soft-teal)}
+  .tool svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+  .tool b{font-size:15px;font-weight:700;display:block;margin-bottom:6px;color:var(--text);letter-spacing:0.2px}
+  .tool small{font-size:12px;color:var(--muted);line-height:1.5;display:block;margin-bottom:20px;min-height:36px}
+  .tool .go{font-size:10px;letter-spacing:1.5px;font-weight:800;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+  .tool .go::after{content:"→";transition:transform .2s}
+  .tool:hover .go::after{transform:translateX(4px)}
+
+  /* FORM / CARD TOOLS */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;backdrop-filter:blur(8px)}
+  .card h2{margin:0 0 4px;font-size:14px;font-weight:700;letter-spacing:.3px;color:var(--teal)}
   .card .sub{font-size:11.5px;color:var(--muted);margin-bottom:16px;line-height:1.5}
   .muted{color:var(--muted);font-size:12px}
-
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media(max-width:760px){.grid{grid-template-columns:1fr}}
-
-  textarea{
-    width:100%;min-height:160px;
-    background:#0a0e14;color:var(--text);
-    border:1px solid var(--border);border-radius:12px;
-    padding:12px;font:12px/1.55 Consolas,'SF Mono',monospace;
-    resize:vertical;
-    transition:border-color .15s,box-shadow .15s;
-  }
-  textarea:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px rgba(74,222,128,.10)}
-  textarea::placeholder{color:var(--dim)}
-
-  input[type=text]{
-    width:100%;background:#0a0e14;color:var(--text);
-    border:1px solid var(--border);border-radius:12px;
-    padding:11px 13px;font:14px/1.4 inherit;font-weight:700;letter-spacing:.6px;
-    transition:border-color .15s,box-shadow .15s;
-  }
-  input[type=text]:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px rgba(74,222,128,.10)}
+  
+  textarea{width:100%;min-height:170px;background:#0b1120;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;font:12px/1.55 Consolas,'SF Mono',monospace;resize:vertical;transition:border-color .15s}
+  textarea:focus{outline:0;border-color:var(--teal);box-shadow:0 0 0 3px rgba(45,212,191,0.15)}
+  input[type=text], input[type=number]{width:100%;background:#0b1120;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:11px 13px;font:14px/1.4 inherit;font-weight:700;letter-spacing:.6px}
   input[type=text][readonly]{cursor:not-allowed;opacity:.85}
-
-  /* ===== BUTTONS ===== */
+  
   .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
   button{
-    border:0;border-radius:10px;cursor:pointer;
-    padding:11px 18px;font-weight:700;font-size:13px;letter-spacing:.2px;
-    background:linear-gradient(135deg,#4ade80,#34d399);
-    color:#06130e;
-    transition:transform .12s,filter .12s,box-shadow .12s;
-    box-shadow:0 4px 12px rgba(74,222,128,.18);
+    border:0;border-radius:10px;cursor:pointer;padding:11px 18px;
+    font-weight:800;font-size:13px;letter-spacing:.2px;
+    background:var(--brand-grad); color:#0f172a; transition:transform .15s, filter .15s;
   }
-  button:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 6px 18px rgba(74,222,128,.25)}
-  button:active{transform:translateY(0)}
-  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border-hi);box-shadow:none}
-  button.ghost:hover{border-color:var(--green);color:var(--green);background:var(--soft-green)}
-  button.tab{
-    background:#1e2733;color:#c8d3e6;
-    padding:8px 12px;font-size:11.5px;
-    box-shadow:none;
-  }
-  button.tab.active{background:linear-gradient(135deg,#4ade80,#34d399);color:#06130e;box-shadow:0 4px 12px rgba(74,222,128,.18)}
-
+  button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none}
+  button.ghost:hover{border-color:var(--teal);color:var(--teal);background:var(--soft-teal)}
+  
   .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-
-  /* ===== OUTPUT ===== */
-  pre{
-    white-space:pre;background:#0a0e14;
-    border:1px solid var(--border);border-radius:12px;
-    padding:14px;min-height:160px;
-    font:12px/1.65 Consolas,'SF Mono',monospace;
-    margin:0;overflow:auto;color:#d8e0ea;
-  }
-
-  /* ===== STATS ===== */
+  button.tab{background:rgba(255,255,255,0.05);color:var(--muted);padding:8px 12px;font-size:11.5px;font-weight:700}
+  button.tab.active{background:var(--brand-grad);color:#0f172a}
+  
+  pre{white-space:pre;background:#0b1120;border:1px solid var(--border);border-radius:12px;padding:14px;min-height:200px;font:12px/1.65 Consolas,'SF Mono',monospace;margin:0;overflow:auto;color:#cbd5e1}
+  
   .stat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .stat div{
-    background:#0e141c;border:1px solid var(--border);
-    border-radius:11px;padding:11px 12px;
-  }
+  .stat div{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:11px;padding:11px 12px}
   .stat span{font-size:10.5px;color:var(--muted);letter-spacing:.5px;font-weight:700}
-  .stat b{display:block;font-size:16px;margin-top:5px;color:var(--green);font-weight:800}
-  @media(max-width:600px){.stat{grid-template-columns:1fr 1fr}}
-
-  /* ===== ERROR / INFO ===== */
-  .err{
-    background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);
-    color:#fca5a5;padding:10px 12px;border-radius:10px;
-    margin-top:12px;font-size:12.5px;display:none;
-  }
+  .stat b{display:block;font-size:16px;margin-top:5px;color:var(--teal);font-weight:800}
+  
+  .err{background:var(--soft-red);border:1px solid rgba(248,113,113,.28);color:#fca5a5;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:12.5px;display:none}
   .err.show{display:block}
-  .info{
-    background:var(--soft-blue);border:1px solid rgba(96,165,250,.22);
-    color:#a5c8ff;padding:9px 12px;border-radius:10px;
-    margin-top:10px;font-size:11.5px;font-family:Consolas,monospace;
-  }
-
-  /* ===== TABLE ===== */
-  .tbl{
-    width:100%;border-collapse:collapse;background:#0a0e14;
-    border:1px solid var(--border);border-radius:12px;overflow:hidden;
-    font:12.5px/1.6 Consolas,monospace;
-  }
+  .info{background:var(--soft-sky);border:1px solid rgba(56,189,248,.22);color:#7dd3fc;padding:9px 12px;border-radius:10px;margin-top:10px;font-size:11.5px;font-family:Consolas,monospace}
+  
+  .tbl{width:100%;border-collapse:collapse;background:#0b1120;border:1px solid var(--border);border-radius:12px;overflow:hidden;font:12.5px/1.6 Consolas,monospace}
   .tbl td{padding:11px 14px;border-bottom:1px solid var(--border)}
   .tbl tr:last-child td{border-bottom:0}
   .tbl td:first-child{color:var(--muted);width:60%}
   .tbl td:last-child{text-align:right;font-weight:700;color:var(--text)}
-  .tbl tr.hi td{background:rgba(74,222,128,.04)}
-  .tbl tr.hi td:last-child{color:var(--green);font-size:14px}
-  .tbl tr.big td:last-child{color:var(--blue);font-size:14px}
+  .tbl tr.hi td{background:var(--soft-teal)}
+  .tbl tr.hi td:last-child{color:var(--teal);font-size:14px}
+  .tbl tr.big td:last-child{color:var(--sky);font-size:14px}
 
-  /* ===== SCREENS ===== */
+  /* CSS TAMBAHAN UNTUK BONUS CHECKER */
+  .bc-list { display:flex; flex-direction:column; gap:8px; max-height:400px; overflow-y:auto; padding-right:5px; }
+  .bc-list::-webkit-scrollbar { width: 4px; }
+  .bc-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .bc-item { background:#0b1120; border:1px solid var(--border); border-radius:10px; padding:12px; display:flex; justify-content:space-between; align-items:center; }
+  .bc-item-info b { display:block; font-size:14px; color:var(--sky); margin-bottom:4px; }
+  .bc-item-info span { font-size:12px; color:var(--muted); }
+  .bc-badge { padding:4px 8px; border-radius:6px; font-size:11px; font-weight:700; background:rgba(248,113,113,.1); color:var(--red); border:1px solid rgba(248,113,113,.25); display:inline-block; margin-top:6px; margin-right:6px; }
+
+  /* SCREEN LOGIC */
   .screen{display:none}
-  .screen.active{display:block}
+  .screen.active{display:block; animation: fadeIn 0.3s ease;}
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ===== HERO ===== */
-  .hero{
-    text-align:center;padding:48px 24px 42px;
-    position:relative;overflow:hidden;border-radius:20px;
-    background:
-      radial-gradient(600px 300px at 50% -30%,rgba(74,222,128,.10),transparent 65%),
-      radial-gradient(400px 250px at 85% 15%,rgba(96,165,250,.06),transparent 60%),
-      linear-gradient(180deg,#141a22,#0d1219);
-    border:1px solid var(--border);
-    margin-bottom:22px;
-  }
-  .hero .emoji{margin-bottom:16px;display:inline-block}
-  .hero .emoji img{
-    width:96px;height:96px;display:block;border-radius:24px;
-    box-shadow:0 0 32px rgba(74,222,128,.20);
-  }
-  .hero h1{
-    margin:0 0 12px;font-size:32px;font-weight:900;letter-spacing:2px;
-    background:linear-gradient(90deg,#4ade80,#7dd3fc 55%,#60a5fa);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .hero p{
-    margin:0;font-size:13.5px;color:var(--muted);letter-spacing:.3px;
-    max-width:520px;margin-left:auto;margin-right:auto;line-height:1.75;
-  }
-  .hero .tagline{
-    display:inline-block;margin-top:18px;
-    font-size:10.5px;letter-spacing:2.5px;
-    color:var(--green);text-transform:uppercase;font-weight:800;
-    padding:6px 14px;border-radius:999px;
-    background:var(--soft-green);
-    border:1px solid rgba(74,222,128,.22);
-  }
-  @media(max-width:520px){.hero h1{font-size:24px}.hero .emoji img{width:72px;height:72px}}
-
-  /* ===== SECTION TITLE ===== */
-  .sec-title{
-    display:flex;align-items:center;gap:10px;
-    margin:24px 0 14px;
-    font-size:11px;letter-spacing:2px;
-    color:var(--muted);text-transform:uppercase;font-weight:800;
-  }
-  .sec-title::after{
-    content:"";flex:1;height:1px;
-    background:linear-gradient(90deg,var(--border),transparent);
-  }
-
-  /* ===== TOOLS GRID ===== */
-  .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  @media(max-width:640px){.tools{grid-template-columns:1fr}}
-
-  .tool{
-    background:linear-gradient(180deg,#161c26,#111720);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:22px 20px 18px;
-    cursor:pointer;position:relative;overflow:hidden;
-    transition:transform .18s,border-color .18s,box-shadow .18s;
-  }
-  .tool:hover{
-    transform:translateY(-3px);
-    border-color:rgba(74,222,128,.35);
-    box-shadow:0 12px 28px rgba(0,0,0,.35);
-  }
-  .tool::before{
-    content:"";position:absolute;top:0;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,transparent,var(--green),transparent);
-    opacity:0;transition:opacity .2s;
-  }
-  .tool:hover::before{opacity:1}
-
-  .tool.disabled{cursor:not-allowed;opacity:.5}
-  .tool.disabled:hover{transform:none;border-color:var(--border);box-shadow:none}
-  .tool.disabled:hover::before{opacity:0}
-
-  .tool .ic{
-    width:46px;height:46px;border-radius:12px;
-    background:var(--soft-green);
-    border:1px solid rgba(74,222,128,.22);
-    display:grid;place-items:center;font-size:20px;margin-bottom:14px;
-  }
-  .tool.alt .ic{background:var(--soft-blue);border-color:rgba(96,165,250,.22)}
-  .tool.warn .ic{background:var(--soft-red);border-color:rgba(248,113,113,.22)}
-  .tool.calc .ic{background:var(--soft-purple);border-color:rgba(167,139,250,.22)}
-  .tool.empty .ic{background:rgba(139,150,168,.06);border-color:rgba(139,150,168,.16)}
-
-  .tool b{font-size:15px;font-weight:800;display:block;margin-bottom:6px;letter-spacing:.3px;color:var(--text)}
-  .tool small{font-size:12px;color:var(--muted);line-height:1.55;display:block;margin-bottom:16px;min-height:36px}
-  .tool .go{
-    font-size:10.5px;letter-spacing:1.8px;font-weight:900;
-    color:var(--green);text-transform:uppercase;
-    display:flex;align-items:center;gap:6px;
-  }
-  .tool.alt .go{color:var(--blue)}
-  .tool.warn .go{color:var(--red)}
-  .tool.calc .go{color:var(--purple)}
-  .tool.disabled .go{color:var(--dim)}
-  .tool .go::after{content:"→";transition:transform .2s}
-  .tool:hover .go::after{transform:translateX(4px)}
-
-  /* ===== BACK BUTTON ===== */
-  .back-btn{
-    background:transparent;color:var(--green);
-    border:1px solid rgba(74,222,128,.28);
-    padding:9px 15px;font-size:12px;border-radius:10px;
-    box-shadow:none;letter-spacing:.4px;font-weight:700;
-  }
-  .back-btn:hover{background:var(--soft-green);border-color:var(--green);transform:none}
-  .back-btn::before{content:"← ";font-weight:900}
-
-  /* ===== OUTPUT HEADER ===== */
-  .out-head{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:10px;margin-bottom:12px;flex-wrap:wrap;
-  }
-  .out-head h3{
-    margin:0;font-size:12px;letter-spacing:1.5px;
-    text-transform:uppercase;color:var(--green);font-weight:800;
-  }
-  .out-head .pill{
-    font-size:10px;letter-spacing:1px;font-weight:800;
-    padding:4px 10px;border-radius:999px;
-    background:var(--soft-green);color:var(--green);
-    border:1px solid rgba(74,222,128,.22);
-  }
-  .out-head .pill.p2{
-    color:var(--purple);background:var(--soft-purple);
-    border-color:rgba(167,139,250,.22);
-  }
-
-  /* ===== TOP NAV BANNER ===== */
-  .topnav{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:10px;margin-bottom:16px;padding:11px 16px;
-    background:linear-gradient(180deg,#161c26,#111720);
-    border:1px solid var(--border);border-radius:14px;
-    flex-wrap:wrap;
-  }
-  .topnav .label{
-    display:flex;align-items:center;gap:10px;
-    font-size:12.5px;color:var(--muted);letter-spacing:.3px;
-  }
+  /* Top Nav (Judul Tool) */
+  .topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;padding:11px 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;flex-wrap:wrap;backdrop-filter:blur(8px)}
+  .topnav .label{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
   .topnav .label b{color:var(--text);font-weight:800;letter-spacing:.6px}
-  .topnav .dot{
-    width:7px;height:7px;border-radius:50%;
-    background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.7);
-    animation:pulse2 2s ease-in-out infinite;
-  }
+  .topnav .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px rgba(45,212,191,.7);animation:pulse2 2s ease-in-out infinite}
   @keyframes pulse2{0%,100%{opacity:1}50%{opacity:.4}}
+  
+  .out-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .out-head h3{margin:0;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);font-weight:800}
+  .out-head .pill{font-size:10px;letter-spacing:1px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--soft-teal);color:var(--teal);border:1px solid rgba(45,212,191,.22)}
+  .out-head .pill.opt{background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.3)}
+  .out-head .pill.p2{color:var(--purple);background:var(--soft-purple);border-color:rgba(192,132,252,.22)}
+  
+  .prefix-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .prefix-row label{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.5px}
+  .prefix-row input{max-width:180px;padding:7px 10px;font-size:12px}
+  .auto-tag{font-size:10.5px;padding:3px 9px;border-radius:999px;background:var(--soft-sky);color:var(--sky);border:1px solid rgba(56,189,248,.25);font-weight:700}
+  .hint{font-size:10.5px;color:var(--dim);font-family:Consolas,monospace;margin-top:6px;line-height:1.7}
+  .hint b{color:var(--teal)}
+
+  .checkbox-container { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer; }
+  .checkbox-container input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+  .checkbox-container label { font-size: 13px; font-weight: 700; color: var(--text); cursor: pointer; user-select: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .main-content { padding: 15px; }
+    .tools { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    .guide-grid { grid-template-columns: 1fr; }
+    .stat { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 32px 18px; }
+    .hero h1 { font-size: 24px; }
+    .hero-subtitle { font-size: 16px; }
+  }
 </style>
 </head>
 <body>
-<main class="wrap">
 
-  <div class="top">
-    <div class="brand">
-      <div class="logo"><img src="bb00a.png" alt="JL"></div>
-      <div><h1>JALUR LANGIT</h1></div>
-    </div>
-    <span class="badge">● READY</span>
-  </div>
-
-  <!-- ================================================ -->
-  <!-- SCREEN 1 — HOME (default)                         -->
-  <!-- ================================================ -->
-  <section id="screenHome" class="screen active">
-    <div class="hero">
-      <div class="emoji"><img src="bb00a.png" alt="JL"></div>
+<div class="app-container">
+  
+  <!-- SIDEBAR KIRI (HOVER EXPAND) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="https://i.ibb.co/LHn9CwT/bb00a.png" alt="JL">
       <h1>JALUR LANGIT</h1>
-      <p>Pilih tools di bawah untuk mulai bekerja. Semua perhitungan berjalan lokal di browser kamu — cepat, ringan, tanpa kirim data ke server.</p>
-      <span class="tagline">Data Checker · Final v7</span>
     </div>
-    <div class="sec-title">Tools</div>
-    <div class="tools">
-      <div class="tool" data-open="checker">
-        <div class="ic">📊</div>
-        <b>Statistik Member</b>
-        <small>Analisa DP, SCB A–E, WD, Last DP, Total DP tanggal terakhir &amp; status member (WIN/LOSE/BALANCE).</small>
-        <div class="go">Buka Tool</div>
-      </div>
-      <div class="tool alt" data-open="ndp">
-        <div class="ic">💰</div>
-        <b>NDP</b>
-        <small>New Deposit Player — cek DP member baru berdasarkan data NEWMEMBER &amp; Deposit History.</small>
-        <div class="go">Buka Tool</div>
-      </div>
-      <div class="tool" data-open="sortir">
-        <div class="ic">⚽</div>
-        <b>Sortir Jadwal &amp; Prediksi</b>
-        <small>Sortir otomatis data odds, jadwal + handicap, dan prediksi skor maksimal 3 goal.</small>
-        <div class="go">Buka Tool</div>
-      </div>
-      <div class="tool calc" data-open="parlay" data-url="https://parlay-kalkulator.pages.dev/">
-        <div class="ic">🎰</div>
-        <b>Parlay Kalkulator</b>
-        <small>Hitung parlay otomatis. Klik untuk membuka kalkulator di tab baru.</small>
-        <div class="go">Buka Link</div>
-      </div>
-      <div class="tool warn" data-open="lapor" data-url="https://laporkan-phising.pages.dev/">
-        <div class="ic">🚨</div>
-        <b>Laporkan Phising</b>
-        <small>Buka halaman pelaporan phising. Link akan terbuka otomatis di tab baru.</small>
-        <div class="go">Buka Link</div>
-      </div>
-      <div class="tool empty disabled">
-        <div class="ic">➕</div>
-        <b>Slot Fitur</b>
-        <small>Placeholder — siap diisi tool baru.</small>
-        <div class="go">Coming Soon</div>
-      </div>
-    </div>
-  </section>
+    
+    <div class="sidebar-menu">
+      <button class="nav-item active" data-target="Home" title="Dashboard">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-target="Checker" title="Statistik Member">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        <span>Statistik Member</span>
+      </button>
+      <button class="nav-item" data-target="NDP" title="NDP">
+        <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span>NDP</span>
+      </button>
+      <button class="nav-item" data-target="Sortir" title="Sortir & Prediksi">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>Sortir & Prediksi</span>
+      </button>
+      <button class="nav-item" data-target="Cbroll" title="CB&ROLL">
+        <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <span>CB&ROLL</span>
+      </button>
+      
+      <div style="height:1px; background:var(--border); margin: 8px 10px;"></div>
 
-  <!-- ================================================ -->
-  <!-- SCREEN 2 — STATISTIK MEMBER                       -->
-  <!-- ================================================ -->
-  <section id="screenChecker" class="screen">
-    <div class="topnav">
-      <div class="label"><span class="dot"></span> <b>STATISTIK MEMBER</b> — Analisa DP · SCB · WD</div>
-      <button class="back-btn" data-back>Kembali ke Home</button>
+      <!-- MENU BARU: BONUS CHECKER -->
+      <button class="nav-item" data-target="BonusChecker" title="Bonus Checker">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>Bonus Checker</span>
+      </button>
+      
+      <a href="https://parlay-kalkulator.pages.dev/" target="_blank" class="nav-item" title="Parlay Kalkulator">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="16" y1="18" x2="16.01" y2="18"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="8" y1="18" x2="8.01" y2="18"/></svg>
+        <span>Parlay Kalkulator</span>
+      </a>
+      <a href="https://laporkan-phising.pages.dev/" target="_blank" class="nav-item" title="Laporkan Phising">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Laporkan Phising</span>
+      </a>
     </div>
+    
+    <div class="sidebar-footer">
+      <span>&copy; <span id="currentYear">2026</span> JALUR LANGIT.</span>
+    </div>
+  </aside>
 
-    <div class="card">
-      <h2>Nama Laporan</h2>
-      <div class="sub">Nama laporan otomatis (fixed).</div>
-      <input type="text" id="reportName" value="BOLAPELANGI2" placeholder="BOLAPELANGI2" maxlength="40" readonly>
-    </div>
-    <div class="card">
-      <h2>Data Checker</h2>
-      <div class="sub">Paste Deposit History (wajib). <b style="color:#4ade80">Withdraw History opsional</b> — kalau gak ada WD, boleh dikosongin.</div>
-      <div class="grid">
-        <div><div class="muted">DATA DP / Deposit History <span style="color:#f87171">*wajib</span></div><textarea id="dp" placeholder="Paste seluruh tabel Deposit History di sini..."></textarea></div>
-        <div><div class="muted">DATA WD / Withdraw History <span style="color:#8896a8">(opsional)</span></div><textarea id="wd" placeholder="Paste Withdraw History di sini (kosongin aja kalau gak ada)..."></textarea></div>
-      </div>
-      <div class="actions">
-        <button id="process">PROSES DATA</button>
-        <button class="ghost" id="clear">BERSIHKAN</button>
-      </div>
-      <div id="error" class="err"></div>
-    </div>
-    <div class="card">
-      <div class="stat" id="stats">
-        <div><span>DP BIASA</span><b>—</b></div>
-        <div><span>SCB</span><b>—</b></div>
-        <div><span>WD</span><b>—</b></div>
-        <div><span>STATUS</span><b>—</b></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="tabs" id="tabs">
-        <button class="tab active" data-t="hasil">HASIL</button>
-        <button class="tab" data-t="DP">DP</button>
-        <button class="tab" data-t="A">SCB A</button>
-        <button class="tab" data-t="B">SCB B</button>
-        <button class="tab" data-t="C">SCB C</button>
-        <button class="tab" data-t="D">SCB D</button>
-        <button class="tab" data-t="E">SCB E</button>
-        <button class="tab" data-t="WD">WD</button>
-        <button class="tab" data-t="TOTAL">TOTAL DP+BONUS</button>
-      </div>
-      <pre id="out">Belum ada hasil.</pre>
-      <div id="tblOut" style="display:none"></div>
-      <div class="actions"><button class="ghost" id="copy">COPY TAB INI</button></div>
-    </div>
-  </section>
+  <!-- KONTEN TENGAH -->
+  <main class="main-content">
+    <div class="inner-wrap">
 
-  <!-- ================================================ -->
-  <!-- SCREEN 3 — NDP                                    -->
-  <!-- ================================================ -->
-  <section id="screenNDP" class="screen">
-    <div class="topnav">
-      <div class="label"><span class="dot"></span> <b>NDP — NEW DEPOSIT PLAYER</b> — Cek DP member baru</div>
-      <button class="back-btn" data-back>Kembali ke Home</button>
-    </div>
-    <div class="card">
-      <h2>NDP — New Deposit Player</h2>
-      <div class="sub">Paste data NEWMEMBER &amp; DP, lalu klik PROSES NDP.</div>
-      <div class="grid">
-        <div><div class="muted">DATA NEWMEMBER</div><textarea id="ndpNew" placeholder="Paste list member baru di sini..."></textarea></div>
-        <div><div class="muted">DATA DP</div><textarea id="ndpDp" placeholder="Paste data Deposit History di sini..."></textarea></div>
-      </div>
-      <div class="actions">
-        <button id="ndpProcess">PROSES NDP</button>
-        <button class="ghost" id="ndpClear">BERSIHKAN</button>
-      </div>
-      <div id="ndpError" class="err"></div>
-      <div id="ndpInfo" class="info" style="display:none"></div>
-    </div>
-    <div class="card">
-      <div class="stat" id="ndpStats">
-        <div><span>NEW MEMBER</span><b>—</b></div>
-        <div><span>PUNYA DP</span><b>—</b></div>
-        <div><span>NDP (0 DP)</span><b>—</b></div>
-        <div><span>TOTAL DP</span><b>—</b></div>
-      </div>
-    </div>
-    <div class="card">
-      <h2>Hasil NDP</h2>
-      <div class="sub">No · Tanggal · User · Total DP</div>
-      <pre id="ndpOut">Belum ada hasil.</pre>
-      <div class="actions"><button class="ghost" id="ndpCopy">COPY HASIL NDP</button></div>
-    </div>
-  </section>
+      <!-- ============ DASHBOARD (HOME) ============ -->
+      <section id="screenHome" class="screen active">
+        <div class="hero">
+          <div class="emoji"><img src="https://i.ibb.co/LHn9CwT/bb00a.png" alt="JL"></div>
+          <h1>JALUR LANGIT</h1>
+          <h2 class="hero-subtitle">Akselerasi Kerja. Tanpa Jejak.</h2>
+          <p>Selamat datang, bre. Semua tool di sini dirancang biar kerjaan analisa jadi <b>cepat, rapi, dan tanpa ribet</b>. Semua kalkulasi diproses 100% di browser — tanpa server, tanpa simpan data. Fokus kerja, bukan mikirin privasi.</p>
+          <span class="tagline">JALUR LANGIT · SECURE DATA SUITE</span>
+        </div>
 
-  <!-- ================================================ -->
-  <!-- SCREEN 4 — SORTIR JADWAL & PREDIKSI               -->
-  <!-- ================================================ -->
-  <section id="screenSortir" class="screen">
-    <div class="topnav">
-      <div class="label"><span class="dot"></span> <b>SORTIR JADWAL &amp; PREDIKSI</b> — Handicap + Skor Max 3 Goal</div>
-      <button class="back-btn" data-back>Kembali ke Home</button>
-    </div>
-    <div class="card">
-      <h2>Sortir Jadwal &amp; Prediksi</h2>
-      <div class="sub">Paste data odds (Add All / Add favourite) lalu klik SORTIR SEKARANG.</div>
-      <textarea id="sortirInput" placeholder="Tempelkan data odds di sini..."></textarea>
-      <div class="actions">
-        <button id="sortirProcess">SORTIR SEKARANG</button>
-        <button class="ghost" id="sortirReset">RESET</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="stat" id="sortirStats">
-        <div><span>TOTAL LIGA</span><b>—</b></div>
-        <div><span>TOTAL PERTANDINGAN</span><b>—</b></div>
-        <div><span>FAVORIT HOME</span><b>—</b></div>
-        <div><span>FAVORIT AWAY</span><b>—</b></div>
-      </div>
-      <div class="stat" style="margin-top:8px">
-        <div><span>PASARAN SEIMBANG</span><b>—</b></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="out-head">
-        <h3>1. HASIL MURNI (JADWAL + HANDICAP)</h3>
-        <span class="pill">LENGKAP</span>
-      </div>
-      <pre id="sortirOutMurni">Belum ada hasil.</pre>
-      <div class="actions"><button class="ghost" id="sortirCopyMurni">SALIN HASIL</button></div>
-    </div>
-    <div class="card">
-      <div class="out-head">
-        <h3>2. HASIL PREDIKSI SKOR (MAX 3 GOAL)</h3>
-        <span class="pill p2">PREDIKSI</span>
-      </div>
-      <pre id="sortirOutPrediksi">Belum ada hasil.</pre>
-      <div class="actions"><button class="ghost" id="sortirCopyPrediksi">SALIN HASIL</button></div>
-    </div>
-  </section>
+        <div class="sec-title">Cara Pakai</div>
+        <div class="guide-grid">
+          <div class="guide-card">
+            <div class="guide-num">1</div>
+            <div class="guide-body">
+              <b>Pilih Tool</b>
+              <p>Hover menu sidebar kiri untuk lihat nama, atau klik kartu tool di bawah.</p>
+            </div>
+          </div>
+          <div class="guide-card">
+            <div class="guide-num">2</div>
+            <div class="guide-body">
+              <b>Paste Data</b>
+              <p>Tempel data mentah dari sumber lo ke kolom input yang udah disediain.</p>
+            </div>
+          </div>
+          <div class="guide-card">
+            <div class="guide-num">3</div>
+            <div class="guide-body">
+              <b>Proses &amp; Salin</b>
+              <p>Klik <b>Proses</b>, lalu <b>Copy Hasil</b> — langsung siap dipakai.</p>
+            </div>
+          </div>
+        </div>
 
-</main>
+        <div class="quote-card">
+          <p>Kecepatan adalah kunci. Biarkan sistem bekerja — lo tinggal ambil keputusan.</p>
+          <small>— Jalur Langit</small>
+        </div>
+        
+        <div class="sec-title">Pilih Tool</div>
+        <div class="tools">
+          <div class="tool" data-target="Checker">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+            <b>Statistik Member</b>
+            <small>Analisa DP, SCB A–E, WD, Last DP, Total DP tanggal terakhir &amp; status member.</small>
+            <div class="go">Buka Tool</div>
+          </div>
+          <div class="tool" data-target="NDP">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <b>NDP</b>
+            <small>New Deposit Player — cek DP member baru berdasarkan data NEWMEMBER &amp; Deposit History.</small>
+            <div class="go">Buka Tool</div>
+          </div>
+          <div class="tool" data-target="Sortir">
+            <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <b>Sortir Jadwal &amp; Prediksi</b>
+            <small>Sortir otomatis data odds, jadwal + handicap, prediksi skor, dan cek akurasi vs hasil.</small>
+            <div class="go">Buka Tool</div>
+          </div>
+          <div class="tool" data-target="Cbroll">
+            <div class="ic"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <b>CB&ROLL</b>
+            <small>Kalikan nominal desimal dengan 1000, format koma, lalu urutkan dari terbesar ke terkecil.</small>
+            <div class="go">Buka Tool</div>
+          </div>
+          
+          <!-- KARTU BARU: BONUS CHECKER -->
+          <div class="tool" data-target="BonusChecker">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <b>Bonus Checker</b>
+            <small>Cek Siap Dibagi (Belum Klaim), Over Rules, 2x+ Bonus, dan Withdraw secara otomatis.</small>
+            <div class="go">Buka Tool</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STATISTIK MEMBER ============ -->
+      <section id="screenChecker" class="screen">
+        <div class="topnav"><div class="label"><span class="dot"></span> <b>STATISTIK MEMBER</b></div></div>
+        <div class="card"><h2>Nama Laporan</h2><div class="sub">Nama laporan otomatis (fixed).</div><input type="text" id="reportName" value="BOLAPELANGI2" maxlength="40" readonly></div>
+        <div class="card">
+          <h2>Data Checker</h2>
+          <div class="sub">Paste Deposit History (wajib). Withdraw History opsional.</div>
+          <div class="grid">
+            <div><div class="muted">DATA DP <span style="color:#f87171">*wajib</span></div><textarea id="dp" placeholder="Paste Deposit History..."></textarea></div>
+            <div><div class="muted">DATA WD (opsional)</div><textarea id="wd" placeholder="Paste Withdraw History..."></textarea></div>
+          </div>
+          <div class="actions"><button id="process">PROSES DATA</button><button class="ghost" id="clear">BERSIHKAN</button></div>
+          <div id="error" class="err"></div>
+        </div>
+        <div class="card"><div class="stat" id="stats"><div><span>DP BIASA</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>WD</span><b>—</b></div><div><span>STATUS</span><b>—</b></div></div></div>
+        <div class="card">
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-t="hasil">HASIL</button><button class="tab" data-t="DP">DP</button><button class="tab" data-t="A">SCB A</button><button class="tab" data-t="B">SCB B</button><button class="tab" data-t="C">SCB C</button><button class="tab" data-t="D">SCB D</button><button class="tab" data-t="E">SCB E</button><button class="tab" data-t="WD">WD</button><button class="tab" data-t="TOTAL">TOTAL DP+BONUS</button>
+          </div>
+          <pre id="out">Belum ada hasil.</pre>
+          <div id="tblOut" style="display:none"></div>
+          <div class="actions"><button class="ghost" id="copy">COPY TAB INI</button></div>
+        </div>
+      </section>
+
+      <!-- ============ NDP ============ -->
+      <section id="screenNDP" class="screen">
+        <div class="topnav"><div class="label"><span class="dot"></span> <b>NDP — NEW DEPOSIT PLAYER</b></div></div>
+        <div class="card">
+          <h2>NDP — New Deposit Player</h2>
+          <div class="sub">Paste data NEWMEMBER &amp; DP. Prefix user otomatis terdeteksi dari data.</div>
+          <div class="prefix-row"><label>PREFIX USER:</label><input type="text" id="ndpPrefix" placeholder="auto" maxlength="20"><span class="auto-tag" id="prefixTag">AUTO</span><button class="ghost" id="ndpDetect" style="padding:6px 12px;font-size:11px">DETEKSI ULANG</button></div>
+          <div class="grid">
+            <div><div class="muted">DATA NEWMEMBER</div><textarea id="ndpNew" placeholder="Paste list member baru..."></textarea></div>
+            <div><div class="muted">DATA DP</div><textarea id="ndpDp" placeholder="Paste Deposit History..."></textarea></div>
+          </div>
+          <div class="actions"><button id="ndpProcess">PROSES NDP</button><button class="ghost" id="ndpClear">BERSIHKAN</button></div>
+          <div id="ndpError" class="err"></div>
+          <div id="ndpInfo" class="info" style="display:none"></div>
+        </div>
+        <div class="card"><div class="stat" id="ndpStats"><div><span>NEW MEMBER</span><b>—</b></div><div><span>PUNYA DP</span><b>—</b></div><div><span>NDP (0 DP)</span><b>—</b></div><div><span>TOTAL DP</span><b>—</b></div></div></div>
+        <div class="card"><h2>Hasil NDP</h2><div class="sub">No · Tanggal · User · Total DP</div><pre id="ndpOut">Belum ada hasil.</pre><div class="actions"><button class="ghost" id="ndpCopy">COPY HASIL NDP</button></div></div>
+      </section>
+
+      <!-- ============ SORTIR ============ -->
+      <section id="screenSortir" class="screen">
+        <div class="topnav"><div class="label"><span class="dot"></span> <b>SORTIR JADWAL &amp; PREDIKSI</b></div></div>
+        <div class="card">
+          <h2>Data Odds</h2>
+          <div class="sub">Paste data odds (wajib). Support semua format, termasuk <b>Hide [Tanggal] [Jam]</b>.</div>
+          
+          <div class="checkbox-container">
+            <input type="checkbox" id="useWIB" checked>
+            <label for="useWIB">Kurangi 1 Jam &amp; Tambah WIB</label>
+          </div>
+
+          <textarea id="sortirInput" placeholder="Tempelkan data odds..."></textarea>
+        </div>
+        <div class="card">
+          <div class="out-head"><h3>Input Result</h3><span class="pill opt">OPSIONAL</span></div>
+          <div class="sub">Kalau diisi, <b>tanggal</b> dari result dipakai. Kalau kosong, auto-wrap: jam &lt; 12:00 dianggap besok.</div>
+          <textarea id="resultInput" class="short" placeholder="Everton 2-1 Chelsea&#10;18/10 Red Star Saint Ouen 1-0 Saint Etienne&#10;17/10 22:00 Brentford 0-0 Liverpool"></textarea>
+          <div class="hint">Format didukung:<br>• <b>Everton 2-1 Chelsea</b> (tanpa tanggal)<br>• <b>17/10 Everton 2-1 Chelsea</b> (dengan tanggal)</div>
+          <div class="actions"><button id="sortirProcess">PROSES SEMUA</button><button class="ghost" id="sortirReset">RESET</button></div>
+        </div>
+        <div class="card">
+          <div class="stat" id="sortirStats"><div><span>TOTAL LIGA</span><b>—</b></div><div><span>TOTAL PERTANDINGAN</span><b>—</b></div><div><span>FAVORIT HOME</span><b>—</b></div><div><span>FAVORIT AWAY</span><b>—</b></div></div>
+          <div class="stat" style="margin-top:8px"><div><span>PASARAN SEIMBANG</span><b>—</b></div></div>
+        </div>
+        <div class="card">
+          <div class="out-head"><h3>1. HASIL MURNI (JADWAL + HANDICAP)</h3><span class="pill">LENGKAP</span></div>
+          <pre id="sortirOutMurni">Belum ada hasil.</pre>
+          <div class="actions"><button class="ghost" id="sortirCopyMurni">SALIN HASIL</button></div>
+        </div>
+        <div class="card">
+          <div class="out-head"><h3>2. HASIL PREDIKSI SKOR (MAX 3 GOAL)</h3><span class="pill p2">PREDIKSI</span></div>
+          <pre id="sortirOutPrediksi">Belum ada hasil.</pre>
+          <div class="actions"><button class="ghost" id="sortirCopyPrediksi">SALIN HASIL</button></div>
+        </div>
+        <div class="card">
+          <div class="out-head"><h3>3. HASIL vs PREDIKSI</h3><span class="pill opt">OPSIONAL</span></div>
+          <div id="resultStats" class="stat" style="margin-bottom:14px"><div><span>TOTAL MATCH</span><b>—</b></div><div><span>PREDIKSI BENAR</span><b>—</b></div><div><span>PREDIKSI SALAH</span><b>—</b></div><div><span>AKURASI</span><b>—</b></div></div>
+          <pre id="sortirOutResult">Belum ada hasil. (isi kolom Result di atas kalau mau cek akurasi)</pre>
+          <div class="actions"><button class="ghost" id="sortirCopyResult">SALIN HASIL</button></div>
+        </div>
+      </section>
+
+      <!-- ============ CB&ROLL ============ -->
+      <section id="screenCbroll" class="screen">
+        <div class="topnav"><div class="label"><span class="dot"></span> <b>CB&amp;ROLL</b> — Kali 1000 &amp; Sortir</div></div>
+        <div class="card">
+          <h2>Input Data</h2>
+          <div class="sub">Paste data (contoh: <b>1 TAB XXX@contoh1 TAB 36.09</b>). Nominal akan dikali 1000 lalu diurutkan dari terbesar.</div>
+          <textarea id="cbrollInput" placeholder="1&#9;XXX@contoh1&#9;36.09&#10;2&#9;XXX@contoh2&#9;25.88&#10;3&#9;XXX@contoh3&#9;54.73"></textarea>
+          <div class="actions">
+            <button id="cbrollProcess">PROSES DATA</button>
+            <button class="ghost" id="cbrollClear">BERSIHKAN</button>
+          </div>
+          <div id="cbrollError" class="err"></div>
+        </div>
+        <div class="card">
+          <div class="out-head">
+            <h3>HASIL (DIKALI 1000 &amp; DISORTIR)</h3>
+            <button class="ghost" id="cbrollCopy" style="padding:6px 12px;font-size:11px">SALIN HASIL</button>
+          </div>
+          <pre id="cbrollOut">Belum ada hasil.</pre>
+        </div>
+      </section>
+
+      <!-- ============ BONUS CHECKER ============ -->
+      <section id="screenBonusChecker" class="screen">
+        <div class="topnav"><div class="label"><span class="dot"></span> <b>BONUS CHECKER</b></div></div>
+        
+        <div class="card">
+          <h2>Input Data Bonus Checker</h2>
+          <div class="sub">Paste data DP, WD, dan ID Stop Bonus. Sistem akan memisahkan DP dan SCB secara otomatis.</div>
+          
+          <div class="grid" style="margin-bottom:14px;">
+            <div>
+              <div class="muted">DATA DP / HISTORY <span style="color:#f87171">*wajib</span></div>
+              <textarea id="bcInputDp" placeholder="Paste Deposit History di sini..." style="min-height:150px"></textarea>
+            </div>
+            <div>
+              <div class="muted">DATA WITHDRAW (WD)</div>
+              <textarea id="bcInputWd" placeholder="Paste Withdraw History di sini..." style="min-height:150px"></textarea>
+            </div>
+          </div>
+
+          <div class="muted">STOP BONUS (Satu ID per baris)</div>
+          <textarea id="bcInputStop" placeholder="BFJ@contoh1&#10;BFJ@contoh2" style="min-height:60px; margin-bottom:14px;"></textarea>
+
+          <div style="display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.02); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:14px; flex-wrap:wrap;">
+            <label style="font-size:12px; font-weight:bold; color:var(--sky);">Batas DP Siap Dibagi:</label>
+            <input type="number" id="bcFilterMin" value="50000" placeholder="Min" style="width:120px; padding:8px;">
+            <span style="color:var(--muted);">s/d</span>
+            <input type="number" id="bcFilterMax" placeholder="Max (Kosongkan jika tanpa batas)" style="width:200px; padding:8px;">
+          </div>
+
+          <div class="actions">
+            <button id="bcBtnProcess">PROSES DATA</button>
+            <button class="ghost" id="bcBtnClear">BERSIHKAN</button>
+          </div>
+          <div id="bcError" class="err"></div>
+        </div>
+
+        <div class="card">
+          <div class="stat" id="bcStats">
+            <div><span>WD</span><b>—</b></div>
+            <div><span>DP</span><b>—</b></div>
+            <div><span>SCB</span><b>—</b></div>
+            <div><span>SIAP DIBAGI</span><b>—</b></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="out-head">
+            <h3>SIAP DIBAGI (BELUM KLAIM)</h3>
+            <button class="ghost" id="bcBtnCopyID">COPY ID SAJA</button>
+          </div>
+          <div id="bcListClaim" class="bc-list">
+            <div style="color:var(--muted); font-size:12px;">Belum ada data.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="out-head"><h3>OVER / RULES</h3></div>
+          <div id="bcListRules" class="bc-list">
+            <div style="color:var(--muted); font-size:12px;">Belum ada data.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="out-head"><h3>2X+ BONUS</h3></div>
+          <div id="bcListDouble" class="bc-list">
+            <div style="color:var(--muted); font-size:12px;">Belum ada data.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="out-head"><h3>WITHDRAW (WD)</h3></div>
+          <div id="bcListWd" class="bc-list">
+            <div style="color:var(--muted); font-size:12px;">Belum ada data.</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</div>
 
 <script>
 const $=id=>document.getElementById(id);
+
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+// --- NAVIGASI SIDEBAR ---
+function goScreen(target) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const targetScreen = document.getElementById("screen" + target);
+  if(targetScreen) targetScreen.classList.add("active");
+
+  document.querySelectorAll(".nav-item").forEach(b => {
+    b.classList.toggle("active", b.dataset.target === target);
+  });
+}
+
+// Listener Sidebar & Tombol Home
+document.querySelectorAll("[data-target]").forEach(el => {
+  el.addEventListener("click", () => goScreen(el.dataset.target));
+});
+
+
+function copyText(text, btnElement) {
+  if (!text) return;
+  function onSuccess() {
+    const originalText = btnElement.textContent;
+    btnElement.textContent = "TERCOPY!";
+    btnElement.style.color = "var(--teal)";
+    btnElement.style.borderColor = "var(--teal)";
+    setTimeout(() => {
+      btnElement.textContent = originalText;
+      btnElement.style.color = "";
+      btnElement.style.borderColor = "";
+    }, 1500);
+  }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(() => { fallbackCopy(text, onSuccess); });
+  } else {
+    fallbackCopy(text, onSuccess);
+  }
+}
+function fallbackCopy(text, callback) {
+  let textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed"; textArea.style.top = "-9999px"; textArea.style.left = "-9999px";
+  document.body.appendChild(textArea); textArea.focus(); textArea.select();
+  try { if (document.execCommand('copy')) callback(); } catch (err) { alert("Gagal copy otomatis."); }
+  document.body.removeChild(textArea);
+}
+
+let DETECTED_PREFIX = '';
+const EMAIL_DOMAINS = /^(GMAIL|YAHOO|HOTMAIL|OUTLOOK|LIVE|ICLOUD|PROTONMAIL|AOL|MSN|ROCKETMAIL|ZOHO|YANDEX|MAIL)@/i;
+function detectPrefix(text){
+  if(!text) return '';
+  const counts = {};
+  for(const line of text.split(/\r?\n/)){
+    if(!/^\s*\d{1,7}[\s\t]/.test(line)) continue;
+    const matches = line.match(/([A-Za-z][A-Za-z0-9]{1,12}@)[\w.\-]+/g) || [];
+    for(const m of matches){
+      const pm = m.match(/^([A-Za-z][A-Za-z0-9]{1,12}@)/); if(!pm) continue;
+      const key = pm[1].toUpperCase(); if(EMAIL_DOMAINS.test(key)) continue;
+      counts[key] = (counts[key]||0)+10;
+    }
+  }
+  if(!Object.keys(counts).length){
+    const matches = text.match(/[A-Za-z][A-Za-z0-9]{1,12}@/g) || [];
+    for(const m of matches){
+      const key = m.toUpperCase(); if(EMAIL_DOMAINS.test(key)) continue;
+      counts[key] = (counts[key]||0)+1;
+    }
+  }
+  const entries = Object.entries(counts); if(!entries.length) return '';
+  return entries.sort((a,b)=>b[1]-a[1])[0][0];
+}
+function escapeRegex(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function buildUserRegex(prefix){
+  const p = prefix || DETECTED_PREFIX || '';
+  if(!p) return /(?!x)x/g;
+  return new RegExp(escapeRegex(p) + '[\\w.\\-]+', 'gi');
+}
+function extractAllUsers(text, prefix){ const re = buildUserRegex(prefix); return [...text.matchAll(re)].map(m=>m[0]); }
+
 function clean(s){return String(s??"").replace(/\u00a0/g," ").replace(/\\@/g,"@").replace(/\*\*/g,"").replace(/<br\s*\/?>/gi," ").trim();}
-function dt(s){const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return null;let h=+m[4],ap=(m[7]||"").toUpperCase();if(ap==="PM"&&h<12)h+=12;if(ap==="AM"&&h===12)h=0;return new Date(+m[3],+m[2]-1,+m[1],h,+m[5],+(m[6]||0));}
-function dtOnly(s){const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(!m)return null;return new Date(+m[3],+m[2]-1,+m[1]);}
+
+// ============================================================
+// FIX: deteksi format tanggal MM/DD vs DD/MM
+// Kalau angka ke-2 > 12 → pasti MM/DD (bulan tidak mungkin > 12),
+// jadi swap. Aman untuk data DD/MM (bulan selalu ≤ 12, tidak swap).
+// ============================================================
+function dt(s){
+  const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?/i);
+  if(!m)return null;
+  let h=+m[4],ap=(m[7]||"").toUpperCase();
+  if(ap==="PM"&&h<12)h+=12;
+  if(ap==="AM"&&h===12)h=0;
+  let d=+m[1],mo=+m[2];
+  if(mo>12&&d<=12){const t=d;d=mo;mo=t;}
+  return new Date(+m[3],mo-1,d,h,+m[5],+(m[6]||0));
+}
+function dtOnly(s){
+  const m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(!m)return null;
+  let d=+m[1],mo=+m[2];
+  if(mo>12&&d<=12){const t=d;d=mo;mo=t;}
+  return new Date(+m[3],mo-1,d);
+}
 function fmt(n){return Math.round(n).toLocaleString("en-US")}
 function displayed(n){return Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
 function num(s){return /^[-+]?\d[\d.,]*$/.test(clean(s));}
 function depAmt(s){let x=clean(s).replace(/[^\d-]/g,"");if(!x||x==="-")return 0;return Number(x)||0;}
 function wdAmt(s){return Number(clean(s).replace(/,/g,""))||0;}
 
-function goScreen(name){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById("screen"+name).classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
+function runCbroll(){
+  $("cbrollError").classList.remove("show");
+  const text = $("cbrollInput").value;
+  if(!text.trim()) { $("cbrollError").textContent = "Input kosong."; $("cbrollError").classList.add("show"); return; }
+  const lines = text.split(/\r?\n/); const data = [];
+  for(const line of lines){
+    const raw = line.trim(); if(!raw) continue;
+    let parts = raw.split(/\t+|\s{2,}/);
+    if(parts.length < 3){ const m = raw.match(/^(\d+)\s+([^\s]+)\s+([\d.,]+)$/); if(m) parts = [m[1], m[2], m[3]]; }
+    if(parts.length >= 3){
+      const user = parts[1].trim();
+      const rawVal = parts[2].trim().replace(/,/g, '.');
+      const val = parseFloat(rawVal);
+      if(!isNaN(val)) data.push({ user: user, value: val * 1000 });
+    }
+  }
+  if(!data.length){ $("cbrollError").textContent = "Data tidak terbaca. Pastikan format: No [TAB] User [TAB] Nominal."; $("cbrollError").classList.add("show"); return; }
+  data.sort((a, b) => b.value - a.value);
+  $("cbrollOut").textContent = data.map((d, i) => `${i + 1}\t${d.user}\t${d.value.toLocaleString("en-US", { maximumFractionDigits: 0 })}`).join("\n");
 }
-document.querySelectorAll("[data-open]").forEach(el=>{
-  el.addEventListener("click",()=>{
-    if(el.classList.contains("disabled"))return;
-    const t=el.dataset.open;
-    const url=el.dataset.url;
-    if(url){ window.open(url,"_blank","noopener"); return; }
-    goScreen(t==="checker"?"Checker":t==="ndp"?"NDP":t==="sortir"?"Sortir":"Home");
-  });
-});
-document.querySelectorAll("[data-back]").forEach(el=>{
-  el.addEventListener("click",()=>goScreen("Home"));
-});
+$("cbrollProcess").onclick = runCbroll;
+$("cbrollClear").onclick = () => { $("cbrollInput").value = ""; $("cbrollOut").textContent = "Belum ada hasil."; $("cbrollError").classList.remove("show"); };
+$("cbrollCopy").onclick = () => { copyText($("cbrollOut").textContent, $("cbrollCopy")); };
 
 function cells(line){if(!line.includes("|"))return[];let c=line.split("|").map(clean);while(c[0]==="")c.shift();while(c.at(-1)==="")c.pop();return c;}
-function parseDP(text){
-  const out=[];const lines=text.split(/\r?\n/);
-  for(const raw of lines){
+function parseDP(text, prefix){
+  const out=[];
+  for(const raw of text.split(/\r?\n/)){
     const c=cells(raw);if(c.length<6)continue;
-    const ui=c.findIndex(x=>/^BFJ@/i.test(x));if(ui<0)continue;
+    const userRe=buildUserRegex(prefix);
+    const ui=c.findIndex(x=>{userRe.lastIndex=0;return userRe.test(x);});if(ui<0)continue;
     const di=c.findIndex((x,i)=>i>ui&&!!dt(x));if(di<0)continue;
     const ai=di-1;if(ai<0||!num(c[ai]))continue;
     const toBank=c[ai-1]||"";
@@ -561,7 +879,8 @@ function parseDP(text){
     out.push({user:c[ui],toBank,amount,date,dateText:c[di],category:scb||"DP",raw});
   }
   if(out.length)return dedupeDP(out);
-  const re=/BFJ@[\w.-]+/gi,ms=[...text.matchAll(re)];
+  const re=new RegExp(buildUserRegex(prefix).source,'gi');
+  const ms=[...text.matchAll(re)];
   for(let i=0;i<ms.length;i++){
     const block=text.slice(ms[i].index,ms[i+1]?.index??text.length);
     const user=ms[i][0];
@@ -579,18 +898,20 @@ function parseDP(text){
   return dedupeDP(out);
 }
 function dedupeDP(a){const s=new Set();return a.filter(x=>{const k=x.user+"|"+x.amount+"|"+x.date.getTime()+"|"+x.category;if(s.has(k))return false;s.add(k);return true;});}
-function parseWD(text){
+function parseWD(text, prefix){
   const out=[];
   for(const raw of text.split(/\r?\n/)){
     const c=cells(raw);if(c.length<9)continue;
-    const ui=c.findIndex(x=>/^BFJ@/i.test(x));if(ui<0)continue;
+    const userRe=buildUserRegex(prefix);
+    const ui=c.findIndex(x=>{userRe.lastIndex=0;return userRe.test(x);});if(ui<0)continue;
     const di=c.findIndex((x,i)=>i>ui&&!!dt(x));if(di<0)continue;
     const wi=di+1;if(wi+2>=c.length||!num(c[wi])||!num(c[wi+1])||!num(c[wi+2]))continue;
     const date=dt(c[di]),w=wdAmt(c[wi]),old=wdAmt(c[wi+1]),bal=wdAmt(c[wi+2]);if(!date||!w)continue;
     out.push({user:c[ui],wdRaw:w,oldRaw:old,newRaw:bal,date,dateText:c[di],raw});
   }
   if(out.length)return dedupeWD(out);
-  const re=/BFJ@[\w.-]+/gi,ms=[...text.matchAll(re)];
+  const re=new RegExp(buildUserRegex(prefix).source,'gi');
+  const ms=[...text.matchAll(re)];
   for(let i=0;i<ms.length;i++){
     const block=text.slice(ms[i].index,ms[i+1]?.index??text.length);
     if(!/(?:Agent|Member)\s+Withdraw/i.test(block))continue;
@@ -612,7 +933,9 @@ let TOTAL={};
 
 function processData(){
   $("error").classList.remove("show");
-  const dp=parseDP($("dp").value),wd=parseWD($("wd").value);
+  const dpText=$("dp").value;
+  const detected=detectPrefix(dpText);
+  const dp=parseDP(dpText,detected),wd=parseWD($("wd").value,detected);
   if(!dp.length)throw Error("DP belum terbaca. Paste seluruh Deposit History.");
   const user=dp[0].user;
   const d=dp.filter(x=>x.user===user);
@@ -631,25 +954,7 @@ function processData(){
   const net=totalDP-totalWD-bonus;
   const status=net>0?"WIN":net<0?"LOSE":"BALANCE";
   const title=($("reportName").value||"BOLAPELANGI2").trim().toUpperCase();
-  DATA.hasil=`${title}
-
-USER ID : ${user}
-WD : ${latestWD?displayed(latestWD.wdRaw):"0.00"}
-SISA DANA AKUN : ${latestWD?displayed(latestWD.newRaw):"0.00"}
-
-LAST DP : ${fmt(lastDP.amount)}
-${lastDP.dateText}
-TOTAL DP : ${fmt(totalDPDate)}
-
-STATUS MEMBER
-DP : ${fmt(totalDP)}
-WD : ${fmt(totalWD)}
-BONUS : ${fmt(bonus)}
-DP-WD-BNS : ${fmt(net)}
-STATUS KITA : ${status}
-
-GAMES :
-MEMBER REGISTER :`;
+  DATA.hasil=`${title}\n\nUSER ID : ${user}\nWD : ${latestWD?displayed(latestWD.wdRaw):"0.00"}\nSISA DANA AKUN : ${latestWD?displayed(latestWD.newRaw):"0.00"}\n\nLAST DP : ${fmt(lastDP.amount)}\n${lastDP.dateText}\nTOTAL DP : ${fmt(totalDPDate)}\n\nSTATUS MEMBER\nDP : ${fmt(totalDP)}\nWD : ${fmt(totalWD)}\nBONUS : ${fmt(bonus)}\nDP-WD-BNS : ${fmt(net)}\nSTATUS KITA : ${status}\n\nGAMES :\nMEMBER REGISTER :`;
   const pack=(rows,label)=>{
     if(!rows.length)return ["Tidak ada data "+label+"."];
     const sorted=rows.slice().sort((a,b)=>a.date-b.date);
@@ -657,409 +962,469 @@ MEMBER REGISTER :`;
     sorted.forEach((x,i)=>arr.push(`${i+1}. ${fmt(x.amount)} — ${x.dateText}`));
     return arr;
   };
-  DATA.DP=pack(ordinary,"DP");DATA.A=pack(A,"SCB A");DATA.B=pack(B,"SCB B");
-  DATA.C=pack(C,"SCB C");DATA.D=pack(D,"SCB D");DATA.E=pack(E,"SCB E");
+  DATA.DP=pack(ordinary,"DP");DATA.A=pack(A,"SCB A");DATA.B=pack(B,"SCB B");DATA.C=pack(C,"SCB C");DATA.D=pack(D,"SCB D");DATA.E=pack(E,"SCB E");
   DATA.WD=w.length?w.slice().sort((a,b)=>a.date-b.date).map((x,i)=>`${i+1}. WD ${displayed(x.wdRaw)} → ${fmt(x.wdRaw*1000)}`):["Tidak ada data WD."];
-  COPY.DP=ordinary.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
-  COPY.A=A.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
-  COPY.B=B.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
-  COPY.C=C.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
-  COPY.D=D.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
-  COPY.E=E.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));
-  COPY.WD=w.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.wdRaw*1000));
-  TOTAL={totalDPDate,lastDate:`${String(day).padStart(2,"0")}/${String(m+1).padStart(2,"0")}/${y}`,
-    totalDP,A:categoryTotal(d,"A"),B:categoryTotal(d,"B"),C:categoryTotal(d,"C"),
-    D:categoryTotal(d,"D"),E:categoryTotal(d,"E"),bonus,grand:totalDP+bonus};
-  DATA.TOTAL=[
-    `TOTAL DP TANGGAL TERAKHIR: ${fmt(TOTAL.totalDPDate)}`,
-    `Tanggal terakhir: ${TOTAL.lastDate}`,
-    `DP biasa total: ${fmt(TOTAL.totalDP)}`,
-    `SCB A: ${fmt(TOTAL.A)}`,`SCB B: ${fmt(TOTAL.B)}`,
-    `SCB C: ${fmt(TOTAL.C)}`,`SCB D: ${fmt(TOTAL.D)}`,`SCB E: ${fmt(TOTAL.E)}`,
-    `TOTAL BONUS: ${fmt(TOTAL.bonus)}`,
-    `DP + BONUS seluruh periode: ${fmt(TOTAL.grand)}`
-  ];
-  $("stats").innerHTML=`
-    <div><span>DP BIASA</span><b>${ordinary.length}</b></div>
-    <div><span>SCB</span><b>${A.length+B.length+C.length+D.length+E.length}</b></div>
-    <div><span>WD</span><b>${w.length}</b></div>
-    <div><span>STATUS</span><b>${status}</b></div>`;
+  COPY.DP=ordinary.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));COPY.A=A.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));COPY.B=B.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));COPY.C=C.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));COPY.D=D.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));COPY.E=E.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.amount));COPY.WD=w.slice().sort((a,b)=>a.date-b.date).map(x=>fmt(x.wdRaw*1000));
+  TOTAL={totalDPDate,lastDate:`${String(day).padStart(2,"0")}/${String(m+1).padStart(2,"0")}/${y}`,totalDP,A:categoryTotal(d,"A"),B:categoryTotal(d,"B"),C:categoryTotal(d,"C"),D:categoryTotal(d,"D"),E:categoryTotal(d,"E"),bonus,grand:totalDP+bonus};
+  DATA.TOTAL=[`TOTAL DP TANGGAL TERAKHIR: ${fmt(TOTAL.totalDPDate)}`,`Tanggal terakhir: ${TOTAL.lastDate}`,`DP biasa total: ${fmt(TOTAL.totalDP)}`,`SCB A: ${fmt(TOTAL.A)}`,`SCB B: ${fmt(TOTAL.B)}`,`SCB C: ${fmt(TOTAL.C)}`,`SCB D: ${fmt(TOTAL.D)}`,`SCB E: ${fmt(TOTAL.E)}`,`TOTAL BONUS: ${fmt(TOTAL.bonus)}`,`DP + BONUS seluruh periode: ${fmt(TOTAL.grand)}`];
+  $("stats").innerHTML=`<div><span>DP BIASA</span><b>${ordinary.length}</b></div><div><span>SCB</span><b>${A.length+B.length+C.length+D.length+E.length}</b></div><div><span>WD</span><b>${w.length}</b></div><div><span>STATUS</span><b>${status}</b></div>`;
   show("hasil");
 }
 function show(t){
   cur=t;
   document.querySelectorAll("#tabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.t===t));
   if(t==="TOTAL"){
-    $("out").style.display="none";
-    $("tblOut").style.display="block";
-    $("tblOut").innerHTML=`
-      <table class="tbl">
-        <tr><td>TOTAL DP TANGGAL TERAKHIR</td><td>${fmt(TOTAL.totalDPDate||0)}</td></tr>
-        <tr><td>Tanggal terakhir</td><td>${TOTAL.lastDate||"—"}</td></tr>
-        <tr><td>DP biasa total</td><td>${fmt(TOTAL.totalDP||0)}</td></tr>
-        <tr><td>SCB A</td><td>${fmt(TOTAL.A||0)}</td></tr>
-        <tr><td>SCB B</td><td>${fmt(TOTAL.B||0)}</td></tr>
-        <tr><td>SCB C</td><td>${fmt(TOTAL.C||0)}</td></tr>
-        <tr><td>SCB D</td><td>${fmt(TOTAL.D||0)}</td></tr>
-        <tr><td>SCB E</td><td>${fmt(TOTAL.E||0)}</td></tr>
-        <tr class="hi"><td>TOTAL BONUS</td><td>${fmt(TOTAL.bonus||0)}</td></tr>
-        <tr class="big"><td><b>DP + BONUS seluruh periode</b></td><td><b>${fmt(TOTAL.grand||0)}</b></td></tr>
-      </table>`;
+    $("out").style.display="none";$("tblOut").style.display="block";
+    $("tblOut").innerHTML=`<table class="tbl"><tr><td>TOTAL DP TANGGAL TERAKHIR</td><td>${fmt(TOTAL.totalDPDate||0)}</td></tr><tr><td>Tanggal terakhir</td><td>${TOTAL.lastDate||"—"}</td></tr><tr><td>DP biasa total</td><td>${fmt(TOTAL.totalDP||0)}</td></tr><tr><td>SCB A</td><td>${fmt(TOTAL.A||0)}</td></tr><tr><td>SCB B</td><td>${fmt(TOTAL.B||0)}</td></tr><tr><td>SCB C</td><td>${fmt(TOTAL.C||0)}</td></tr><tr><td>SCB D</td><td>${fmt(TOTAL.D||0)}</td></tr><tr><td>SCB E</td><td>${fmt(TOTAL.E||0)}</td></tr><tr class="hi"><td>TOTAL BONUS</td><td>${fmt(TOTAL.bonus||0)}</td></tr><tr class="big"><td><b>DP + BONUS seluruh periode</b></td><td><b>${fmt(TOTAL.grand||0)}</b></td></tr></table>`;
     return;
   }
-  $("out").style.display="block";
-  $("tblOut").style.display="none";
+  $("out").style.display="block";$("tblOut").style.display="none";
   $("out").textContent=t==="hasil"?DATA.hasil:(DATA[t]||[]).join("\n")||"Tidak ada data.";
 }
 
-function fixMultilineQuotes(text){
-  let out="",inQ=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(c==='"') inQ=!inQ;
-    if((c==="\n"||c==="\r")&&inQ){out+=" ";continue;}
-    out+=c;
-  }
-  return out;
-}
-function isRecordStart(line){
-  if(/^\s*BFJ@[\w.@\-]+/i.test(line)) return true;
-  if(!/^\s*[\d.,]{1,6}[\s\t]/.test(line)) return false;
-  return /BFJ@[\w.@\-]+/i.test(line.slice(0, 120));
-}
-function groupIntoRecords(text){
-  const cleaned=fixMultilineQuotes(text);
-  const lines=cleaned.split(/\r?\n/);
-  const records=[];
-  let current=null;
-  for(const raw of lines){
-    if(!raw.trim())continue;
-    if(isRecordStart(raw)){
-      if(current!==null)records.push(current);
-      current=raw;
-    } else if(current!==null){
-      current+="\t"+raw.trim();
-    }
-  }
-  if(current!==null)records.push(current);
-  return records;
-}
-function parseNDPRecord(record){
-  const um=record.match(/BFJ@[\w.@\-]+/i);
-  if(!um)return null;
-  const user=um[0];
+function fixMultilineQuotes(text){let out="",inQ=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"')inQ=!inQ;if((c==="\n"||c==="\r")&&inQ){out+=" ";continue;}out+=c;}return out;}
+function isRecordStart(line,prefix){const p=prefix||DETECTED_PREFIX||'';if(!p)return false;const m=line.match(/^\s*(\d{1,7})[\s\t]+(.+)$/);if(!m)return false;const rest=m[2];if(/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(rest))return true;const userPattern=new RegExp('^'+escapeRegex(p)+'[\\w.\\-]+','i');return userPattern.test(rest);}
+function groupIntoRecords(text,prefix){const cleaned=fixMultilineQuotes(text);const records=[];let current=null;for(const raw of cleaned.split(/\r?\n/)){if(!raw.trim())continue;if(isRecordStart(raw,prefix)){if(current!==null)records.push(current);current=raw;}else if(current!==null)current+="\t"+raw.trim();}if(current!==null)records.push(current);return records;}
+
+// ============================================================
+// FIX BUG NDP: Parse nominal harus PRIORITAS angka berformat ribuan
+// (50.000 / 1.500.000) & pakai \b word boundary supaya digit di dalam
+// UUID/hash (contoh: 9f0fba1bc27248e6809036f4f5cc148c) TIDAK dianggap
+// nominal. Ini mengikuti logika Bonus Checker yang sudah terbukti akurat.
+// ============================================================
+function parseNDPRecord(record,prefix){
+  const allUsers=extractAllUsers(record,prefix);
+  if(!allUsers.length)return null;
+  const user=allUsers[0];
   const scb=record.match(/\bSCB\s*([A-E])\b/i);
   const category=scb?scb[1].toUpperCase():"DP";
   const dm=record.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*(?:AM|PM)?)/i);
-  let date=null,dateText="";
-  let beforeDate=record;
-  if(dm){
-    dateText=dm[1].trim();
-    date=dt(dateText)||dtOnly(dateText);
-    beforeDate=record.slice(0,dm.index);
-  }
+  let date=null,dateText="",beforeDate=record;
+  if(dm){dateText=dm[1].trim();date=dt(dateText)||dtOnly(dateText);beforeDate=record.slice(0,dm.index);}
   let amount=0;
-  const matches=[...beforeDate.matchAll(/\d[\d.,]*/g)];
-  for(let i=matches.length-1;i>=0;i--){
-    const s=matches[i][0];
-    const digits=s.replace(/[^\d]/g,"");
-    if(!digits)continue;
-    if(digits.length>9)continue;
+  // Pass 1 (prioritas): angka berformat ribuan, contoh 50.000 / 1.500.000.
+  // \b memastikan hanya angka yang benar-benar terisolasi (bukan potongan hash/UUID).
+  const thousandMatches=[...beforeDate.matchAll(/\b\d{1,3}(?:[.,]\d{3})+\b/g)];
+  for(let i=thousandMatches.length-1;i>=0;i--){
+    const digits=thousandMatches[i][0].replace(/[^\d]/g,"");
+    if(!digits||digits.length>9)continue;
     const n=Number(digits);
     if(n>=1000&&n<100000000){amount=n;break;}
   }
+  // Pass 2 (fallback): angka tanpa pemisah ribuan (misal 500000).
+  if(!amount){
+    const plainMatches=[...beforeDate.matchAll(/\b\d+\b/g)];
+    for(let i=plainMatches.length-1;i>=0;i--){
+      const s=plainMatches[i][0];
+      if(s.length>9)continue;
+      const n=Number(s);
+      if(n>=1000&&n<100000000){amount=n;break;}
+    }
+  }
   return {user,amount,date,dateText,category};
 }
-function parseNDPRecords(text){
-  return groupIntoRecords(text).map(parseNDPRecord).filter(Boolean);
-}
-function parseNDPNewMembers(text){
-  const list=parseNDPRecords(text);
-  const map=new Map();
-  for(const r of list){
-    const ex=map.get(r.user);
-    if(!ex) map.set(r.user,r);
-    else if(r.date&&(!ex.date||r.date>ex.date)) map.set(r.user,r);
-  }
-  return [...map.values()];
-}
-function parseNDPDP(text){
-  return parseNDPRecords(text).filter(r=>r.category==="DP"&&r.amount>0);
-}
+function parseNDPRecords(text,prefix){return groupIntoRecords(text,prefix).map(r=>parseNDPRecord(r,prefix)).filter(Boolean);}
+function parseNDPNewMembers(text,prefix){const list=parseNDPRecords(text,prefix);const map=new Map();for(const r of list){const ex=map.get(r.user);if(!ex)map.set(r.user,r);else if(r.date&&(!ex.date||r.date>ex.date))map.set(r.user,r);}return [...map.values()];}
+function parseNDPDP(text,prefix){return parseNDPRecords(text,prefix).filter(r=>r.category==="DP"&&r.amount>0);}
 function processNDP(){
-  $("ndpError").classList.remove("show");
-  $("ndpInfo").style.display="none";
+  $("ndpError").classList.remove("show");$("ndpInfo").style.display="none";
   try{
-    const newMembers=parseNDPNewMembers($("ndpNew").value);
-    const dpRows=parseNDPDP($("ndpDp").value);
+    const manual=($("ndpPrefix").value||"").trim();const autoFromNew=detectPrefix($("ndpNew").value);const autoFromDp=detectPrefix($("ndpDp").value);const prefix=manual||autoFromNew||autoFromDp||DETECTED_PREFIX||'';
+    if(!prefix)throw Error("Prefix user tidak terdeteksi. Isi manual di kolom PREFIX USER.");
+    const newMembers=parseNDPNewMembers($("ndpNew").value,prefix);const dpRows=parseNDPDP($("ndpDp").value,prefix);
     if(!newMembers.length)throw Error("NEWMEMBER belum terbaca. Paste data member baru dulu.");
     if(!dpRows.length)throw Error("DP belum terbaca. Paste data Deposit History dulu.");
-    const dpMap=new Map();
-    for(const d of dpRows){
-      dpMap.set(d.user,(dpMap.get(d.user)||0)+d.amount);
-    }
-    const sorted=newMembers.slice().sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
-    const punyaDP=sorted.filter(m=>dpMap.has(m.user)).length;
-    const tanpaDP=sorted.length-punyaDP;
-    const totalDP=sorted.reduce((s,m)=>s+(dpMap.get(m.user)||0),0);
-    const header=
-      `═══════════════════════════════════\n`+
-      `  TOTAL MEMBER BARU : ${sorted.length}\n`+
-      `  TOTAL DEPOSIT     : ${fmt(totalDP)}\n`+
-      `═══════════════════════════════════\n\n`;
-    const lines=sorted.map((m,i)=>{
-      const total=dpMap.get(m.user)||0;
-      return `${i+1}\t${m.dateText||"—"}\t${m.user}\t${fmt(total)}`;
-    });
+    const agentSet=new Set();const dpRecords=groupIntoRecords($("ndpDp").value,prefix);
+    for(const rec of dpRecords){const users=extractAllUsers(rec,prefix);if(users.length>=2)agentSet.add(users[users.length-1].toLowerCase());}
+    const cleanMembers=newMembers.filter(m=>!agentSet.has(m.user.toLowerCase()));
+    if(!cleanMembers.length)throw Error("Semua NEWMEMBER terdeteksi sebagai agent. Cek prefix atau data.");
+    const dpMap=new Map();for(const d of dpRows)dpMap.set(d.user,(dpMap.get(d.user)||0)+d.amount);
+    const sorted=cleanMembers.slice().sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
+    const punyaDP=sorted.filter(m=>dpMap.has(m.user)).length;const tanpaDP=sorted.length-punyaDP;const totalDP=sorted.reduce((s,m)=>s+(dpMap.get(m.user)||0),0);
+    const header=`═══════════════════════════════════\n  PREFIX  : ${prefix}\n  TOTAL MEMBER BARU : ${sorted.length}\n  TOTAL DEPOSIT     : ${fmt(totalDP)}\n  AGENT TERDETEKSI  : ${agentSet.size}\n═══════════════════════════════════\n\n`;
+    const lines=sorted.map((m,i)=>`${i+1}\t${m.dateText||"—"}\t${m.user}\t${fmt(dpMap.get(m.user)||0)}`);
     $("ndpOut").textContent=header+(lines.length?lines.join("\n"):"Tidak ada data.");
-    $("ndpStats").innerHTML=`
-      <div><span>NEW MEMBER</span><b>${sorted.length}</b></div>
-      <div><span>PUNYA DP</span><b>${punyaDP}</b></div>
-      <div><span>NDP (0 DP)</span><b>${tanpaDP}</b></div>
-      <div><span>TOTAL DP</span><b>${fmt(totalDP)}</b></div>`;
+    $("ndpStats").innerHTML=`<div><span>NEW MEMBER</span><b>${sorted.length}</b></div><div><span>PUNYA DP</span><b>${punyaDP}</b></div><div><span>NDP (0 DP)</span><b>${tanpaDP}</b></div><div><span>TOTAL DP</span><b>${fmt(totalDP)}</b></div>`;
     const uniqueUsers=[...new Set(dpRows.map(r=>r.user))].length;
-    $("ndpInfo").innerHTML=
-      `✓ NEWMEMBER: ${newMembers.length} user terbaca<br>`+
-      `✓ DP: ${dpRows.length} baris · ${uniqueUsers} user unik`;
+    $("ndpInfo").innerHTML=`✓ Prefix: <b>${prefix}</b><br>✓ NEWMEMBER (setelah filter agent): ${sorted.length} user<br>✓ DP: ${dpRows.length} baris · ${uniqueUsers} user unik<br>✓ Agent di-skip otomatis: ${agentSet.size}`;
     $("ndpInfo").style.display="block";
-  }catch(e){
-    $("ndpError").textContent=e.message;
-    $("ndpError").classList.add("show");
-  }
+  }catch(e){$("ndpError").textContent=e.message;$("ndpError").classList.add("show");}
+}
+function refreshPrefixTag(){
+  const manual=($("ndpPrefix").value||"").trim();const auto=detectPrefix(($("ndpNew").value||"")+"\n"+($("ndpDp").value||""));
+  if(manual){$("prefixTag").textContent="MANUAL: "+manual;$("prefixTag").style.background="rgba(251,191,36,.1)";$("prefixTag").style.color="#fbbf24";$("prefixTag").style.borderColor="rgba(251,191,36,.3)";}
+  else if(auto){$("prefixTag").textContent="AUTO: "+auto;$("prefixTag").style.background="";$("prefixTag").style.color="";$("prefixTag").style.borderColor="";}
+  else{$("prefixTag").textContent="AUTO";$("prefixTag").style.background="";$("prefixTag").style.color="";$("prefixTag").style.borderColor="";}
+}
+$("ndpNew").addEventListener("input",refreshPrefixTag);$("ndpDp").addEventListener("input",refreshPrefixTag);$("ndpPrefix").addEventListener("input",refreshPrefixTag);
+$("ndpDetect").onclick=()=>{const auto=detectPrefix(($("ndpNew").value||"")+"\n"+($("ndpDp").value||""));if(auto){$("ndpPrefix").value=auto;refreshPrefixTag();}else alert("Prefix tidak terdeteksi dari data yang ada bre.");};
+
+function toGoals(s){let t=String(s).replace(',','.').trim();if(!t)return 0;const mixed=t.match(/^(\d+)\s+(\d+)\/(\d+)$/);if(mixed)return +mixed[1]+(+mixed[2])/(+mixed[3]);const frac=t.match(/^(\d+)\/(\d+)$/);if(frac)return (+frac[1])/(+frac[2]);const n=parseFloat(t);return isNaN(n)?0:n;}
+const GARBAGE_RE = /00:00-15:00|15:01-30:00|45:01-60:00|60:01-75:00|TG -|No\. of Cns|1st Corner|2nd Half|Last Cns/i;
+
+function cleanTeamName(name) {
+    return String(name).replace(/\[.*?\]\s*/g, '').trim();
 }
 
-const pad2=n=>String(n).padStart(2,'0');
-const DT_REGEX=/(\d{2}[\/\-]\d{2})\s+(\d{1,2}:\d{2})/;
-function shiftBackOneHour(ddmm,hhmm){
-  const [d,m]=ddmm.split('/').map(Number);
-  const [h,mi]=hhmm.split(':').map(Number);
-  const dt=new Date(2026,m-1,d,h,mi,0);
-  dt.setHours(dt.getHours()-1);
-  return `${pad2(dt.getDate())}/${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
+function adjustDateTime(dateStr, timeStr) {
+    const useWIB = $("useWIB").checked;
+    if (!timeStr) return { date: dateStr || '', time: '', isShifted: false, useWIB };
+    
+    let [h, m] = timeStr.split(':').map(Number);
+    let dateShifted = false;
+    
+    if (useWIB) {
+        h -= 1;
+        if (h < 0) {
+            h = 23;
+            dateShifted = true;
+        }
+    }
+    
+    let newTime = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    let newDate = dateStr;
+    
+    if (dateShifted && dateStr) {
+        let parts = dateStr.split('/');
+        if (parts.length === 2) {
+            let d = parseInt(parts[0], 10);
+            let mo = parseInt(parts[1], 10);
+            let dt = new Date(new Date().getFullYear(), mo - 1, d);
+            dt.setDate(dt.getDate() - 1);
+            newDate = `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}`;
+        }
+    }
+    return { date: newDate, time: newTime, useWIB };
 }
-function findEarliestDate(text){
-  const re=/(\d{2})[\/\-](\d{2})\s+\d{1,2}:\d{2}/g;
-  let minKey=null,minDate=null,m;
-  while((m=re.exec(text))!==null){
-    const dd=parseInt(m[1],10),mm=parseInt(m[2],10);
-    const key=mm*100+dd;
-    if(minKey===null||key<minKey){minKey=key;minDate=`${m[1]}/${m[2]}`;}
-  }
-  return minDate;
-}
-function cleanTeam(name){return name.replace(/\[\s*\d+\s*\]/g,'').replace(/\s{2,}/g,' ').trim();}
-function isHdpToken(s){return /^\d+(\.\d+)?\s*[:\-]\s*\d+/.test(s)||/^[\d.]+[\s:]+/.test(s);}
-function cleanHdp(s){return s.replace(/\s+/g,' ').trim();}
-function toGoals(s){
-  let t=String(s).replace(',','.').trim();
-  if(!t)return 0;
-  const mixed=t.match(/^(\d+)\s+(\d+)\/(\d+)$/);
-  if(mixed) return +mixed[1] + (+mixed[2])/(+mixed[3]);
-  const frac=t.match(/^(\d+)\/(\d+)$/);
-  if(frac) return (+frac[1])/(+frac[2]);
-  const n=parseFloat(t);
-  return isNaN(n)?0:n;
-}
+
 function parseSortirMatches(text){
-  const earliestDate=findEarliestDate(text);
   const lines=text.split(/\r?\n/);
   const out=[];
-  let league='',pendingDT='',teams=[],awaitingOdds=false,cur=null,expectingLiveTime=false;
-  for(const raw of lines){
-    const line=raw.trim();
-    if(!line)continue;
-    const mAll=line.match(/^Add\s+All\s*(.+)$/i);
-    if(mAll){league=mAll[1].trim();pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;continue;}
-    if(/^Add\s+favou?rite/i.test(line))continue;
-    const tokens=line.split(/[\s\t]+/);
-    const hasLive=tokens.some(t=>t.toUpperCase()==='LIVE');
-    if(hasLive){
-      const tmLive=line.match(/LIVE\s+(\d{1,2}:\d{2})/i);
-      if(tmLive&&earliestDate){pendingDT=shiftBackOneHour(earliestDate,tmLive[1]);teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;continue;}
-      pendingDT='';teams=[];awaitingOdds=false;cur=null;expectingLiveTime=true;continue;
+  let league='', pendingTime='', pendingDate='', teams=[], skip=false;
+  let state = 'LEAGUE';
+
+  for(let i=0; i<lines.length; i++){
+    const line=lines[i].trim();
+    if(!line) continue;
+    if(/^Add\s+favou?rite/i.test(line)) continue;
+    if(/^1X2$/i.test(line)) continue;
+
+    if (state !== 'TEAMS' && !/^Hide/i.test(line)) {
+        const isHdp = /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+)\s*:\s*(\d+\s+\d+\/\d+|\d+\/\d+|\d+)/.test(line);
+        if (!isHdp) {
+            league = line.replace(/^Add\s+All\s*/i, '').trim();
+            skip = / - /.test(line);
+            state = 'LEAGUE';
+            continue;
+        }
     }
-    if(expectingLiveTime){
-      const tmOnly=line.match(/^(\d{1,2}:\d{2})/);
-      if(tmOnly&&earliestDate){pendingDT=shiftBackOneHour(earliestDate,tmOnly[1]);expectingLiveTime=false;continue;}
-      expectingLiveTime=false;
+    if(skip) continue;
+
+    const hideMatch = line.match(/^Hide\s+(?:(\d{1,2}[\/\-]\d{1,2})\s+)?(\d{1,2}[:.]\d{2})/i);
+    if (hideMatch) {
+        pendingDate = hideMatch[1] ? hideMatch[1].replace('-','/') : '';
+        pendingTime = hideMatch[2].replace('.',':');
+        teams = [];
+        state = 'TEAMS';
+        continue;
     }
-    const dtm=line.match(DT_REGEX);
-    if(dtm){pendingDT=shiftBackOneHour(dtm[1].replace(/-/g,'/'),dtm[2]);teams=[];awaitingOdds=false;cur=null;expectingLiveTime=false;continue;}
-    if(/^1X2$/i.test(line))continue;
-    if(line.includes('\t')){
-      if(awaitingOdds&&cur&&!cur.hdp){
-        const first=line.split('\t')[0].trim();
-        if(isHdpToken(first))cur.hdp=cleanHdp(first);
-        awaitingOdds=false;
-      }
-      continue;
+
+    const parts=line.split(/[\t\u00a0]+|\s{2,}/).map(s=>s.trim()).filter(Boolean);
+    if(parts.length>=3 && /^(\d{1,2})[:.](\d{2})/.test(parts[0])){
+        const t = parts[0].match(/^(\d{1,2})[:.](\d{2})/)[0].replace('.',':');
+        const t1=cleanTeamName(parts[1]);
+        const t2=cleanTeamName(parts[2]);
+        if(GARBAGE_RE.test(t1)||GARBAGE_RE.test(t2)) continue;
+        const adjusted = adjustDateTime(pendingDate, t);
+        out.push({league,time:adjusted.time,date:adjusted.date,home:t1,away:t2,hdp:'',useWIB:adjusted.useWIB});
+        pendingDate='';
+        state = 'WAITING_HDP';
+        continue;
     }
-    if(awaitingOdds)continue;
-    teams.push(cleanTeam(line));
-    if(teams.length===2){
-      cur={league,dt:pendingDT,home:teams[0],away:teams[1],hdp:''};
-      out.push(cur);
-      teams=[];
-      awaitingOdds=true;
+
+    if (state === 'TEAMS') {
+        const isHdp = /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+)\s*:\s*(\d+\s+\d+\/\d+|\d+\/\d+|\d+)/.test(line);
+        if (!isHdp) {
+            teams.push(cleanTeamName(line));
+            if (teams.length === 2) {
+                const adjusted = adjustDateTime(pendingDate, pendingTime);
+                out.push({ league, time: adjusted.time, date: adjusted.date, home: teams[0], away: teams[1], hdp: '', useWIB: adjusted.useWIB });
+                teams = [];
+                pendingTime = '';
+                pendingDate = '';
+                state = 'WAITING_HDP';
+            }
+            continue;
+        }
+    }
+
+    const lastMatch = out[out.length - 1];
+    if (lastMatch && !lastMatch.hdp) {
+        const hdpMatch = line.match(/^(\d+\s+\d+\/\d+|\d+\/\d+|\d+)\s*:\s*(\d+\s+\d+\/\d+|\d+\/\d+|\d+)/);
+        if (hdpMatch) {
+            lastMatch.hdp = `${hdpMatch[1]} : ${hdpMatch[2]}`;
+            state = 'LEAGUE';
+        }
     }
   }
   return out;
 }
-function dedupeSortir(matches){
-  const seen=new Set();
-  return matches.filter(m=>{
-    const k=`${m.league}|${m.dt}|${m.home}|${m.away}`;
-    if(seen.has(k))return false;
-    seen.add(k);
-    return true;
-  });
-}
-function predictScore(hdp){
-  if(!hdp)return '1-1';
-  const parts=hdp.split(':');
-  if(parts.length!==2)return '1-1';
-  const left=toGoals(parts[0]);
-  const right=toGoals(parts[1]);
-  if(left>right){
-    const h=left-right;
-    if(h<=0.75)return '2-1';
-    if(h<=1)   return '2-0';
-    if(h<=1.5) return '3-1';
-    return '3-0';
-  }
-  if(right>left){
-    const h=right-left;
-    if(h<=0.75)return '1-2';
-    if(h<=1)   return '0-2';
-    if(h<=1.5) return '1-3';
-    return '0-3';
-  }
-  return '1-1';
-}
-function timeKeySortir(dt){
-  const m=String(dt).match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
-  if(!m)return 0;
-  return (+m[2])*100000000+(+m[1])*1000000+(+m[3])*10000+(+m[4]);
-}
-function groupByLeagueSortir(matches){
-  const map=new Map();
-  matches.forEach(m=>{
-    const key=m.league||'';
-    if(!map.has(key))map.set(key,[]);
-    map.get(key).push(m);
-  });
-  map.forEach(arr=>arr.sort((a,b)=>timeKeySortir(a.dt)-timeKeySortir(b.dt)));
-  return map;
-}
-function buildMurni(map){
-  const blocks=[];
-  for(const [league,arr] of map.entries()){
-    const lines=[];
-    if(league)lines.push(league);
-    arr.forEach(m=>{lines.push(`${m.dt} ${m.home} VS ${m.away}${m.hdp?' '+m.hdp:''}`);});
-    blocks.push(lines.join('\n'));
-  }
-  return blocks.join('\n\n');
-}
-function buildPrediksi(map){
-  const blocks=[];
-  for(const [league,arr] of map.entries()){
-    const lines=[];
-    if(league)lines.push(league);
-    arr.forEach(m=>{lines.push(`${m.dt} ${m.home} VS ${m.away} ${predictScore(m.hdp)}`);});
-    blocks.push(lines.join('\n'));
-  }
-  return blocks.join('\n\n');
-}
+
+function dedupeSortir(matches){const seen=new Set();return matches.filter(m=>{const k=`${m.league}|${m.time}|${m.home}|${m.away}`;if(seen.has(k))return false;seen.add(k);return true;});}
+function predictScore(hdp){if(!hdp)return '1-1';const parts=hdp.split(':');if(parts.length!==2)return '1-1';const left=toGoals(parts[0]),right=toGoals(parts[1]);if(left>right){const h=left-right;if(h<=0.75)return '2-1';if(h<=1)return '2-0';if(h<=1.5)return '3-1';return '3-0';}if(right>left){const h=right-left;if(h<=0.75)return '1-2';if(h<=1)return '0-2';if(h<=1.5)return '1-3';return '0-3';}return '1-1';}
+function timeKeySortir(t){const m=String(t).match(/^(\d{1,2}):(\d{2})$/);if(!m)return 0;return (+m[1])*100+(+m[2]);}
+function hourToDayOffset(hhmm){const h=parseInt(String(hhmm).split(':')[0],10);if(isNaN(h))return 0;return h<12?1:0;}
+function dateTimeKey(m){if(m.date){const p=m.date.split('/').map(Number);if(p.length===2&&!isNaN(p[0])&&!isNaN(p[1])) return (p[1]*100+p[0])*100000000+timeKeySortir(m.time);}return hourToDayOffset(m.time)*100000000+timeKeySortir(m.time);}
+function groupByLeagueSortir(matches){const map=new Map();matches.forEach(m=>{const key=m.league||'';if(!map.has(key))map.set(key,[]);map.get(key).push(m);});map.forEach(arr=>arr.sort((a,b)=>dateTimeKey(a)-dateTimeKey(b)));return map;}
+function timePrefix(m){const datePart=m.date?m.date+' ':'';const timePart=m.time?m.time+(m.useWIB?' WIB ':' '):'';return datePart+timePart;}
+function buildMurni(map){const blocks=[];for(const [league,arr] of map.entries()){const lines=[];if(league)lines.push(league);arr.forEach(m=>{const hdp=m.hdp?`\t${m.hdp}`:'';lines.push(`${timePrefix(m)}${m.home} VS ${m.away}${hdp}`);});blocks.push(lines.join('\n'));}return blocks.join('\n\n');}
+function buildPrediksi(map){const blocks=[];for(const [league,arr] of map.entries()){const lines=[];if(league)lines.push(league);arr.forEach(m=>lines.push(`${timePrefix(m)}${m.home} VS ${m.away} ${predictScore(m.hdp)}`));blocks.push(lines.join('\n'));}return blocks.join('\n\n');}
+function parseResultLine(line){let date='',rest=line;const d1=line.match(/^(\d{1,2})[\/\-](\d{1,2})\s+\d{1,2}:\d{2}\s+(.+)$/);const d2=line.match(/^(\d{1,2})[\/\-](\d{1,2})\s+(.+)$/);if(d1){date=`${d1[1].padStart(2,'0')}/${d1[2].padStart(2,'0')}`;rest=d1[3].trim();}else if(d2){date=`${d2[1].padStart(2,'0')}/${d2[2].padStart(2,'0')}`;rest=d2[3].trim();}const sm=rest.match(/^(.+?)\s+(\d{1,2})\s*[-:x]\s*(\d{1,2})\s+(.+?)\s*$/i);if(!sm)return null;return {date,home:sm[1].trim(),hs:parseInt(sm[2],10),as:parseInt(sm[3],10),away:sm[4].trim()};}
+function normalizeTeam(name){return String(name).toLowerCase().replace(/\[[^\]]+\]/g,'').replace(/[^a-z0-9]/g,'').trim();}
+function findMatchForResult(res,matches){const hN=normalizeTeam(res.home),aN=normalizeTeam(res.away);for(const m of matches){const mh=normalizeTeam(m.home),ma=normalizeTeam(m.away);if((mh===hN&&ma===aN)||(mh===aN&&ma===hN))return m;}for(const m of matches){const mh=normalizeTeam(m.home),ma=normalizeTeam(m.away);if((mh.includes(hN)||hN.includes(mh))&&(ma.includes(aN)||aN.includes(ma)))return m;if((mh.includes(aN)||aN.includes(mh))&&(ma.includes(hN)||hN.includes(ma)))return m;}return null;}
 function runSortir(){
-  const text=$("sortirInput").value;
-  const matches=dedupeSortir(parseSortirMatches(text));
+  const oddsText=$("sortirInput").value;if(!oddsText.trim()){alert("Paste dulu data oddsnya bre!");return;}
+  const matches=dedupeSortir(parseSortirMatches(oddsText));
+  const resultText=$("resultInput").value;const results=[];
+  if(resultText.trim()){for(const raw of resultText.split(/\r?\n/)){const line=raw.trim();if(!line)continue;const r=parseResultLine(line);if(r)results.push(r);}}
+  for(const r of results){const m=findMatchForResult(r,matches);if(m&&r.date)m.date=r.date;}
   const map=groupByLeagueSortir(matches);
   $("sortirOutMurni").textContent=buildMurni(map)||"Belum ada data.";
   $("sortirOutPrediksi").textContent=buildPrediksi(map)||"Belum ada data.";
   let homeFav=0,awayFav=0,even=0;
-  matches.forEach(m=>{
-    if(!m.hdp)return;
-    const p=m.hdp.split(':');
-    if(p.length!==2)return;
-    const l=toGoals(p[0]),r=toGoals(p[1]);
-    if(l>r)homeFav++;
-    else if(r>l)awayFav++;
-    else even++;
-  });
-  $("sortirStats").innerHTML=`
-    <div><span>TOTAL LIGA</span><b>${map.size}</b></div>
-    <div><span>TOTAL PERTANDINGAN</span><b>${matches.length}</b></div>
-    <div><span>FAVORIT HOME</span><b>${homeFav}</b></div>
-    <div><span>FAVORIT AWAY</span><b>${awayFav}</b></div>
-    <div><span>PASARAN SEIMBANG</span><b>${even}</b></div>`;
-  if(!matches.length)alert("Belum ada data yang bisa disortir pren!");
+  matches.forEach(m=>{if(!m.hdp)return;const p=m.hdp.split(':');if(p.length!==2)return;const l=toGoals(p[0]),r=toGoals(p[1]);if(l>r)homeFav++;else if(r>l)awayFav++;else even++;});
+  $("sortirStats").innerHTML=`<div><span>TOTAL LIGA</span><b>${map.size}</b></div><div><span>TOTAL PERTANDINGAN</span><b>${matches.length}</b></div><div><span>FAVORIT HOME</span><b>${homeFav}</b></div><div><span>FAVORIT AWAY</span><b>${awayFav}</b></div><div><span>PASARAN SEIMBANG</span><b>${even}</b></div>`;
+  if(!results.length){$("sortirOutResult").textContent="Belum ada hasil. (isi kolom Result di atas kalau mau cek akurasi)";$("resultStats").innerHTML=`<div><span>TOTAL MATCH</span><b>—</b></div><div><span>PREDIKSI BENAR</span><b>—</b></div><div><span>PREDIKSI SALAH</span><b>—</b></div><div><span>AKURASI</span><b>—</b></div>`;return;}
+  const rows=[];let benar=0,salah=0;
+  for(const r of results){const m=findMatchForResult(r,matches);const pred=m?predictScore(m.hdp):'—';const actual=`${r.hs}-${r.as}`;const cocok=pred===actual;if(pred!=='—'){if(cocok)benar++;else salah++;}rows.push({league:m?m.league:'(tidak ada di jadwal)',time:m?m.time:'—',date:m?(m.date||''):'',home:m?m.home:r.home,away:m?m.away:r.away,hdp:m?(m.hdp||'—'):'—',pred,actual,cocok,ketemu:!!m,useWIB: m ? m.useWIB : false});}
+  const grouped=new Map();rows.forEach(r=>{const k=r.league||'';if(!grouped.has(k))grouped.set(k,[]);grouped.get(k).push(r);});
+  const blocks=[];for(const [league,arr] of grouped.entries()){const lines=[];if(league)lines.push(league);arr.forEach(r=>{const status=!r.ketemu?'⚠️':(r.cocok?'✓':'✗');const datePart=r.date?r.date+' ':'';const timePart=r.time+(r.useWIB?' WIB':'');lines.push(`${datePart}${timePart} | ${r.home} VS ${r.away} | HDP: ${r.hdp} | Pred: ${r.pred} | Result: ${r.actual} | ${status}`);});blocks.push(lines.join('\n'));}
+  const total=rows.length;const akurasi=(benar+salah)>0?Math.round((benar/(benar+salah))*100):0;
+  const header=`═══════════════════════════════════\n  TOTAL MATCH : ${total}\n  BENAR       : ${benar}\n  SALAH       : ${salah}\n  AKURASI     : ${akurasi}%\n═══════════════════════════════════\n\n`;
+  $("sortirOutResult").textContent=header+blocks.join('\n\n');
+  $("resultStats").innerHTML=`<div><span>TOTAL MATCH</span><b>${total}</b></div><div><span>PREDIKSI BENAR</span><b>${benar}</b></div><div><span>PREDIKSI SALAH</span><b>${salah}</b></div><div><span>AKURASI</span><b>${akurasi}%</b></div>`;
 }
 function resetSortir(){
-  $("sortirInput").value="";
-  $("sortirOutMurni").textContent="Belum ada hasil.";
-  $("sortirOutPrediksi").textContent="Belum ada hasil.";
-  $("sortirStats").innerHTML=`
-    <div><span>TOTAL LIGA</span><b>—</b></div>
-    <div><span>TOTAL PERTANDINGAN</span><b>—</b></div>
-    <div><span>FAVORIT HOME</span><b>—</b></div>
-    <div><span>FAVORIT AWAY</span><b>—</b></div>
-    <div><span>PASARAN SEIMBANG</span><b>—</b></div>`;
+  $("sortirInput").value="";$("resultInput").value="";
+  $("sortirOutMurni").textContent="Belum ada hasil.";$("sortirOutPrediksi").textContent="Belum ada hasil.";
+  $("sortirOutResult").textContent="Belum ada hasil. (isi kolom Result di atas kalau mau cek akurasi)";
+  $("sortirStats").innerHTML=`<div><span>TOTAL LIGA</span><b>—</b></div><div><span>TOTAL PERTANDINGAN</span><b>—</b></div><div><span>FAVORIT HOME</span><b>—</b></div><div><span>FAVORIT AWAY</span><b>—</b></div><div><span>PASARAN SEIMBANG</span><b>—</b></div>`;
+  $("resultStats").innerHTML=`<div><span>TOTAL MATCH</span><b>—</b></div><div><span>PREDIKSI BENAR</span><b>—</b></div><div><span>PREDIKSI SALAH</span><b>—</b></div><div><span>AKURASI</span><b>—</b></div>`;
 }
-
-$("sortirCopyMurni").onclick=()=>{
-  navigator.clipboard.writeText($("sortirOutMurni").textContent).then(()=>{
-    const b=$("sortirCopyMurni");b.textContent="TERCOPY!";
-    setTimeout(()=>b.textContent="SALIN HASIL",900);
-  });
-};
-$("sortirCopyPrediksi").onclick=()=>{
-  navigator.clipboard.writeText($("sortirOutPrediksi").textContent).then(()=>{
-    const b=$("sortirCopyPrediksi");b.textContent="TERCOPY!";
-    setTimeout(()=>b.textContent="SALIN HASIL",900);
-  });
-};
-$("sortirProcess").onclick=runSortir;
-$("sortirReset").onclick=resetSortir;
+$("sortirCopyMurni").onclick=()=>{copyText($("sortirOutMurni").textContent,$("sortirCopyMurni"));};
+$("sortirCopyPrediksi").onclick=()=>{copyText($("sortirOutPrediksi").textContent,$("sortirCopyPrediksi"));};
+$("sortirCopyResult").onclick=()=>{copyText($("sortirOutResult").textContent,$("sortirCopyResult"));};
+$("sortirProcess").onclick=runSortir;$("sortirReset").onclick=resetSortir;
 
 $("process").onclick=()=>{try{processData()}catch(e){$("error").textContent=e.message;$("error").classList.add("show")}};
 $("clear").onclick=()=>{
-  $("dp").value="";$("wd").value="";$("out").textContent="Belum ada hasil.";
-  $("error").classList.remove("show");
-  DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[],TOTAL:[]};
-  COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};TOTAL={};
+  $("dp").value="";$("wd").value="";$("out").textContent="Belum ada hasil.";$("error").classList.remove("show");
+  DATA={hasil:"",DP:[],A:[],B:[],C:[],D:[],E:[],WD:[],TOTAL:[]};COPY={DP:[],A:[],B:[],C:[],D:[],E:[],WD:[]};TOTAL={};
   $("tblOut").style.display="none";$("out").style.display="block";
   $("stats").innerHTML=`<div><span>DP BIASA</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>WD</span><b>—</b></div><div><span>STATUS</span><b>—</b></div>`;
 };
-$("copy").onclick=()=>{
-  const t=cur==="hasil"?DATA.hasil:cur==="TOTAL"?(DATA.TOTAL||[]).join("\n"):(COPY[cur]||[]).join("\n");
-  navigator.clipboard.writeText(t).then(()=>{
-    const b=$("copy");b.textContent="TERCOPY!";
-    setTimeout(()=>b.textContent="COPY TAB INI",900);
-  });
-};
+$("copy").onclick=()=>{const t=cur==="hasil"?DATA.hasil:cur==="TOTAL"?(DATA.TOTAL||[]).join("\n"):(COPY[cur]||[]).join("\n");copyText(t, $("copy"));};
 document.querySelectorAll("#tabs .tab").forEach(b=>b.onclick=()=>show(b.dataset.t));
-$("reportName").addEventListener("input",()=>{
-  if(!DATA.hasil)return;
-  const lines=DATA.hasil.split("\n");
-  lines[0]=($("reportName").value||"BOLAPELANGI2").trim().toUpperCase();
-  DATA.hasil=lines.join("\n");
-  if(cur==="hasil")$("out").textContent=DATA.hasil;
-});
+$("reportName").addEventListener("input",()=>{if(!DATA.hasil)return;const lines=DATA.hasil.split("\n");lines[0]=($("reportName").value||"BOLAPELANGI2").trim().toUpperCase();DATA.hasil=lines.join("\n");if(cur==="hasil")$("out").textContent=DATA.hasil;});
 $("ndpProcess").onclick=processNDP;
-$("ndpClear").onclick=()=>{
-  $("ndpNew").value="";$("ndpDp").value="";
-  $("ndpOut").textContent="Belum ada hasil.";
-  $("ndpError").classList.remove("show");
-  $("ndpInfo").style.display="none";
-  $("ndpStats").innerHTML=`<div><span>NEW MEMBER</span><b>—</b></div><div><span>PUNYA DP</span><b>—</b></div><div><span>NDP (0 DP)</span><b>—</b></div><div><span>TOTAL DP</span><b>—</b></div>`;
-};
-$("ndpCopy").onclick=()=>{
-  navigator.clipboard.writeText($("ndpOut").textContent).then(()=>{
-    const b=$("ndpCopy");b.textContent="TERCOPY!";
-    setTimeout(()=>b.textContent="COPY HASIL NDP",900);
+$("ndpClear").onclick=()=>{$("ndpNew").value="";$("ndpDp").value="";$("ndpOut").textContent="Belum ada hasil.";$("ndpError").classList.remove("show");$("ndpInfo").style.display="none";$("ndpStats").innerHTML=`<div><span>NEW MEMBER</span><b>—</b></div><div><span>PUNYA DP</span><b>—</b></div><div><span>NDP (0 DP)</span><b>—</b></div><div><span>TOTAL DP</span><b>—</b></div>`;refreshPrefixTag();};
+$("ndpCopy").onclick=()=>{copyText($("ndpOut").textContent,$("ndpCopy"));};
+refreshPrefixTag();
+
+
+// ==========================================
+// LOGIKA BONUS CHECKER
+// ==========================================
+function parseBonusBlocks(text, isWD = false) {
+  if (!text.trim()) return [];
+  const lines = text.split('\n');
+  const records = [];
+  let currentBlock = '';
+
+  for (let line of lines) {
+    line = line.trim();
+    if (!line) continue;
+    if (/^\d+\s*[\t|]\s*BFJ@/i.test(line) || /^\s+\d+\s*[\t|]\s*BFJ@/i.test(line)) {
+      if (currentBlock) records.push(currentBlock);
+      currentBlock = line + '\n';
+    } else {
+      currentBlock += line + '\n';
+    }
+  }
+  if (currentBlock) records.push(currentBlock);
+
+  const results = [];
+  for (const block of records) {
+    const userMatch = block.match(/(BFJ@[\w.\-]+)/i);
+    if (!userMatch) continue;
+    const user = userMatch[1];
+
+    if (isWD) {
+      results.push({ user });
+      continue;
+    }
+
+    const isSCB = /SCB.*BONUS/i.test(block);
+    let amount = 0;
+    
+    const dateMatch = block.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+    if (dateMatch) {
+        const beforeDate = block.slice(0, dateMatch.index);
+        const numMatches = beforeDate.match(/(\d{1,3}(?:[.,]\d{3})+|\b\d+\b)/g);
+        
+        if (numMatches) {
+            for (let i = numMatches.length - 1; i >= 0; i--) {
+                const numStr = numMatches[i];
+                if (numStr.length > 10 && !numStr.includes('.') && !numStr.includes(',')) continue;
+                
+                const val = parseInt(numStr.replace(/[^\d]/g, ''), 10);
+                if (val >= 1000) {
+                    amount = val;
+                    break;
+                }
+            }
+        }
+    }
+    if (amount > 0) {
+      results.push({ user, amount, isSCB });
+    }
+  }
+  return results;
+}
+
+let globalClaimData = [];
+
+function prosesBonusChecker() {
+  const rawDpText = $("bcInputDp").value;
+  const rawWdText = $("bcInputWd").value;
+  const stopBonus = $("bcInputStop").value.split("\n").map(x => x.trim().toLowerCase()).filter(Boolean);
+  const stopSet = new Set(stopBonus);
+  
+  const minDP = parseFloat($("bcFilterMin").value) || 0;
+  const maxDP = parseFloat($("bcFilterMax").value) || Infinity;
+
+  const parsedDp = parseBonusBlocks(rawDpText, false);
+  const parsedWd = parseBonusBlocks(rawWdText, true);
+
+  const DP = [];
+  const SCB = [];
+  const WD = parsedWd;
+
+  parsedDp.forEach(x => {
+    if (x.isSCB) SCB.push(x);
+    else DP.push(x);
   });
+
+  const groupByUser = (arr) => {
+    const map = new Map();
+    arr.forEach(x => {
+      const k = x.user.toLowerCase();
+      if (!map.has(k)) map.set(k, []);
+      map.get(k).push(x);
+    });
+    return map;
+  };
+
+  const gDP = groupByUser(DP);
+  const gSCB = groupByUser(SCB);
+  const gWD = groupByUser(WD);
+
+  let totalSiapDibagi = [];
+  for (const [id, rows] of gDP) {
+    if (!gWD.has(id) && !gSCB.has(id)) {
+      const maxDp = Math.max(...rows.map(x => x.amount));
+      if (maxDp >= minDP && maxDp <= maxDP && !stopSet.has(id)) {
+        const originalUser = rows[0].user; 
+        totalSiapDibagi.push({ user: originalUser, maxDp: maxDp });
+      }
+    }
+  }
+  totalSiapDibagi.sort((a, b) => b.maxDp - a.maxDp);
+  globalClaimData = totalSiapDibagi;
+
+  let totalRules = [];
+  let totalDouble = [];
+
+  for (const [id, rows] of gSCB) {
+    const dpRows = gDP.get(id) || [];
+    const maxDp = dpRows.length ? Math.max(...dpRows.map(x => x.amount)) : 0;
+    const totalBonus = rows.reduce((sum, x) => sum + x.amount, 0);
+    const reasons = [];
+
+    if (rows.length >= 2) reasons.push(`Klaim ${rows.length}x`);
+    if (totalBonus > 100000) reasons.push(`Bonus > Rp100.000`);
+    if (maxDp > 0 && totalBonus > (maxDp * 0.1)) reasons.push(`Bonus > 10% Max DP`);
+
+    if (rows.length >= 2) {
+      totalDouble.push({ user: rows[0].user, count: rows.length, totalBonus });
+    }
+    if (reasons.length > 0) {
+      totalRules.push({ user: rows[0].user, maxDp, totalBonus, reasons });
+    }
+  }
+
+  $("bcStats").innerHTML = `<div><span>WD</span><b>${WD.length}</b></div><div><span>DP</span><b>${DP.length}</b></div><div><span>SCB</span><b>${SCB.length}</b></div><div><span>SIAP DIBAGI</span><b>${totalSiapDibagi.length}</b></div>`;
+
+  $("bcListClaim").innerHTML = totalSiapDibagi.length ? totalSiapDibagi.map(x => `
+    <div class="bc-item">
+      <div class="bc-item-info">
+        <b>${x.user}</b>
+        <span>Max DP: Rp ${fmt(x.maxDp)}</span>
+      </div>
+    </div>
+  `).join("") : `<div style="color:var(--muted); font-size:12px;">Tidak ada ID siap dibagi.</div>`;
+
+  $("bcListRules").innerHTML = totalRules.length ? totalRules.map(x => `
+    <div class="bc-item" style="flex-direction: column; align-items: flex-start;">
+      <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:8px; flex-wrap:wrap; gap:5px;">
+        <b style="color:var(--sky); font-size:14px;">${x.user}</b>
+        <span style="font-size:12px; color:var(--muted);">Max DP: Rp ${fmt(x.maxDp)} | Total Bonus: Rp ${fmt(x.totalBonus)}</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        ${x.reasons.map(r => `<span class="bc-badge">${r}</span>`).join("")}
+      </div>
+    </div>
+  `).join("") : `<div style="color:var(--muted); font-size:12px;">Tidak ada pelanggaran rules.</div>`;
+
+  $("bcListDouble").innerHTML = totalDouble.length ? totalDouble.map(x => `
+    <div class="bc-item">
+      <div class="bc-item-info">
+        <b>${x.user}</b>
+        <span>Klaim <b>${x.count}x</b> | Total Bonus: Rp ${fmt(x.totalBonus)}</span>
+      </div>
+    </div>
+  `).join("") : `<div style="color:var(--muted); font-size:12px;">Tidak ada pembagian 2x+.</div>`;
+
+  $("bcListWd").innerHTML = WD.length ? WD.map(x => `
+    <div class="bc-item">
+      <div class="bc-item-info">
+        <b>${x.user}</b>
+      </div>
+    </div>
+  `).join("") : `<div style="color:var(--muted); font-size:12px;">Belum ada WD.</div>`;
+}
+
+function copyBonusID() {
+  if (globalClaimData.length === 0) return alert("Tidak ada ID untuk dicopy bre.");
+  const textToCopy = globalClaimData.map(x => x.user).join("\n");
+  copyText(textToCopy, $("bcBtnCopyID"));
+}
+
+$("bcBtnProcess").onclick = () => { 
+  $("bcError").classList.remove("show");
+  try { prosesBonusChecker(); } catch(e) { $("bcError").textContent = e.message; $("bcError").classList.add("show"); }
 };
+$("bcBtnClear").onclick = () => {
+  $("bcInputDp").value = ""; $("bcInputWd").value = ""; $("bcInputStop").value = ""; $("bcFilterMax").value = "";
+  $("bcFilterMin").value = "50000"; $("bcError").classList.remove("show");
+  $("bcStats").innerHTML = `<div><span>WD</span><b>—</b></div><div><span>DP</span><b>—</b></div><div><span>SCB</span><b>—</b></div><div><span>SIAP DIBAGI</span><b>—</b></div>`;
+  $("bcListClaim").innerHTML = `<div style="color:var(--muted); font-size:12px;">Belum ada data.</div>`;
+  $("bcListRules").innerHTML = `<div style="color:var(--muted); font-size:12px;">Belum ada data.</div>`;
+  $("bcListDouble").innerHTML = `<div style="color:var(--muted); font-size:12px;">Belum ada data.</div>`;
+  $("bcListWd").innerHTML = `<div style="color:var(--muted); font-size:12px;">Belum ada data.</div>`;
+};
+$("bcBtnCopyID").onclick = copyBonusID;
+
 </script>
 </body>
 </html>
